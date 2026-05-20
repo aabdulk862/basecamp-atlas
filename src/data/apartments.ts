@@ -19,6 +19,30 @@ export interface Apartment {
   notes: string;
 }
 
+/**
+ * Score weighting formula for overallScore:
+ * - Safety: 30%
+ * - Walkability: 30%
+ * - Transit: 20%
+ * - Entertainment: 20%
+ *
+ * Formula: (safety * 0.3) + (walkability * 0.3) + (transit * 0.2) + (entertainment * 0.2)
+ * Scores are then rounded to one decimal place.
+ */
+export const SCORE_WEIGHTS = {
+  safety: 0.3,
+  walkability: 0.3,
+  transit: 0.2,
+  entertainment: 0.2,
+} as const;
+
+export const SCORE_WEIGHT_LABELS: { key: keyof typeof SCORE_WEIGHTS; label: string; weight: number }[] = [
+  { key: 'safety', label: 'Safety', weight: 0.3 },
+  { key: 'walkability', label: 'Walkability', weight: 0.3 },
+  { key: 'transit', label: 'Transit', weight: 0.2 },
+  { key: 'entertainment', label: 'Entertainment', weight: 0.2 },
+];
+
 export const apartments: Apartment[] = [
   { name: "The Kimberlee", url: "https://www.google.com/search?q=The+Kimberlee+Charlotte+NC", address: "3820 Selwyn Ave", neighborhood: "Montford", zipCode: 28209, lat: 35.1764, lng: -80.8435, rentMin: 1200, rentMax: 1600, unitTypes: "1BR/2BR", washerDryer: "None", safetyScore: 9, walkabilityScore: 7, transitScore: 4, entertainmentScore: 6, overallScore: 7.1, nearbyAttractions: "Park Road Shopping Center; Selwyn Pub", notes: "Extremely safe high-rise; large floorplans but lacks in-unit laundry." },
   { name: "Fountains South End", url: "https://www.maac.com/north-carolina/charlotte/fountains-southend/", address: "100 New Bern St", neighborhood: "South End", zipCode: 28203, lat: 35.2005, lng: -80.8695, rentMin: 1350, rentMax: 1700, unitTypes: "Studio/1BR/2BR", washerDryer: "In-unit", safetyScore: 8, walkabilityScore: 10, transitScore: 10, entertainmentScore: 10, overallScore: 9.2, nearbyAttractions: "New Bern Station; Suffolk Punch", notes: "Prime rail trail access; high rent but unmatched transit/lifestyle." },

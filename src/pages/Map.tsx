@@ -1,383 +1,162 @@
-import React, { useState, useMemo } from 'react';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { apartments, neighborhoods, washerDryerOptions, type Apartment } from '../data/apartments';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
+import { useState, Suspense, lazy } from 'react';
+import { type Apartment } from '@/data/apartments';
+import { useApartmentFilters } from '@/hooks/use-apartment-filters';
+import { useFavorites } from '@/hooks/use-favorites';
+import { FilterSidebar } from '@/components/FilterSidebar';
+import { ApartmentDetailCard } from '@/components/ApartmentDetailCard';
+import { ApartmentListView } from '@/components/ApartmentListView';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Filter, ArrowUpRight, Star } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Map, List, SlidersHorizontal, X, Heart } from 'lucide-react';
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon,
-  iconRetinaUrl: markerIcon2x,
-  shadowUrl: markerShadow,
-});
+// Lazy-load the map component (Leaflet is a heavy bundle)
+const MapView = lazy(() => import('@/components/MapView').then(m => ({ default: m.MapView })));
 
-const getMarkerColor = (score: number) => {
-  if (score >= 8) return '#22c55e'; // Green
-  if (score >= 7) return '#84cc16'; // Yellow-Green
-  if (score >= 6) return '#eab308'; // Yellow
-  if (score >= 5) return '#f97316'; // Orange
-  return '#ef4444'; // Red
-};
-
-const createCustomIcon = (score: number) => {
-  const color = getMarkerColor(score);
-  return L.divIcon({
-    className: 'custom-leaflet-icon',
-    html: `<div style="background-color: ${color}; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -12],
-  });
-};
-
-type SortOption = 'Overall Score' | 'Rent Low-High' | 'Rent High-Low' | 'Safety' | 'Walkability' | 'Transit' | 'Entertainment';
+type ViewMode = 'map' | 'list';
 
 export default function MapPage() {
-  const [rentRange, setRentRange] = useState<[number, number]>([850, 1900]);
-  const [selectedNeighborhoods, setSelectedNeighborhoods] = useState<string[]>([]);
-  const [washerDryer, setWasherDryer] = useState<string>('All');
-  const [safetyScore, setSafetyScore] = useState<[number]>([1]);
-  const [walkabilityScore, setWalkabilityScore] = useState<[number]>([1]);
-  const [transitScore, setTransitScore] = useState<[number]>([1]);
-  const [entertainmentScore, setEntertainmentScore] = useState<[number]>([1]);
-  const [sortBy, setSortBy] = useState<SortOption>('Overall Score');
+  const filters = useApartmentFilters();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('map');
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-  const handleNeighborhoodToggle = (n: string) => {
-    setSelectedNeighborhoods((prev) =>
-      prev.includes(n) ? prev.filter((x) => x !== n) : [...prev, n]
-    );
-  };
-
-  const handleReset = () => {
-    setRentRange([850, 1900]);
-    setSelectedNeighborhoods([]);
-    setWasherDryer('All');
-    setSafetyScore([1]);
-    setWalkabilityScore([1]);
-    setTransitScore([1]);
-    setEntertainmentScore([1]);
-    setSortBy('Overall Score');
-  };
-
-  const filteredApartments = useMemo(() => {
-    let result = apartments.filter((apt) => {
-      if (apt.rentMin > rentRange[1] || (apt.rentMax && apt.rentMax < rentRange[0])) return false;
-      if (selectedNeighborhoods.length > 0 && !selectedNeighborhoods.includes(apt.neighborhood)) return false;
-      if (washerDryer !== 'All' && apt.washerDryer !== washerDryer) return false;
-      if (apt.safetyScore < safetyScore[0]) return false;
-      if (apt.walkabilityScore < walkabilityScore[0]) return false;
-      if (apt.transitScore < transitScore[0]) return false;
-      if (apt.entertainmentScore < entertainmentScore[0]) return false;
-      return true;
-    });
-
-    result.sort((a, b) => {
-      switch (sortBy) {
-        case 'Overall Score':
-          return b.overallScore - a.overallScore;
-        case 'Rent Low-High':
-          return a.rentMin - b.rentMin;
-        case 'Rent High-Low':
-          return b.rentMin - a.rentMin;
-        case 'Safety':
-          return b.safetyScore - a.safetyScore;
-        case 'Walkability':
-          return b.walkabilityScore - a.walkabilityScore;
-        case 'Transit':
-          return b.transitScore - a.transitScore;
-        case 'Entertainment':
-          return b.entertainmentScore - a.entertainmentScore;
-        default:
-          return 0;
-      }
-    });
-
-    return result;
-  }, [
-    rentRange,
-    selectedNeighborhoods,
-    washerDryer,
-    safetyScore,
-    walkabilityScore,
-    transitScore,
-    entertainmentScore,
-    sortBy,
-  ]);
-
-  const activeFilterCount =
-    (rentRange[0] > 850 || rentRange[1] < 1900 ? 1 : 0) +
-    (selectedNeighborhoods.length > 0 ? 1 : 0) +
-    (washerDryer !== 'All' ? 1 : 0) +
-    (safetyScore[0] > 1 ? 1 : 0) +
-    (walkabilityScore[0] > 1 ? 1 : 0) +
-    (transitScore[0] > 1 ? 1 : 0) +
-    (entertainmentScore[0] > 1 ? 1 : 0);
+  const displayedApartments = showFavoritesOnly
+    ? filters.filteredApartments.filter(apt => favorites.includes(apt.name))
+    : filters.filteredApartments;
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex">
-      {/* Sidebar Filter Panel */}
-      <div className="w-full md:w-96 shrink-0 h-full border-r border-border bg-card flex flex-col z-10 shadow-2xl">
-        <div className="p-4 border-b border-border flex items-center justify-between bg-card">
-          <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-primary" />
-            <h1 className="text-lg font-semibold">Filters</h1>
-            {activeFilterCount > 0 && (
-              <Badge variant="default" className="ml-2 bg-primary text-primary-foreground hover:bg-primary/90">
-                {activeFilterCount}
-              </Badge>
-            )}
-          </div>
-          {activeFilterCount > 0 && (
-            <Button variant="ghost" size="sm" onClick={handleReset} className="h-8 px-2 text-muted-foreground hover:text-foreground">
-              Reset all
-            </Button>
-          )}
-        </div>
-
-        <ScrollArea className="flex-1 p-4">
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <Label>Rent Range</Label>
-                <span className="text-sm font-medium">${rentRange[0]} - ${rentRange[1]}</span>
-              </div>
-              <Slider
-                value={rentRange}
-                min={850}
-                max={1900}
-                step={50}
-                onValueChange={(val) => setRentRange(val as [number, number])}
-                className="my-4"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <Label>Neighborhoods</Label>
-              <div className="grid grid-cols-2 gap-2">
-                {neighborhoods.map((n) => (
-                  <div key={n} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`neighborhood-${n}`}
-                      checked={selectedNeighborhoods.includes(n)}
-                      onCheckedChange={() => handleNeighborhoodToggle(n)}
-                    />
-                    <label
-                      htmlFor={`neighborhood-${n}`}
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 truncate"
-                    >
-                      {n}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <Label>Washer/Dryer</Label>
-              <Select value={washerDryer} onValueChange={setWasherDryer}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select option" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="All">All</SelectItem>
-                  {washerDryerOptions.map((opt) => (
-                    <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-4">
-              <Label className="block mb-2">Minimum Scores (1-10)</Label>
-              
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Safety</span>
-                  <span className="text-xs font-medium">{safetyScore[0]}+</span>
-                </div>
-                <Slider min={1} max={10} step={1} value={safetyScore} onValueChange={(val) => setSafetyScore(val as [number])} />
-              </div>
-              
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Walkability</span>
-                  <span className="text-xs font-medium">{walkabilityScore[0]}+</span>
-                </div>
-                <Slider min={1} max={10} step={1} value={walkabilityScore} onValueChange={(val) => setWalkabilityScore(val as [number])} />
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Transit</span>
-                  <span className="text-xs font-medium">{transitScore[0]}+</span>
-                </div>
-                <Slider min={1} max={10} step={1} value={transitScore} onValueChange={(val) => setTransitScore(val as [number])} />
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Entertainment</span>
-                  <span className="text-xs font-medium">{entertainmentScore[0]}+</span>
-                </div>
-                <Slider min={1} max={10} step={1} value={entertainmentScore} onValueChange={(val) => setEntertainmentScore(val as [number])} />
-              </div>
-            </div>
-
-            <div className="space-y-3 pb-6">
-              <Label>Sort By</Label>
-              <Select value={sortBy} onValueChange={(val) => setSortBy(val as SortOption)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sort by..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Overall Score">Overall Score</SelectItem>
-                  <SelectItem value="Rent Low-High">Rent Low-High</SelectItem>
-                  <SelectItem value="Rent High-Low">Rent High-Low</SelectItem>
-                  <SelectItem value="Safety">Safety</SelectItem>
-                  <SelectItem value="Walkability">Walkability</SelectItem>
-                  <SelectItem value="Transit">Transit</SelectItem>
-                  <SelectItem value="Entertainment">Entertainment</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </ScrollArea>
-        
-        <div className="p-4 border-t border-border bg-card">
-          <p className="text-sm font-medium text-center">{filteredApartments.length} matching apartments</p>
-        </div>
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex w-96 shrink-0 h-full border-r border-border bg-card flex-col z-10 shadow-2xl">
+        <FilterSidebar
+          {...filters}
+          matchCount={displayedApartments.length}
+        />
       </div>
 
-      {/* Map Area */}
-      <div className="flex-1 relative h-full">
-        <MapContainer
-          center={[35.227, -80.843]}
-          zoom={13}
-          style={{ height: '100%', width: '100%', zIndex: 0 }}
-          zoomControl={false}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      {/* Mobile Filter Drawer */}
+      {mobileFiltersOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setMobileFiltersOpen(false)}
           />
-          
-          {filteredApartments.map((apt) => (
-            <Marker
-              key={apt.name}
-              position={[apt.lat, apt.lng]}
-              icon={createCustomIcon(apt.overallScore)}
-              eventHandlers={{
-                click: () => setSelectedApartment(apt),
-              }}
-            >
-              {/* Optional: Add a simple popup for hover or immediate basic info, but requirements specify a drill-down panel/popup on click */}
-            </Marker>
-          ))}
-        </MapContainer>
-
-        {/* Selected Apartment Overlay */}
-        {selectedApartment && (
-          <div className="absolute top-4 right-4 z-[1000] w-80 shadow-2xl rounded-xl">
-            <Card className="bg-card border-border shadow-2xl overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)]">
-              <CardHeader className="bg-muted/30 pb-4 relative">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-foreground"
-                  onClick={() => setSelectedApartment(null)}
-                >
-                  <span className="text-lg leading-none">&times;</span>
-                </Button>
-                <div className="flex justify-between items-start pr-6">
-                  <div>
-                    <CardTitle className="text-xl font-bold leading-tight">{selectedApartment.name}</CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">{selectedApartment.address}</p>
-                  </div>
-                  <Badge className="bg-primary text-primary-foreground font-bold px-2 py-1 flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-current" />
-                    {selectedApartment.overallScore}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <ScrollArea className="flex-1">
-                <CardContent className="p-5 space-y-5">
-                  
-                  <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm">
-                    <div>
-                      <p className="text-muted-foreground text-xs uppercase tracking-wider">Neighborhood</p>
-                      <p className="font-medium">{selectedApartment.neighborhood}</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-xs uppercase tracking-wider">Rent Range</p>
-                      <p className="font-medium">${selectedApartment.rentMin} {selectedApartment.rentMax ? `- $${selectedApartment.rentMax}` : '+'}</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-xs uppercase tracking-wider">Unit Types</p>
-                      <p className="font-medium">{selectedApartment.unitTypes}</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-xs uppercase tracking-wider">Laundry</p>
-                      <p className="font-medium">{selectedApartment.washerDryer}</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <p className="text-muted-foreground text-xs uppercase tracking-wider font-semibold border-b border-border pb-1">Scores</p>
-                    {[
-                      { label: 'Safety', score: selectedApartment.safetyScore },
-                      { label: 'Walkability', score: selectedApartment.walkabilityScore },
-                      { label: 'Transit', score: selectedApartment.transitScore },
-                      { label: 'Entertainment', score: selectedApartment.entertainmentScore },
-                    ].map(item => (
-                      <div key={item.label} className="space-y-1">
-                        <div className="flex justify-between text-xs">
-                          <span className="font-medium">{item.label}</span>
-                          <span className="text-muted-foreground">{item.score}/10</span>
-                        </div>
-                        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                          <div 
-                            className="h-full rounded-full transition-all duration-500" 
-                            style={{ 
-                              width: `${(item.score / 10) * 100}%`,
-                              backgroundColor: getMarkerColor(item.score)
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="space-y-3">
-                    <p className="text-muted-foreground text-xs uppercase tracking-wider font-semibold border-b border-border pb-1">Notes & Area</p>
-                    <p className="text-sm leading-relaxed">{selectedApartment.notes}</p>
-                    <div className="text-sm bg-muted/50 p-3 rounded-md border border-border/50">
-                      <span className="font-semibold block mb-1">Nearby Attractions:</span>
-                      <span className="text-muted-foreground">{selectedApartment.nearbyAttractions}</span>
-                    </div>
-                  </div>
-
-                  <Button className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90" asChild>
-                    <a href={selectedApartment.url} target="_blank" rel="noopener noreferrer">
-                      View Listing <ArrowUpRight className="w-4 h-4 ml-2" />
-                    </a>
-                  </Button>
-                </CardContent>
-              </ScrollArea>
-            </Card>
+          <div className="absolute inset-y-0 left-0 w-[85vw] max-w-sm bg-card shadow-2xl flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-border">
+              <span className="font-semibold">Filters</span>
+              <Button variant="ghost" size="icon" onClick={() => setMobileFiltersOpen(false)}>
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <FilterSidebar
+                {...filters}
+                matchCount={displayedApartments.length}
+              />
+            </div>
           </div>
-        )}
+        </div>
+      )}
+
+      {/* Main Content Area */}
+      <div className="flex-1 relative h-full flex flex-col">
+        {/* Toolbar */}
+        <div className="flex items-center justify-between p-2 border-b border-border bg-card/80 backdrop-blur-sm z-20">
+          <div className="flex items-center gap-2">
+            {/* Mobile filter toggle */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setMobileFiltersOpen(true)}
+            >
+              <SlidersHorizontal className="w-4 h-4 mr-1" />
+              Filters
+              {filters.activeFilterCount > 0 && (
+                <Badge variant="default" className="ml-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-primary text-primary-foreground">
+                  {filters.activeFilterCount}
+                </Badge>
+              )}
+            </Button>
+
+            {/* Favorites toggle */}
+            <Button
+              variant={showFavoritesOnly ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+              className={showFavoritesOnly ? 'bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30' : ''}
+            >
+              <Heart className={`w-4 h-4 mr-1 ${showFavoritesOnly ? 'fill-red-400' : ''}`} />
+              {favorites.length > 0 && (
+                <span className="text-xs">{favorites.length}</span>
+              )}
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <span className="text-xs text-muted-foreground mr-2 hidden sm:inline">
+              {displayedApartments.length} results
+            </span>
+            {/* View toggle */}
+            <Button
+              variant={viewMode === 'map' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('map')}
+              aria-label="Map view"
+            >
+              <Map className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('list')}
+              aria-label="List view"
+            >
+              <List className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* View Content */}
+        <div className="flex-1 relative">
+          {viewMode === 'map' ? (
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-full bg-muted/20">
+                <div className="text-center space-y-2">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="text-sm text-muted-foreground">Loading map...</p>
+                </div>
+              </div>
+            }>
+              <MapView
+                apartments={displayedApartments}
+                favorites={favorites}
+                onSelectApartment={setSelectedApartment}
+              />
+            </Suspense>
+          ) : (
+            <ApartmentListView
+              apartments={displayedApartments}
+              favorites={favorites}
+              onSelectApartment={setSelectedApartment}
+              onToggleFavorite={toggleFavorite}
+            />
+          )}
+
+          {/* Selected Apartment Overlay */}
+          {selectedApartment && (
+            <div className="absolute top-4 right-4 z-[1000] w-80 shadow-2xl rounded-xl">
+              <ApartmentDetailCard
+                apartment={selectedApartment}
+                isFavorite={isFavorite(selectedApartment.name)}
+                onClose={() => setSelectedApartment(null)}
+                onToggleFavorite={toggleFavorite}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
