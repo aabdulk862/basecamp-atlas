@@ -42,6 +42,7 @@ This is a React + TypeScript single-page application that displays Charlotte, NC
 - The `Apartment` interface defines the shape — always keep it in sync when adding fields
 - Derived exports (`neighborhoods`, `washerDryerOptions`) are computed from the data array
 - Score weighting constants (`SCORE_WEIGHTS`, `SCORE_WEIGHT_LABELS`) are exported for UI display
+- **URL rule**: Every apartment `url` field MUST point to the property's own website (e.g. `thejulien.com`, `alexanloso.com`, `nodaflats.com`). Never use Zillow, apartments.com, Google search, or any aggregator/listing site. These direct URLs are easy to find — most properties have their own `.com` domain. If a property doesn't have its own website, do not add it.
 
 ### State Management
 - Filter state lives in `src/hooks/use-apartment-filters.ts` and syncs to URL query params
