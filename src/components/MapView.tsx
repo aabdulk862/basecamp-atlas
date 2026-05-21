@@ -4,6 +4,7 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import type { Apartment } from '@/data/apartments';
+import { lightRailStations } from '@/data/lightrail';
 
 // Fix Leaflet default icon paths
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -30,6 +31,17 @@ const createCustomIcon = (score: number, isFavorite: boolean) => {
     iconSize: [24, 24],
     iconAnchor: [12, 12],
     popupAnchor: [0, -12],
+  });
+};
+
+const createRailIcon = (line: 'blue' | 'gold') => {
+  const color = line === 'blue' ? '#3b82f6' : '#eab308';
+  return L.divIcon({
+    className: 'custom-leaflet-icon',
+    html: `<div style="background-color: ${color}; width: 14px; height: 14px; border-radius: 3px; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.4); opacity: 0.85;"></div>`,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+    popupAnchor: [0, -7],
   });
 };
 
@@ -68,6 +80,23 @@ export function MapView({ apartments, favorites, onSelectApartment }: MapViewPro
               <div style={{ fontSize: '12px', fontWeight: 600, marginTop: '3px' }}>
                 ${apt.rentMin}{apt.rentMax ? `–$${apt.rentMax}` : '+'}
                 <span style={{ float: 'right', color: getMarkerColor(apt.overallScore) }}>★ {apt.overallScore}</span>
+              </div>
+            </div>
+          </Tooltip>
+        </Marker>
+      ))}
+
+      {lightRailStations.map((station) => (
+        <Marker
+          key={`${station.line}-${station.name}`}
+          position={[station.lat, station.lng]}
+          icon={createRailIcon(station.line)}
+        >
+          <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>
+            <div style={{ padding: '2px 0' }}>
+              <strong style={{ fontSize: '11px' }}>🚇 {station.name}</strong>
+              <div style={{ fontSize: '10px', color: station.line === 'blue' ? '#60a5fa' : '#fbbf24', marginTop: '2px' }}>
+                {station.line === 'blue' ? 'LYNX Blue Line' : 'CityLYNX Gold Line'}
               </div>
             </div>
           </Tooltip>

@@ -161,7 +161,7 @@ export default function MapPage() {
         </div>
 
         {/* View Content */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative min-h-0 overflow-hidden">
           {viewMode === 'compare' ? (
             <CompareView
               apartments={compareApartments}

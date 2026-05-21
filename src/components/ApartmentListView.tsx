@@ -70,9 +70,9 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col overflow-hidden">
       {/* Header with count and download */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50 shrink-0">
         <span className="text-xs text-muted-foreground">{apartments.length} apartments</span>
         <Button
           variant="ghost"
@@ -85,9 +85,9 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
         </Button>
       </div>
 
-      <ScrollArea className="flex-1">
-        {/* Mobile: Card layout */}
-        <div className="p-3 space-y-2 sm:hidden">
+      {/* Mobile: Card layout with native scroll */}
+      <div className="flex-1 overflow-y-auto overscroll-contain sm:hidden">
+        <div className="p-3 space-y-2 pb-6">
           {apartments.map((apt) => {
             const isFav = favorites.includes(apt.name);
             return (
@@ -141,7 +141,7 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
                   </a>
                 </div>
 
-                <div className="flex gap-3 mt-2 text-[11px]">
+                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-[11px]">
                   <span className={getScoreColor(apt.safetyScore)}>Safe: {apt.safetyScore}</span>
                   <span className={getScoreColor(apt.walkabilityScore)}>Walk: {apt.walkabilityScore}</span>
                   <span className={getScoreColor(apt.transitScore)}>Transit: {apt.transitScore}</span>
@@ -151,9 +151,11 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
             );
           })}
         </div>
+      </div>
 
-        {/* Desktop: Table layout */}
-        <div className="p-4 hidden sm:block">
+      {/* Desktop: Table layout with ScrollArea */}
+      <ScrollArea className="flex-1 hidden sm:block">
+        <div className="p-4">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-left text-xs text-muted-foreground uppercase tracking-wider">

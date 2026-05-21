@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Charlotte Apartments + Light Rail</name>
+  <description>Apartments color-coded by score + LYNX Blue Line and CityLYNX Gold Line stations</description>
+  <Style id="green"><IconStyle><scale>1.1</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href></Icon></IconStyle></Style>
+  <Style id="yellow"><IconStyle><scale>1.0</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png</href></Icon></IconStyle></Style>
+  <Style id="orange"><IconStyle><scale>0.9</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/orange-circle.png</href></Icon></IconStyle></Style>
+  <Style id="red"><IconStyle><scale>0.9</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon></IconStyle></Style>
+  <Style id="blueLine"><IconStyle><scale>0.8</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/blu-square.png</href></Icon></IconStyle></Style>
+  <Style id="goldLine"><IconStyle><scale>0.8</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/ylw-square.png</href></Icon></IconStyle></Style>
+  <Folder>
+    <name>⭐ Score 9.0+ (Green)</name>
+    <Placemark>
+      <name>The Atherton (9.4)</name>
+      <description><![CDATA[<b>The Atherton</b><br>2100 South Blvd, Charlotte, NC 28203<br>South End | $1,520–$3,126 | Score: 9.4<br><br><a href="https://www.greystar.com/properties/charlotte-nc/the-atherton" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8603,35.2081,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Camden South End (9.4)</name>
+      <description><![CDATA[<b>Camden South End</b><br>1205 S Tryon St, Charlotte, NC 28203<br>South End | $1,569–$2,100 | Score: 9.4<br><br><a href="https://www.camdenliving.com/apartments/charlotte-nc/camden-south-end" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8532,35.2189,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Foster Flats (9.4)</name>
+      <description><![CDATA[<b>Foster Flats</b><br>205 Foster Ave, Charlotte, NC 28203<br>South End | $1,390–$2,800 | Score: 9.4<br><br><a href="https://www.fosterflats.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8715,35.1991,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Bradham at New Bern (9.4)</name>
+      <description><![CDATA[<b>Bradham at New Bern</b><br>145 New Bern St, Charlotte, NC 28203<br>South End | $1,450–$2,900 | Score: 9.4<br><br><a href="https://bradhamnewbern.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8675,35.1998,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Avalon South End (9.4)</name>
+      <description><![CDATA[<b>Avalon South End</b><br>2250 Hawkins St, Charlotte, NC 28203<br>South End | $1,475–$3,495 | Score: 9.4<br><br><a href="https://www.avaloncommunities.com/north-carolina/charlotte-apartments/avalon-south-end/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8647,35.208,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Fountains South End (9.2)</name>
+      <description><![CDATA[<b>Fountains South End</b><br>126 New Bern St, Charlotte, NC 28203<br>South End | $1,439–$2,100 | Score: 9.2<br><br><a href="https://fountainssouthend.irtliving.com/charlotte/fountains-southend/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8699,35.199,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Camden Southline (9.1)</name>
+      <description><![CDATA[<b>Camden Southline</b><br>2300 South Blvd, Charlotte, NC 28203<br>South End | $1,629–$2,200 | Score: 9.1<br><br><a href="https://www.camdenliving.com/apartments/charlotte-nc/camden-southline" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8634,35.2059,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Mosaic South End (9.1)</name>
+      <description><![CDATA[<b>Mosaic South End</b><br>1312 S College St, Charlotte, NC 28203<br>South End | $1,373–$2,932 | Score: 9.1<br><br><a href="https://www.mosaicsouthend.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8536,35.2177,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>The Francis (9.1)</name>
+      <description><![CDATA[<b>The Francis</b><br>400 E Brooklyn Village Ave, Charlotte, NC 28202<br>Uptown | $1,358–$3,500 | Score: 9.1<br><br><a href="https://thefrancisuptown.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8465,35.2213,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Selene at Southline (9.1)</name>
+      <description><![CDATA[<b>Selene at Southline</b><br>2520 South Blvd, Charlotte, NC 28203<br>South End | $1,400–$2,600 | Score: 9.1<br><br><a href="https://www.seleneatsouthline.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.865,35.2033,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>AVA South End (9)</name>
+      <description><![CDATA[<b>AVA South End</b><br>335 Doggett St, Charlotte, NC 28203<br>South End | $1,305–$2,720 | Score: 9<br><br><a href="https://www.avaloncommunities.com/north-carolina/charlotte-apartments/ava-south-end/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#green</styleUrl>
+      <Point><coordinates>-80.8649,35.2116,0</coordinates></Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>🟡 Score 8.0-8.9 (Yellow)</name>
+    <Placemark>
+      <name>1010 Dilworth (8.5)</name>
+      <description><![CDATA[<b>1010 Dilworth</b><br>1010 Kenilworth Ave, Charlotte, NC 28204<br>Dilworth | $1,275–$2,879 | Score: 8.5<br><br><a href="https://www.cr-1010dilworthapts.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8408,35.2083,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Camden Dilworth (8.5)</name>
+      <description><![CDATA[<b>Camden Dilworth</b><br>1510 Scott Ave, Charlotte, NC 28203<br>Dilworth | $1,319–$2,200 | Score: 8.5<br><br><a href="https://www.camdenliving.com/apartments/charlotte-nc/camden-dilworth" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8416,35.2035,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Camden Gallery (8.5)</name>
+      <description><![CDATA[<b>Camden Gallery</b><br>200 Wesley Heights Way, Charlotte, NC 28208<br>Uptown | $1,449–$2,400 | Score: 8.5<br><br><a href="https://www.camdenliving.com/apartments/charlotte-nc/camden-gallery" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8603,35.2371,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Lincoln at Dilworth (8.5)</name>
+      <description><![CDATA[<b>Lincoln at Dilworth</b><br>905 Kenilworth Ave, Charlotte, NC 28204<br>Dilworth | $1,299–$2,959 | Score: 8.5<br><br><a href="https://lincolnatdilworth.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8389,35.2082,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Berkshire Dilworth (8.3)</name>
+      <description><![CDATA[<b>Berkshire Dilworth</b><br>1351 E Morehead St, Charlotte, NC 28204<br>Dilworth | $1,200–$3,964 | Score: 8.3<br><br><a href="https://www.berkshirecommunities.com/apartments/nc/charlotte/berkshire-dilworth/default" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8378,35.2067,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Highland Mill Lofts (8.2)</name>
+      <description><![CDATA[<b>Highland Mill Lofts</b><br>2901 N Davidson St, Charlotte, NC 28205<br>NoDa | $1,499–$1,803 | Score: 8.2<br><br><a href="https://www.highlandmill.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8101,35.246,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>NoDa Flats (8.2)</name>
+      <description><![CDATA[<b>NoDa Flats</b><br>2509 N Davidson St, Charlotte, NC 28205<br>NoDa | $1,340–$1,870 | Score: 8.2<br><br><a href="https://www.nodaflats.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8123,35.2421,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Union NoDa (8.2)</name>
+      <description><![CDATA[<b>Union NoDa</b><br>2226 N Davidson St, Charlotte, NC 28205<br>NoDa | $1,267–$3,425 | Score: 8.2<br><br><a href="https://unionnoda.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8143,35.2395,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>NoDa Wandry (8.2)</name>
+      <description><![CDATA[<b>NoDa Wandry</b><br>423 E 36th St, Charlotte, NC 28205<br>NoDa | $1,154–$3,094 | Score: 8.2<br><br><a href="https://www.greystar.com/noda-wandry-charlotte-nc/p_19847" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8049,35.2484,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Link Apartments NoDa 36th (8.2)</name>
+      <description><![CDATA[<b>Link Apartments NoDa 36th</b><br>3500 Philemon Ave, Charlotte, NC 28206<br>NoDa | $1,126–$2,500 | Score: 8.2<br><br><a href="https://www.linkapartmentsnoda36th.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8048,35.2503,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>One NoDa Park (8.2)</name>
+      <description><![CDATA[<b>One NoDa Park</b><br>110 E 36th St, Charlotte, NC 28206<br>NoDa | $1,229–$3,195 | Score: 8.2<br><br><a href="https://onenodapark.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8094,35.2519,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Alexan LoSo (8)</name>
+      <description><![CDATA[<b>Alexan LoSo</b><br>3305 South Blvd, Charlotte, NC 28209<br>LoSo | $1,317–$2,209 | Score: 8<br><br><a href="https://alexanloso.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8717,35.1956,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>South and Hollis (8)</name>
+      <description><![CDATA[<b>South and Hollis</b><br>3441 South Blvd, Charlotte, NC 28209<br>LoSo | $1,400–$2,800 | Score: 8<br><br><a href="https://www.southandhollis.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#yellow</styleUrl>
+      <Point><coordinates>-80.8724,35.1934,0</coordinates></Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>🟠 Score 7.0-7.9 (Orange)</name>
+    <Placemark>
+      <name>The Sloan at LoSo (7.9)</name>
+      <description><![CDATA[<b>The Sloan at LoSo</b><br>120 Hollis Rd, Charlotte, NC 28209<br>LoSo | $1,416–$2,979 | Score: 7.9<br><br><a href="https://thesloanloso.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8727,35.1927,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>The Julien (7.8)</name>
+      <description><![CDATA[<b>The Julien</b><br>2142 Commonwealth Ave, Charlotte, NC 28205<br>Plaza Midwood | $1,449–$2,750 | Score: 7.8<br><br><a href="https://www.thejulien.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8098,35.2174,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Solis Midtown (7.8)</name>
+      <description><![CDATA[<b>Solis Midtown</b><br>1133 Harding Pl, Charlotte, NC 28204<br>Midtown | $1,310–$4,514 | Score: 7.8<br><br><a href="https://solismidtown.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8402,35.2113,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>MAA Plaza Midwood (7.8)</name>
+      <description><![CDATA[<b>MAA Plaza Midwood</b><br>620 Seigle Ave, Charlotte, NC 28204<br>Plaza Midwood | $1,393–$3,343 | Score: 7.8<br><br><a href="https://www.maac.com/north-carolina/charlotte/maa-plaza-midwood/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8261,35.223,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>MAA Optimist Park (7.8)</name>
+      <description><![CDATA[<b>MAA Optimist Park</b><br>525 E 21st St, Charlotte, NC 28206<br>Optimist Park | $1,353–$2,853 | Score: 7.8<br><br><a href="https://www.maac.com/north-carolina/charlotte/maa-optimist-park/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8204,35.2369,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Camden NoDa (7.8)</name>
+      <description><![CDATA[<b>Camden NoDa</b><br>515 Jordan Pl, Charlotte, NC 28205<br>Villa Heights | $1,349–$1,609 | Score: 7.8<br><br><a href="https://www.camdenliving.com/apartments/charlotte-nc/camden-noda" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8117,35.2426,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Elizabeth Square (7.6)</name>
+      <description><![CDATA[<b>Elizabeth Square</b><br>730 Hawthorne Ln, Charlotte, NC 28204<br>Elizabeth | $1,219–$2,210 | Score: 7.6<br><br><a href="https://www.elizabethsquare.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8188,35.2193,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Cielo (7.6)</name>
+      <description><![CDATA[<b>Cielo</b><br>4943 Park Rd, Charlotte, NC 28209<br>Park Road | $1,291–$2,089 | Score: 7.6<br><br><a href="https://www.cielocharlotte.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8487,35.1633,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>MAA Sedgefield (7.6)</name>
+      <description><![CDATA[<b>MAA Sedgefield</b><br>301 E Woodlawn Rd, Charlotte, NC 28209<br>Sedgefield | $1,200–$2,100 | Score: 7.6<br><br><a href="https://www.maac.com/north-carolina/charlotte/maa-sedgefield/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8792,35.178,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Elmhurst at Sedgefield (7.5)</name>
+      <description><![CDATA[<b>Elmhurst at Sedgefield</b><br>215 Poindexter Dr, Charlotte, NC 28209<br>Sedgefield | $1,475–$1,650 | Score: 7.5<br><br><a href="https://www.marshproperties.com/community/elmhurst-at-sedgefield/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8653,35.201,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Amaze at NoDa (7.5)</name>
+      <description><![CDATA[<b>Amaze at NoDa</b><br>3750 Philemon Ave, Charlotte, NC 28206<br>NoDa | $1,047–$2,293 | Score: 7.5<br><br><a href="https://amazeaptsnoda.prospectportal.com/charlotte/amaze-noda/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.7987,35.2517,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Alpha Mill (7.4)</name>
+      <description><![CDATA[<b>Alpha Mill</b><br>220 Alpha Mill Ln, Charlotte, NC 28206<br>Optimist Park | $1,099–$2,463 | Score: 7.4<br><br><a href="https://www.alphamillapartments.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8319,35.2317,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Abbey Court Apartments (7.3)</name>
+      <description><![CDATA[<b>Abbey Court Apartments</b><br>4420 Abbey Pl, Charlotte, NC 28209<br>Montford | $1,100–$1,400 | Score: 7.3<br><br><a href="https://www.marshproperties.com/apartments/abbey-court/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8483,35.1693,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>The Kimberlee (7.1)</name>
+      <description><![CDATA[<b>The Kimberlee</b><br>1300 Reece Rd, Charlotte, NC 28209<br>Montford | $1,200–$1,600 | Score: 7.1<br><br><a href="https://www.thekimberlee.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8481,35.1756,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>The Willows (7.1)</name>
+      <description><![CDATA[<b>The Willows</b><br>1614 Ideal Way, Charlotte, NC 28209<br>Sedgefield | $1,200–$1,450 | Score: 7.1<br><br><a href="https://www.partnershippm.com/community/the-willows/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8437,35.1983,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Selwyn Flats (7)</name>
+      <description><![CDATA[<b>Selwyn Flats</b><br>100 Matador Ln, Charlotte, NC 28209<br>Myers Park | $1,224–$1,324 | Score: 7<br><br><a href="https://selwynflats.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8434,35.1658,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Ello House (7)</name>
+      <description><![CDATA[<b>Ello House</b><br>3615 Tryclan Dr, Charlotte, NC 28217<br>LoSo | $1,300–$2,400 | Score: 7<br><br><a href="https://ellohouseloso.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#orange</styleUrl>
+      <Point><coordinates>-80.8765,35.1938,0</coordinates></Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>🔴 Score below 7.0 (Red)</name>
+    <Placemark>
+      <name>The Griff (6.9)</name>
+      <description><![CDATA[<b>The Griff</b><br>1835 Morehead Ridge Dr, Charlotte, NC 28208<br>LoSo | $1,383–$3,096 | Score: 6.9<br><br><a href="https://www.thegriffclt.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8708,35.229,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>MAA LoSo (6.9)</name>
+      <description><![CDATA[<b>MAA LoSo</b><br>4015 Craft St, Charlotte, NC 28217<br>LoSo | $1,238–$2,500 | Score: 6.9<br><br><a href="https://www.maac.com/north-carolina/charlotte/maa-loso/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8752,35.1925,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Wildwood Apartments (6.9)</name>
+      <description><![CDATA[<b>Wildwood Apartments</b><br>1022 Forest Oak Dr, Charlotte, NC 28209<br>Sedgefield | $999–$1,679 | Score: 6.9<br><br><a href="https://www.livewildwoodapts.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8615,35.1763,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Edge @ NoDa (6.9)</name>
+      <description><![CDATA[<b>Edge @ NoDa</b><br>229 Hilo Dr, Charlotte, NC 28206<br>NoDa | $1,100–$1,500 | Score: 6.9<br><br><a href="https://www.edgenodacharlotte.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8048,35.2567,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Madison Southpark (6.8)</name>
+      <description><![CDATA[<b>Madison Southpark</b><br>4605 Colony Rd, Charlotte, NC 28209<br>Southpark | $1,100–$1,500 | Score: 6.8<br><br><a href="https://www.madisonsouthpark.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8178,35.1459,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>SouthPark Morrison (6.8)</name>
+      <description><![CDATA[<b>SouthPark Morrison</b><br>721 Governor Morrison St, Charlotte, NC 28211<br>SouthPark | $1,243–$2,058 | Score: 6.8<br><br><a href="https://www.southparkmorrison.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8257,35.1572,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Leo LoSo (6.7)</name>
+      <description><![CDATA[<b>Leo LoSo</b><br>4520 Charlotte Park Dr, Charlotte, NC 28217<br>LoSo | $1,250–$1,870 | Score: 6.7<br><br><a href="https://www.bipinc.com/apartment/the-leo-loso/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8903,35.1853,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>The Marley (6.2)</name>
+      <description><![CDATA[<b>The Marley</b><br>1100 Falls Creek Ln, Charlotte, NC 28209<br>LoSo | $1,110–$1,800 | Score: 6.2<br><br><a href="https://www.livethemarley.com/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8632,35.1784,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>MAA South Park (6)</name>
+      <description><![CDATA[<b>MAA South Park</b><br>4835 Cameron Valley Pkwy, Charlotte, NC 28210<br>SouthPark | $1,210–$2,210 | Score: 6<br><br><a href="https://www.maac.com/north-carolina/charlotte/maa-south-park/" target="_blank">Visit Website</a>]]></description>
+      <styleUrl>#red</styleUrl>
+      <Point><coordinates>-80.8261,35.1449,0</coordinates></Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>🔵 LYNX Blue Line Stations</name>
+    <Placemark>
+      <name>🚇 I-485/South Boulevard</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>I-485/South Boulevard Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.8819,35.1073,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Sharon Road West</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Sharon Road West Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.8815,35.1175,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Arrowood</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Arrowood Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.879,35.131,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Archdale</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Archdale Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.877,35.148,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Tyvola</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Tyvola Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.874,35.162,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Woodlawn</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Woodlawn Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.872,35.173,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Scaleybark</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Scaleybark Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.872,35.193,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 New Bern</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>New Bern Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.869,35.199,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 East/West Boulevard</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>East/West Boulevard Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.864,35.204,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Bland Street</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Bland Street Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.857,35.212,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Carson</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Carson Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.851,35.218,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Brooklyn Village</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Brooklyn Village Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.847,35.221,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 3rd Street/Convention Center</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>3rd Street/Convention Center Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.843,35.224,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 CTC/Arena</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>CTC/Arena Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.84,35.227,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 7th Street</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>7th Street Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.837,35.229,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 9th Street</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>9th Street Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.834,35.232,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Parkwood</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Parkwood Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.83,35.234,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 25th Street</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>25th Street Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.824,35.238,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 36th Street</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>36th Street Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.806,35.248,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Sugar Creek</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Sugar Creek Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.802,35.256,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Old Concord Road</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Old Concord Road Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.793,35.268,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 Tom Hunter</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>Tom Hunter Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.783,35.281,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 University City Boulevard</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>University City Boulevard Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.77,35.295,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 McCullough</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>McCullough Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.758,35.305,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 JW Clay Blvd/UNC Charlotte</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>JW Clay Blvd/UNC Charlotte Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.743,35.312,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚇 UNC Charlotte Main</name>
+      <description><![CDATA[<b>LYNX Blue Line</b><br>UNC Charlotte Main Station]]></description>
+      <styleUrl>#blueLine</styleUrl>
+      <Point><coordinates>-80.733,35.311,0</coordinates></Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>🟡 CityLYNX Gold Line Stations</name>
+    <Placemark>
+      <name>🚋 French Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>French Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.862,35.234,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Johnson C. Smith University</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Johnson C. Smith University Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.857,35.233,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Bruns Avenue</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Bruns Avenue Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.853,35.231,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Wesley Heights</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Wesley Heights Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.849,35.23,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Irwin Avenue</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Irwin Avenue Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.845,35.229,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Johnson &amp; Wales University</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Johnson &amp; Wales University Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.842,35.228,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Charlotte Gateway Station</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Charlotte Gateway Station Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.839,35.227,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Mint Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Mint Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.845,35.2268,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Tryon Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Tryon Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.841,35.227,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 CTC/Trade Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>CTC/Trade Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.839,35.227,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Davidson Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Davidson Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.835,35.226,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 McDowell Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>McDowell Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.832,35.225,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Hawthorne &amp; 5th Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Hawthorne &amp; 5th Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.827,35.223,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 8th Street</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>8th Street Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.823,35.222,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 CPCC</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>CPCC Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.819,35.22,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Elizabeth &amp; Hawthorne</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Elizabeth &amp; Hawthorne Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.814,35.218,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>🚋 Sunnyside Avenue</name>
+      <description><![CDATA[<b>CityLYNX Gold Line</b><br>Sunnyside Avenue Station]]></description>
+      <styleUrl>#goldLine</styleUrl>
+      <Point><coordinates>-80.81,35.216,0</coordinates></Point>
+    </Placemark>
+  </Folder>
+</Document>
+</kml>
