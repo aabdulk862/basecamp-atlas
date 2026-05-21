@@ -53,7 +53,7 @@ export function CommuteSelector({ destination, presets, onSelect }: CommuteSelec
       </div>
 
       {destination && (
-        <p className="text-[10px] text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           Showing estimated drive & transit times to {destination.label}
         </p>
       )}

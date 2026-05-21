@@ -15,7 +15,7 @@ export function ScoreFeedback({ apartmentName, category, currentFeedback, onFeed
       <Button
         variant="ghost"
         size="icon"
-        className={`h-5 w-5 ${currentFeedback === 'up' ? 'text-green-400' : 'text-muted-foreground/50 hover:text-green-400'}`}
+        className={`h-6 w-6 ${currentFeedback === 'up' ? 'text-green-400' : 'text-muted-foreground/50 hover:text-green-400'}`}
         onClick={(e) => {
           e.stopPropagation();
           onFeedback(apartmentName, category, 'up');
@@ -27,7 +27,7 @@ export function ScoreFeedback({ apartmentName, category, currentFeedback, onFeed
       <Button
         variant="ghost"
         size="icon"
-        className={`h-5 w-5 ${currentFeedback === 'down' ? 'text-red-400' : 'text-muted-foreground/50 hover:text-red-400'}`}
+        className={`h-6 w-6 ${currentFeedback === 'down' ? 'text-red-400' : 'text-muted-foreground/50 hover:text-red-400'}`}
         onClick={(e) => {
           e.stopPropagation();
           onFeedback(apartmentName, category, 'down');

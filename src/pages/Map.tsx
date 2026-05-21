@@ -89,7 +89,7 @@ export default function MapPage() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setMobileFiltersOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-[85vw] max-w-sm bg-card shadow-2xl flex flex-col">
+          <div className="absolute inset-y-0 left-0 w-[85vw] max-w-sm bg-card shadow-2xl flex flex-col pb-[env(safe-area-inset-bottom)]">
             <div className="flex items-center justify-between p-4 border-b border-border">
               <span className="font-semibold">Filters</span>
               <Button variant="ghost" size="icon" onClick={() => setMobileFiltersOpen(false)}>
@@ -215,7 +215,7 @@ export default function MapPage() {
 
           {/* Selected Apartment Overlay */}
           {selectedApartment && viewMode !== 'compare' && (
-            <div className="absolute top-4 right-4 z-[1000] w-80 shadow-2xl rounded-xl max-sm:w-[calc(100vw-2rem)] max-sm:left-4 max-sm:right-4">
+            <div className="absolute inset-4 z-[1000] sm:inset-auto sm:top-4 sm:right-4 sm:w-80 sm:bottom-auto sm:left-auto">
               <ApartmentDetailCard
                 apartment={selectedApartment}
                 isFavorite={isFavorite(selectedApartment.name)}

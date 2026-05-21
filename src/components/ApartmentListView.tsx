@@ -90,7 +90,7 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
 
       {/* Mobile: Card layout with native scroll */}
       <div className="flex-1 overflow-y-auto overscroll-contain sm:hidden">
-        <div className="p-3 space-y-2 pb-6">
+        <div className="p-3 space-y-2 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           {apartments.map((apt) => {
             const isFav = favorites.includes(apt.name);
             return (
@@ -144,7 +144,7 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
                   </a>
                 </div>
 
-                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-[11px]">
+                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs">
                   <span className={getScoreColor(apt.safetyScore)}>Safe: {apt.safetyScore}</span>
                   <span className={getScoreColor(apt.walkabilityScore)}>Walk: {apt.walkabilityScore}</span>
                   <span className={getScoreColor(apt.transitScore)}>Transit: {apt.transitScore}</span>

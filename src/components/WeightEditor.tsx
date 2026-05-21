@@ -62,7 +62,7 @@ export function WeightEditor({ weights, isCustom, onWeightsChange, onReset }: We
         );
       })}
 
-      <p className="text-[10px] text-muted-foreground text-center pt-1">
+      <p className="text-xs text-muted-foreground text-center pt-1">
         Drag to prioritize what matters to you. Scores recalculate live.
       </p>
     </div>

@@ -2,7 +2,6 @@ import { type Apartment, SCORE_WEIGHT_LABELS } from '@/data/apartments';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { ArrowUpRight, Star, Heart, Info, Car, Train } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { ScoreRadarChart } from '@/components/ScoreRadarChart';
@@ -42,7 +41,7 @@ export function ApartmentDetailCard({
   const displayScore = customScore ?? apartment.overallScore;
 
   return (
-    <Card className="bg-card border-border shadow-2xl overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)]">
+    <Card className="bg-card border-border shadow-2xl overflow-hidden flex flex-col h-full sm:h-auto sm:max-h-[calc(100dvh-6rem)]">
       <CardHeader className="bg-muted/30 pb-4 relative shrink-0">
         <div className="absolute top-2 right-2 flex items-center gap-1">
           <Button
@@ -93,7 +92,7 @@ export function ApartmentDetailCard({
           </Tooltip>
         </div>
       </CardHeader>
-      <ScrollArea className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
         <CardContent className="p-5 space-y-5">
           {/* Radar Chart */}
           <ScoreRadarChart apartment={apartment} size={160} />
@@ -126,21 +125,21 @@ export function ApartmentDetailCard({
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div>
                   <p className="text-lg font-bold text-primary">{commuteInfo.miles}</p>
-                  <p className="text-[10px] text-muted-foreground">miles</p>
+                  <p className="text-xs text-muted-foreground">miles</p>
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1">
                     <Car className="w-3 h-3 text-muted-foreground" />
                     <p className="text-lg font-bold">{commuteInfo.driveMinutes}</p>
                   </div>
-                  <p className="text-[10px] text-muted-foreground">min drive</p>
+                  <p className="text-xs text-muted-foreground">min drive</p>
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1">
                     <Train className="w-3 h-3 text-muted-foreground" />
                     <p className="text-lg font-bold">{commuteInfo.transitMinutes}</p>
                   </div>
-                  <p className="text-[10px] text-muted-foreground">min transit</p>
+                  <p className="text-xs text-muted-foreground">min transit</p>
                 </div>
               </div>
             </div>
@@ -206,7 +205,7 @@ export function ApartmentDetailCard({
             </a>
           </Button>
         </CardContent>
-      </ScrollArea>
+      </div>
     </Card>
   );
 }

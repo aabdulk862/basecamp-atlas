@@ -83,8 +83,8 @@ export function FilterSidebar({
         )}
       </div>
 
-      <ScrollArea className="flex-1 p-4">
-        <div className="space-y-6">
+      <ScrollArea className="flex-1">
+        <div className="p-4 space-y-6">
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <Label>Rent Range</Label>
