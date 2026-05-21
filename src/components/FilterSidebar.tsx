@@ -7,7 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Filter } from 'lucide-react';
+import { WeightEditor } from '@/components/WeightEditor';
+import { CommuteSelector } from '@/components/CommuteSelector';
 import type { SortOption } from '@/hooks/use-apartment-filters';
+import type { useScoreWeights } from '@/hooks/use-score-weights';
+import type { useCommute } from '@/hooks/use-commute';
 
 interface FilterSidebarProps {
   rentRange: [number, number];
@@ -31,6 +35,8 @@ interface FilterSidebarProps {
   setSortBy: (val: SortOption) => void;
   setMaxDistance: (val: number) => void;
   handleReset: () => void;
+  scoreWeights: ReturnType<typeof useScoreWeights>;
+  commute: ReturnType<typeof useCommute>;
 }
 
 export function FilterSidebar({
@@ -55,6 +61,8 @@ export function FilterSidebar({
   setSortBy,
   setMaxDistance,
   handleReset,
+  scoreWeights,
+  commute,
 }: FilterSidebarProps) {
   return (
     <div className="w-full h-full flex flex-col">
@@ -195,6 +203,25 @@ export function FilterSidebar({
                 <SelectItem value="Entertainment">Entertainment</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Personalized Score Weights */}
+          <div className="border-t border-border pt-4">
+            <WeightEditor
+              weights={scoreWeights.weights}
+              isCustom={scoreWeights.isCustom}
+              onWeightsChange={scoreWeights.setWeights}
+              onReset={scoreWeights.resetWeights}
+            />
+          </div>
+
+          {/* Commute Calculator */}
+          <div className="border-t border-border pt-4 pb-6">
+            <CommuteSelector
+              destination={commute.destination}
+              presets={commute.presets}
+              onSelect={commute.setDestination}
+            />
           </div>
         </div>
       </ScrollArea>

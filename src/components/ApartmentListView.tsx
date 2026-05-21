@@ -1,8 +1,9 @@
 import type { Apartment } from '@/data/apartments';
+import type { CommuteDestination } from '@/hooks/use-commute';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Heart, ArrowUpRight, Star, MapPin, Download } from 'lucide-react';
+import { Heart, ArrowUpRight, Star, MapPin, Download, Car } from 'lucide-react';
 
 const getScoreColor = (score: number) => {
   if (score >= 8) return 'text-green-400';
@@ -25,6 +26,8 @@ interface ApartmentListViewProps {
   favorites: string[];
   onSelectApartment: (apt: Apartment) => void;
   onToggleFavorite: (name: string) => void;
+  getCommuteInfo?: (apt: Apartment) => { miles: number; driveMinutes: number; transitMinutes: number } | null;
+  commuteDestination?: CommuteDestination | null;
 }
 
 function downloadCSV(apartments: Apartment[], favorites: string[]) {
@@ -60,7 +63,7 @@ function downloadCSV(apartments: Apartment[], favorites: string[]) {
   URL.revokeObjectURL(url);
 }
 
-export function ApartmentListView({ apartments, favorites, onSelectApartment, onToggleFavorite }: ApartmentListViewProps) {
+export function ApartmentListView({ apartments, favorites, onSelectApartment, onToggleFavorite, getCommuteInfo, commuteDestination }: ApartmentListViewProps) {
   if (apartments.length === 0) {
     return (
       <div className="flex items-center justify-center h-full text-muted-foreground">
@@ -146,6 +149,15 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
                   <span className={getScoreColor(apt.walkabilityScore)}>Walk: {apt.walkabilityScore}</span>
                   <span className={getScoreColor(apt.transitScore)}>Transit: {apt.transitScore}</span>
                   <span className={getScoreColor(apt.entertainmentScore)}>Ent: {apt.entertainmentScore}</span>
+                  {getCommuteInfo && commuteDestination && (() => {
+                    const info = getCommuteInfo(apt);
+                    if (!info) return null;
+                    return (
+                      <span className="text-muted-foreground flex items-center gap-0.5">
+                        <Car className="w-3 h-3" /> {info.driveMinutes}min
+                      </span>
+                    );
+                  })()}
                 </div>
               </div>
             );

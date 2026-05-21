@@ -3,8 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ArrowUpRight, Star, Heart, Info } from 'lucide-react';
+import { ArrowUpRight, Star, Heart, Info, Car, Train } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { ScoreRadarChart } from '@/components/ScoreRadarChart';
+import { ScoreFeedback } from '@/components/ScoreFeedback';
+import type { useScoreFeedback } from '@/hooks/use-score-feedback';
+import type { CommuteDestination } from '@/hooks/use-commute';
 
 const getMarkerColor = (score: number) => {
   if (score >= 8) return '#22c55e';
@@ -19,12 +23,27 @@ interface ApartmentDetailCardProps {
   isFavorite: boolean;
   onClose: () => void;
   onToggleFavorite: (name: string) => void;
+  customScore?: number;
+  commuteInfo?: { miles: number; driveMinutes: number; transitMinutes: number } | null;
+  commuteDestination?: CommuteDestination | null;
+  scoreFeedback: ReturnType<typeof useScoreFeedback>;
 }
 
-export function ApartmentDetailCard({ apartment, isFavorite, onClose, onToggleFavorite }: ApartmentDetailCardProps) {
+export function ApartmentDetailCard({
+  apartment,
+  isFavorite,
+  onClose,
+  onToggleFavorite,
+  customScore,
+  commuteInfo,
+  commuteDestination,
+  scoreFeedback,
+}: ApartmentDetailCardProps) {
+  const displayScore = customScore ?? apartment.overallScore;
+
   return (
     <Card className="bg-card border-border shadow-2xl overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)]">
-      <CardHeader className="bg-muted/30 pb-4 relative">
+      <CardHeader className="bg-muted/30 pb-4 relative shrink-0">
         <div className="absolute top-2 right-2 flex items-center gap-1">
           <Button
             variant="ghost"
@@ -54,11 +73,14 @@ export function ApartmentDetailCard({ apartment, isFavorite, onClose, onToggleFa
             <TooltipTrigger asChild>
               <Badge className="bg-primary text-primary-foreground font-bold px-2 py-1 flex items-center gap-1 cursor-help">
                 <Star className="w-3 h-3 fill-current" />
-                {apartment.overallScore}
+                {displayScore}
               </Badge>
             </TooltipTrigger>
             <TooltipContent side="left" className="max-w-xs">
               <p className="font-semibold mb-1">Score Breakdown</p>
+              {customScore ? (
+                <p className="text-xs text-primary mb-1">Using your custom weights</p>
+              ) : null}
               {SCORE_WEIGHT_LABELS.map(({ label, weight }) => (
                 <p key={label} className="text-xs">
                   {label}: {Math.round(weight * 100)}% weight
@@ -71,8 +93,11 @@ export function ApartmentDetailCard({ apartment, isFavorite, onClose, onToggleFa
           </Tooltip>
         </div>
       </CardHeader>
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 min-h-0">
         <CardContent className="p-5 space-y-5">
+          {/* Radar Chart */}
+          <ScoreRadarChart apartment={apartment} size={160} />
+
           <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm">
             <div>
               <p className="text-muted-foreground text-xs uppercase tracking-wider">Neighborhood</p>
@@ -92,6 +117,36 @@ export function ApartmentDetailCard({ apartment, isFavorite, onClose, onToggleFa
             </div>
           </div>
 
+          {/* Commute Info */}
+          {commuteInfo && commuteDestination && (
+            <div className="bg-muted/50 p-3 rounded-md border border-border/50 space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Commute to {commuteDestination.label}
+              </p>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-lg font-bold text-primary">{commuteInfo.miles}</p>
+                  <p className="text-[10px] text-muted-foreground">miles</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-1">
+                    <Car className="w-3 h-3 text-muted-foreground" />
+                    <p className="text-lg font-bold">{commuteInfo.driveMinutes}</p>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">min drive</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-1">
+                    <Train className="w-3 h-3 text-muted-foreground" />
+                    <p className="text-lg font-bold">{commuteInfo.transitMinutes}</p>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">min transit</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Scores with Feedback */}
           <div className="space-y-3">
             <div className="flex items-center gap-1 border-b border-border pb-1">
               <p className="text-muted-foreground text-xs uppercase tracking-wider font-semibold">Scores</p>
@@ -100,20 +155,28 @@ export function ApartmentDetailCard({ apartment, isFavorite, onClose, onToggleFa
                   <Info className="w-3 h-3 text-muted-foreground cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p className="text-xs">Each score is rated 1-10 based on neighborhood data</p>
+                  <p className="text-xs">Each score is rated 1-10. Tap 👍/👎 if a score feels off.</p>
                 </TooltipContent>
               </Tooltip>
             </div>
             {[
-              { label: 'Safety', score: apartment.safetyScore },
-              { label: 'Walkability', score: apartment.walkabilityScore },
-              { label: 'Transit', score: apartment.transitScore },
-              { label: 'Entertainment', score: apartment.entertainmentScore },
+              { label: 'Safety', key: 'safety', score: apartment.safetyScore },
+              { label: 'Walkability', key: 'walkability', score: apartment.walkabilityScore },
+              { label: 'Transit', key: 'transit', score: apartment.transitScore },
+              { label: 'Entertainment', key: 'entertainment', score: apartment.entertainmentScore },
             ].map(item => (
               <div key={item.label} className="space-y-1">
-                <div className="flex justify-between text-xs">
+                <div className="flex justify-between items-center text-xs">
                   <span className="font-medium">{item.label}</span>
-                  <span className="text-muted-foreground">{item.score}/10</span>
+                  <div className="flex items-center gap-2">
+                    <ScoreFeedback
+                      apartmentName={apartment.name}
+                      category={item.key}
+                      currentFeedback={scoreFeedback.getFeedback(apartment.name, item.key)}
+                      onFeedback={scoreFeedback.setScoreFeedback}
+                    />
+                    <span className="text-muted-foreground">{item.score}/10</span>
+                  </div>
                 </div>
                 <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
                   <div

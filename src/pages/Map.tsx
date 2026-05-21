@@ -2,6 +2,9 @@ import { useState, Suspense, lazy, useMemo } from 'react';
 import { type Apartment, apartments as allApartments } from '@/data/apartments';
 import { useApartmentFilters } from '@/hooks/use-apartment-filters';
 import { useFavorites } from '@/hooks/use-favorites';
+import { useScoreWeights } from '@/hooks/use-score-weights';
+import { useCommute } from '@/hooks/use-commute';
+import { useScoreFeedback } from '@/hooks/use-score-feedback';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { ApartmentDetailCard } from '@/components/ApartmentDetailCard';
 import { ApartmentListView } from '@/components/ApartmentListView';
@@ -30,15 +33,27 @@ function getDistanceMiles(lat1: number, lng1: number, lat2: number, lng2: number
 export default function MapPage() {
   const filters = useApartmentFilters();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const scoreWeights = useScoreWeights();
+  const commute = useCommute();
+  const scoreFeedback = useScoreFeedback();
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('map');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [compareApartments, setCompareApartments] = useState<Apartment[]>([]);
 
+  // Recalculate scores based on custom weights
+  const apartmentsWithCustomScores = useMemo(() => {
+    if (!scoreWeights.isCustom) return filters.filteredApartments;
+    return filters.filteredApartments.map(apt => ({
+      ...apt,
+      overallScore: scoreWeights.calculateScore(apt),
+    }));
+  }, [filters.filteredApartments, scoreWeights]);
+
   const displayedApartments = showFavoritesOnly
-    ? filters.filteredApartments.filter(apt => favorites.includes(apt.name))
-    : filters.filteredApartments;
+    ? apartmentsWithCustomScores.filter(apt => favorites.includes(apt.name))
+    : apartmentsWithCustomScores;
 
   // Get favorited apartment objects for compare
   const favoritedApartments = useMemo(() =>
@@ -62,6 +77,8 @@ export default function MapPage() {
         <FilterSidebar
           {...filters}
           matchCount={displayedApartments.length}
+          scoreWeights={scoreWeights}
+          commute={commute}
         />
       </div>
 
@@ -83,6 +100,8 @@ export default function MapPage() {
               <FilterSidebar
                 {...filters}
                 matchCount={displayedApartments.length}
+                scoreWeights={scoreWeights}
+                commute={commute}
               />
             </div>
           </div>
@@ -189,6 +208,8 @@ export default function MapPage() {
               favorites={favorites}
               onSelectApartment={setSelectedApartment}
               onToggleFavorite={toggleFavorite}
+              getCommuteInfo={commute.getCommuteInfo}
+              commuteDestination={commute.destination}
             />
           )}
 
@@ -200,6 +221,10 @@ export default function MapPage() {
                 isFavorite={isFavorite(selectedApartment.name)}
                 onClose={() => setSelectedApartment(null)}
                 onToggleFavorite={toggleFavorite}
+                customScore={scoreWeights.isCustom ? scoreWeights.calculateScore(selectedApartment) : undefined}
+                commuteInfo={commute.getCommuteInfo(selectedApartment)}
+                commuteDestination={commute.destination}
+                scoreFeedback={scoreFeedback}
               />
             </div>
           )}
