@@ -42,8 +42,8 @@ interface MapViewProps {
 export function MapView({ apartments, favorites, onSelectApartment }: MapViewProps) {
   return (
     <MapContainer
-      center={[35.227, -80.843]}
-      zoom={13}
+      center={[35.205, -80.845]}
+      zoom={12}
       style={{ height: '100%', width: '100%', zIndex: 0 }}
       zoomControl={false}
     >
