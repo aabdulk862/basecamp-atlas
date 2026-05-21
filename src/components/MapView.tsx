@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -60,7 +60,18 @@ export function MapView({ apartments, favorites, onSelectApartment }: MapViewPro
           eventHandlers={{
             click: () => onSelectApartment(apt),
           }}
-        />
+        >
+          <Tooltip direction="top" offset={[0, -14]} opacity={0.95}>
+            <div style={{ minWidth: '140px', padding: '2px 0' }}>
+              <strong style={{ fontSize: '12px' }}>{apt.name}</strong>
+              <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>{apt.neighborhood}</div>
+              <div style={{ fontSize: '12px', fontWeight: 600, marginTop: '3px' }}>
+                ${apt.rentMin}{apt.rentMax ? `–$${apt.rentMax}` : '+'}
+                <span style={{ float: 'right', color: getMarkerColor(apt.overallScore) }}>★ {apt.overallScore}</span>
+              </div>
+            </div>
+          </Tooltip>
+        </Marker>
       ))}
     </MapContainer>
   );

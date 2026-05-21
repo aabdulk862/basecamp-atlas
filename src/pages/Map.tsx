@@ -1,18 +1,31 @@
-import { useState, Suspense, lazy } from 'react';
-import { type Apartment } from '@/data/apartments';
+import { useState, Suspense, lazy, useMemo } from 'react';
+import { type Apartment, apartments as allApartments } from '@/data/apartments';
 import { useApartmentFilters } from '@/hooks/use-apartment-filters';
 import { useFavorites } from '@/hooks/use-favorites';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { ApartmentDetailCard } from '@/components/ApartmentDetailCard';
 import { ApartmentListView } from '@/components/ApartmentListView';
+import { CompareView } from '@/components/CompareView';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Map, List, SlidersHorizontal, X, Heart } from 'lucide-react';
+import { Map, List, SlidersHorizontal, X, Heart, GitCompareArrows } from 'lucide-react';
 
 // Lazy-load the map component (Leaflet is a heavy bundle)
 const MapView = lazy(() => import('@/components/MapView').then(m => ({ default: m.MapView })));
 
-type ViewMode = 'map' | 'list';
+type ViewMode = 'map' | 'list' | 'compare';
+
+// Uptown Charlotte center for distance calculation
+const UPTOWN_LAT = 35.2271;
+const UPTOWN_LNG = -80.8431;
+
+function getDistanceMiles(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 3959; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 export default function MapPage() {
   const filters = useApartmentFilters();
@@ -21,10 +34,26 @@ export default function MapPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('map');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [compareApartments, setCompareApartments] = useState<Apartment[]>([]);
 
   const displayedApartments = showFavoritesOnly
     ? filters.filteredApartments.filter(apt => favorites.includes(apt.name))
     : filters.filteredApartments;
+
+  // Get favorited apartment objects for compare
+  const favoritedApartments = useMemo(() =>
+    allApartments.filter(apt => favorites.includes(apt.name)),
+    [favorites]
+  );
+
+  const handleStartCompare = () => {
+    setCompareApartments(favoritedApartments);
+    setViewMode('compare');
+  };
+
+  const handleRemoveFromCompare = (name: string) => {
+    setCompareApartments(prev => prev.filter(a => a.name !== name));
+  };
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex">
@@ -93,6 +122,18 @@ export default function MapPage() {
                 <span className="text-xs">{favorites.length}</span>
               )}
             </Button>
+
+            {/* Compare button - shows when 2+ favorites */}
+            {favorites.length >= 2 && (
+              <Button
+                variant={viewMode === 'compare' ? 'default' : 'outline'}
+                size="sm"
+                onClick={handleStartCompare}
+              >
+                <GitCompareArrows className="w-4 h-4 mr-1" />
+                <span className="hidden sm:inline">Compare</span>
+              </Button>
+            )}
           </div>
 
           <div className="flex items-center gap-1">
@@ -121,7 +162,13 @@ export default function MapPage() {
 
         {/* View Content */}
         <div className="flex-1 relative">
-          {viewMode === 'map' ? (
+          {viewMode === 'compare' ? (
+            <CompareView
+              apartments={compareApartments}
+              onRemove={handleRemoveFromCompare}
+              onClose={() => setViewMode('map')}
+            />
+          ) : viewMode === 'map' ? (
             <Suspense fallback={
               <div className="flex items-center justify-center h-full bg-muted/20">
                 <div className="text-center space-y-2">
@@ -146,8 +193,8 @@ export default function MapPage() {
           )}
 
           {/* Selected Apartment Overlay */}
-          {selectedApartment && (
-            <div className="absolute top-4 right-4 z-[1000] w-80 shadow-2xl rounded-xl">
+          {selectedApartment && viewMode !== 'compare' && (
+            <div className="absolute top-4 right-4 z-[1000] w-80 shadow-2xl rounded-xl max-sm:w-[calc(100vw-2rem)] max-sm:left-4 max-sm:right-4">
               <ApartmentDetailCard
                 apartment={selectedApartment}
                 isFavorite={isFavorite(selectedApartment.name)}

@@ -113,6 +113,7 @@ export function useApartmentFilters() {
   const [transitScore, setTransitScore] = useState<number>(urlState.transitScore ?? DEFAULTS.transitScore);
   const [entertainmentScore, setEntertainmentScore] = useState<number>(urlState.entertainmentScore ?? DEFAULTS.entertainmentScore);
   const [sortBy, setSortBy] = useState<SortOption>(urlState.sortBy ?? DEFAULTS.sortBy);
+  const [maxDistance, setMaxDistance] = useState<number>(10);
 
   // Sync state to URL
   useEffect(() => {
@@ -143,9 +144,22 @@ export function useApartmentFilters() {
     setTransitScore(DEFAULTS.transitScore);
     setEntertainmentScore(DEFAULTS.entertainmentScore);
     setSortBy(DEFAULTS.sortBy);
+    setMaxDistance(10);
   }, []);
 
   const filteredApartments = useMemo(() => {
+    // Uptown Charlotte center
+    const UPTOWN_LAT = 35.2271;
+    const UPTOWN_LNG = -80.8431;
+
+    function getDistanceMiles(lat1: number, lng1: number, lat2: number, lng2: number): number {
+      const R = 3959;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
     let result = apartments.filter((apt) => {
       if (apt.rentMin > rentRange[1] || (apt.rentMax && apt.rentMax < rentRange[0])) return false;
       if (selectedNeighborhoods.length > 0 && !selectedNeighborhoods.includes(apt.neighborhood)) return false;
@@ -154,6 +168,10 @@ export function useApartmentFilters() {
       if (apt.walkabilityScore < walkabilityScore) return false;
       if (apt.transitScore < transitScore) return false;
       if (apt.entertainmentScore < entertainmentScore) return false;
+      if (maxDistance < 10) {
+        const dist = getDistanceMiles(apt.lat, apt.lng, UPTOWN_LAT, UPTOWN_LNG);
+        if (dist > maxDistance) return false;
+      }
       return true;
     });
 
@@ -171,7 +189,7 @@ export function useApartmentFilters() {
     });
 
     return result;
-  }, [rentRange, selectedNeighborhoods, washerDryer, safetyScore, walkabilityScore, transitScore, entertainmentScore, sortBy]);
+  }, [rentRange, selectedNeighborhoods, washerDryer, safetyScore, walkabilityScore, transitScore, entertainmentScore, sortBy, maxDistance]);
 
   const activeFilterCount =
     (rentRange[0] > 850 || rentRange[1] < 1900 ? 1 : 0) +
@@ -180,7 +198,8 @@ export function useApartmentFilters() {
     (safetyScore > 1 ? 1 : 0) +
     (walkabilityScore > 1 ? 1 : 0) +
     (transitScore > 1 ? 1 : 0) +
-    (entertainmentScore > 1 ? 1 : 0);
+    (entertainmentScore > 1 ? 1 : 0) +
+    (maxDistance < 10 ? 1 : 0);
 
   return {
     // State
@@ -192,6 +211,7 @@ export function useApartmentFilters() {
     transitScore,
     entertainmentScore,
     sortBy,
+    maxDistance,
     // Setters
     setRentRange,
     setSelectedNeighborhoods,
@@ -201,6 +221,7 @@ export function useApartmentFilters() {
     setTransitScore,
     setEntertainmentScore,
     setSortBy,
+    setMaxDistance,
     // Actions
     handleNeighborhoodToggle,
     handleReset,

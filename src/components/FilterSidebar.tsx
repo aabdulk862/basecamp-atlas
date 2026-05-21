@@ -18,6 +18,7 @@ interface FilterSidebarProps {
   transitScore: number;
   entertainmentScore: number;
   sortBy: SortOption;
+  maxDistance: number;
   activeFilterCount: number;
   matchCount: number;
   setRentRange: (val: [number, number]) => void;
@@ -28,6 +29,7 @@ interface FilterSidebarProps {
   setTransitScore: (val: number) => void;
   setEntertainmentScore: (val: number) => void;
   setSortBy: (val: SortOption) => void;
+  setMaxDistance: (val: number) => void;
   handleReset: () => void;
 }
 
@@ -40,6 +42,7 @@ export function FilterSidebar({
   transitScore,
   entertainmentScore,
   sortBy,
+  maxDistance,
   activeFilterCount,
   matchCount,
   setRentRange,
@@ -50,6 +53,7 @@ export function FilterSidebar({
   setTransitScore,
   setEntertainmentScore,
   setSortBy,
+  setMaxDistance,
   handleReset,
 }: FilterSidebarProps) {
   return (
@@ -84,6 +88,21 @@ export function FilterSidebar({
               max={1900}
               step={50}
               onValueChange={(val) => setRentRange(val as [number, number])}
+              className="my-4"
+            />
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <Label>Distance from Uptown</Label>
+              <span className="text-sm font-medium">{maxDistance >= 10 ? 'Any' : `≤${maxDistance} mi`}</span>
+            </div>
+            <Slider
+              value={[maxDistance]}
+              min={1}
+              max={10}
+              step={1}
+              onValueChange={(val) => setMaxDistance(val[0])}
               className="my-4"
             />
           </div>
