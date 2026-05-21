@@ -123,19 +123,19 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
                   </Button>
                 </div>
 
-                <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-semibold text-primary">
+                <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50 gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-sm font-semibold text-primary whitespace-nowrap">
                       ${apt.rentMin}{apt.rentMax ? `–$${apt.rentMax}` : '+'}
                     </span>
-                    <span className="text-xs text-muted-foreground">{apt.unitTypes}</span>
+                    <span className="text-xs text-muted-foreground truncate">{apt.unitTypes}</span>
                   </div>
                   <a
                     href={apt.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-1 text-xs text-primary hover:underline"
+                    className="flex items-center gap-1 text-xs text-primary hover:underline shrink-0"
                   >
                     Website <ArrowUpRight className="w-3 h-3" />
                   </a>
