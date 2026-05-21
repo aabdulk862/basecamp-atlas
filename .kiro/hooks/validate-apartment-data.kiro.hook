@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Validate Apartment Data",
+  "description": "When apartments.ts is edited, validates that all apartment URLs point to direct property websites (not Zillow, apartments.com, Google, or other aggregators) and that all required fields are populated with reasonable values.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/apartments.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check the apartments.ts file for any URLs that point to zillow.com, apartments.com, google.com, redfin.com, rent.com, forrent.com, apartmentfinder.com, realtor.com, or any other aggregator/listing site. Every apartment url field must be a direct property website (like thejulien.com, alexanloso.com, nodaflats.com). Also check that no entries have null or empty name, address, neighborhood, or url fields. Report any violations found and fix them by finding the property's actual website."
+  }
+}

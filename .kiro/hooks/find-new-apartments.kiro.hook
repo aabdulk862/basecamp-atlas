@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Find New Apartments",
+  "description": "Search online for new apartment communities in Charlotte NC (South End, LoSo, NoDa, Plaza Midwood, Dilworth, Elizabeth, Uptown, Myers Park, Sedgefield areas). Find their direct property website, verify address, get current rent pricing, and add them to src/data/apartments.ts with proper scores and metadata.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Search the web for new apartment communities in Charlotte NC that are NOT already in src/data/apartments.ts. Focus on these neighborhoods: South End, LoSo, NoDa, Plaza Midwood, Dilworth, Elizabeth, Uptown, Myers Park, Sedgefield, Optimist Park, Wesley Heights, Seversville, Villa Heights, SouthPark. PRICE TARGET: Ideal is under $1,300/mo for a 1BR (hard to find but prioritize these). Under $1,500 is good. Absolute max is $1,600 — do not add anything with 1BR starting above $1,600. For each apartment found: 1) Find the property's own website (never use Zillow, apartments.com, or aggregators). If it doesn't have its own site, skip it. 2) Verify the address. 3) Get current rent range from the property site or rentcafe/forrent. 4) Estimate scores (safety, walkability, transit, entertainment) based on neighborhood data. 5) Add the entry to src/data/apartments.ts following the existing format. Find 3-5 new options and add them."
+  }
+}
