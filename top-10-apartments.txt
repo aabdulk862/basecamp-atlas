@@ -1,0 +1,18 @@
+Top 10 Apartments Near Computershare (1616 Camden Rd, Charlotte)
+Salary: $100k | Budget: ~$2,500/mo max
+================================================================
+
+ #  Name                   Rent Range        Score  Neighborhood   Distance
+--- ---------------------- ----------------- -----  -------------- --------
+ 1  Camden South End       $1,569–$2,100     9.4    South End      ~0.4 mi
+ 2  Foster Flats           $1,390–$2,800     9.4    South End      ~0.5 mi
+ 3  Bradham at New Bern    $1,450–$2,900     9.4    South End      ~0.6 mi
+ 4  The Atherton           $1,520–$3,126     9.4    South End      ~0.5 mi
+ 5  1010 Dilworth          $1,275–$2,879     8.5    Dilworth       ~0.6 mi
+ 6  Mosaic South End       $1,373–$2,932     9.1    South End      ~0.7 mi
+ 7  Camden Southline       $1,629–$2,200     9.1    South End      ~0.7 mi
+ 8  Selene at Southline    $1,400–$2,600     9.1    South End      ~0.9 mi
+ 9  Fountains South End    $1,439–$2,100     9.2    South End      ~0.6 mi
+10  Camden Dilworth        $1,319–$2,200     8.5    Dilworth       ~0.5 mi
+
+All have in-unit washer/dryer. All walkable/bikeable to office.
