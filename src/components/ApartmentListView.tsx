@@ -1,9 +1,10 @@
+import { useState, useRef, useCallback } from 'react';
 import type { Apartment } from '@/data/apartments';
 import type { CommuteDestination } from '@/hooks/use-commute';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Heart, ArrowUpRight, Star, MapPin, Download, Car } from 'lucide-react';
+import { Heart, ArrowUpRight, Star, MapPin, Download, Car, RefreshCw } from 'lucide-react';
+import { ListSkeleton, TableSkeleton } from '@/components/ListSkeleton';
 
 const getScoreColor = (score: number) => {
   if (score >= 8) return 'text-green-400';
@@ -28,6 +29,8 @@ interface ApartmentListViewProps {
   onToggleFavorite: (name: string) => void;
   getCommuteInfo?: (apt: Apartment) => { miles: number; driveMinutes: number; transitMinutes: number } | null;
   commuteDestination?: CommuteDestination | null;
+  isLoading?: boolean;
+  sortBy?: string;
 }
 
 function downloadCSV(apartments: Apartment[], favorites: string[]) {
@@ -63,7 +66,61 @@ function downloadCSV(apartments: Apartment[], favorites: string[]) {
   URL.revokeObjectURL(url);
 }
 
-export function ApartmentListView({ apartments, favorites, onSelectApartment, onToggleFavorite, getCommuteInfo, commuteDestination }: ApartmentListViewProps) {
+// Sort indicator arrow
+function SortArrow({ column, currentSort }: { column: string; currentSort?: string }) {
+  const isActive = currentSort === column;
+  if (!isActive) return null;
+  return <span className="ml-0.5 text-primary">↓</span>;
+}
+
+export function ApartmentListView({ apartments, favorites, onSelectApartment, onToggleFavorite, getCommuteInfo, commuteDestination, isLoading, sortBy }: ApartmentListViewProps) {
+  const [pullDistance, setPullDistance] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const startY = useRef(0);
+  const isPulling = useRef(false);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (scrollRef.current && scrollRef.current.scrollTop === 0) {
+      startY.current = e.touches[0].clientY;
+      isPulling.current = true;
+    }
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isPulling.current) return;
+    const diff = e.touches[0].clientY - startY.current;
+    if (diff > 0 && scrollRef.current && scrollRef.current.scrollTop === 0) {
+      setPullDistance(Math.min(diff * 0.4, 60));
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (pullDistance > 40) {
+      setIsRefreshing(true);
+      setTimeout(() => {
+        setIsRefreshing(false);
+        setPullDistance(0);
+      }, 800);
+    } else {
+      setPullDistance(0);
+    }
+    isPulling.current = false;
+  }, [pullDistance]);
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex flex-col overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50 shrink-0">
+          <div className="h-3 w-20 bg-muted rounded animate-pulse" />
+          <div className="h-6 w-24 bg-muted rounded animate-pulse" />
+        </div>
+        <ListSkeleton />
+        <TableSkeleton />
+      </div>
+    );
+  }
+
   if (apartments.length === 0) {
     return (
       <div className="flex items-center justify-center h-full text-muted-foreground">
@@ -88,8 +145,24 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
         </Button>
       </div>
 
-      {/* Mobile: Card layout with native scroll */}
-      <div className="flex-1 overflow-y-auto overscroll-contain sm:hidden">
+      {/* Mobile: Card layout with native scroll + pull-to-refresh */}
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto overscroll-contain sm:hidden relative"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Pull-to-refresh indicator */}
+        {(pullDistance > 0 || isRefreshing) && (
+          <div
+            className="flex items-center justify-center transition-all duration-200"
+            style={{ height: isRefreshing ? 40 : pullDistance }}
+          >
+            <RefreshCw className={`w-4 h-4 text-primary ${isRefreshing ? 'animate-spin' : ''}`} style={{ opacity: Math.min(pullDistance / 40, 1) }} />
+          </div>
+        )}
+
         <div className="p-3 space-y-2 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           {apartments.map((apt) => {
             const isFav = favorites.includes(apt.name);
@@ -165,96 +238,109 @@ export function ApartmentListView({ apartments, favorites, onSelectApartment, on
         </div>
       </div>
 
-      {/* Desktop: Table layout with ScrollArea */}
-      <ScrollArea className="flex-1 hidden sm:block">
-        <div className="p-4">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border text-left text-xs text-muted-foreground uppercase tracking-wider">
-                <th className="pb-3 pr-2 w-8"></th>
-                <th className="pb-3 pr-3">Name</th>
-                <th className="pb-3 pr-3 hidden md:table-cell">Neighborhood</th>
-                <th className="pb-3 pr-3">Rent</th>
-                <th className="pb-3 pr-3 hidden md:table-cell">Units</th>
-                <th className="pb-3 pr-2 text-center hidden lg:table-cell">Safe</th>
-                <th className="pb-3 pr-2 text-center hidden lg:table-cell">Walk</th>
-                <th className="pb-3 pr-2 text-center hidden lg:table-cell">Trans</th>
-                <th className="pb-3 pr-2 text-center hidden lg:table-cell">Ent</th>
-                <th className="pb-3 pr-2 text-center">Score</th>
-                <th className="pb-3 text-center">Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {apartments.map((apt) => {
-                const isFav = favorites.includes(apt.name);
-                return (
-                  <tr
-                    key={apt.name}
-                    className="border-b border-border/50 hover:bg-muted/30 cursor-pointer transition-colors"
-                    onClick={() => onSelectApartment(apt)}
-                  >
-                    <td className="py-2.5 pr-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-red-400"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onToggleFavorite(apt.name);
-                        }}
-                        aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
-                      >
-                        <Heart className={`w-4 h-4 ${isFav ? 'fill-red-400 text-red-400' : ''}`} />
-                      </Button>
-                    </td>
-                    <td className="py-2.5 pr-3">
-                      <div>
-                        <p className="font-medium truncate max-w-[200px]">{apt.name}</p>
-                        <p className="text-xs text-muted-foreground truncate max-w-[200px] md:hidden">{apt.neighborhood}</p>
-                      </div>
-                    </td>
-                    <td className="py-2.5 pr-3 hidden md:table-cell text-muted-foreground text-xs">{apt.neighborhood}</td>
-                    <td className="py-2.5 pr-3 whitespace-nowrap font-medium">
-                      ${apt.rentMin}{apt.rentMax ? `–$${apt.rentMax}` : '+'}
-                    </td>
-                    <td className="py-2.5 pr-3 hidden md:table-cell text-xs text-muted-foreground">{apt.unitTypes}</td>
-                    <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.safetyScore)}`}>
-                      {apt.safetyScore}
-                    </td>
-                    <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.walkabilityScore)}`}>
-                      {apt.walkabilityScore}
-                    </td>
-                    <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.transitScore)}`}>
-                      {apt.transitScore}
-                    </td>
-                    <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.entertainmentScore)}`}>
-                      {apt.entertainmentScore}
-                    </td>
-                    <td className="py-2.5 pr-2 text-center">
-                      <Badge variant="secondary" className={`font-bold ${getScoreColor(apt.overallScore)}`}>
-                        <Star className="w-3 h-3 mr-0.5" />
-                        {apt.overallScore}
-                      </Badge>
-                    </td>
-                    <td className="py-2.5 text-center">
-                      <a
-                        href={apt.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center justify-center h-7 w-7 rounded text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                        aria-label={`Visit ${apt.name} website`}
-                      >
-                        <ArrowUpRight className="w-4 h-4" />
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </ScrollArea>
+      {/* Desktop: Table layout with sticky header */}
+      <div className="flex-1 overflow-auto hidden sm:block">
+        <table className="w-full text-sm">
+          <thead className="sticky top-0 bg-card z-10 border-b border-border">
+            <tr className="text-left text-xs text-muted-foreground uppercase tracking-wider">
+              <th className="py-3 px-4 w-8"></th>
+              <th className="py-3 pr-3">Name</th>
+              <th className="py-3 pr-3 hidden md:table-cell">
+                Neighborhood<SortArrow column="Neighborhood" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-3">
+                Rent<SortArrow column="Rent Low-High" currentSort={sortBy} />
+                <SortArrow column="Rent High-Low" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-3 hidden md:table-cell">Units</th>
+              <th className="py-3 pr-2 text-center hidden lg:table-cell">
+                Safe<SortArrow column="Safety" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-2 text-center hidden lg:table-cell">
+                Walk<SortArrow column="Walkability" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-2 text-center hidden lg:table-cell">
+                Trans<SortArrow column="Transit" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-2 text-center hidden lg:table-cell">
+                Ent<SortArrow column="Entertainment" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-2 text-center">
+                Score<SortArrow column="Overall Score" currentSort={sortBy} />
+              </th>
+              <th className="py-3 pr-4 text-center">Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {apartments.map((apt) => {
+              const isFav = favorites.includes(apt.name);
+              return (
+                <tr
+                  key={apt.name}
+                  className="border-b border-border/50 hover:bg-muted/30 cursor-pointer transition-colors"
+                  onClick={() => onSelectApartment(apt)}
+                >
+                  <td className="py-2.5 px-4">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 text-muted-foreground hover:text-red-400"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleFavorite(apt.name);
+                      }}
+                      aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+                    >
+                      <Heart className={`w-4 h-4 ${isFav ? 'fill-red-400 text-red-400' : ''}`} />
+                    </Button>
+                  </td>
+                  <td className="py-2.5 pr-3">
+                    <div>
+                      <p className="font-medium truncate max-w-[200px]">{apt.name}</p>
+                      <p className="text-xs text-muted-foreground truncate max-w-[200px] md:hidden">{apt.neighborhood}</p>
+                    </div>
+                  </td>
+                  <td className="py-2.5 pr-3 hidden md:table-cell text-muted-foreground text-xs">{apt.neighborhood}</td>
+                  <td className="py-2.5 pr-3 whitespace-nowrap font-medium">
+                    ${apt.rentMin}{apt.rentMax ? `–$${apt.rentMax}` : '+'}
+                  </td>
+                  <td className="py-2.5 pr-3 hidden md:table-cell text-xs text-muted-foreground">{apt.unitTypes}</td>
+                  <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.safetyScore)}`}>
+                    {apt.safetyScore}
+                  </td>
+                  <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.walkabilityScore)}`}>
+                    {apt.walkabilityScore}
+                  </td>
+                  <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.transitScore)}`}>
+                    {apt.transitScore}
+                  </td>
+                  <td className={`py-2.5 pr-2 text-center hidden lg:table-cell font-medium ${getScoreColor(apt.entertainmentScore)}`}>
+                    {apt.entertainmentScore}
+                  </td>
+                  <td className="py-2.5 pr-2 text-center">
+                    <Badge variant="secondary" className={`font-bold ${getScoreColor(apt.overallScore)}`}>
+                      <Star className="w-3 h-3 mr-0.5" />
+                      {apt.overallScore}
+                    </Badge>
+                  </td>
+                  <td className="py-2.5 pr-4 text-center">
+                    <a
+                      href={apt.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center justify-center h-7 w-7 rounded text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                      aria-label={`Visit ${apt.name} website`}
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

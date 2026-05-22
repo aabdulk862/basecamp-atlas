@@ -5,6 +5,7 @@ import { useFavorites } from '@/hooks/use-favorites';
 import { useScoreWeights } from '@/hooks/use-score-weights';
 import { useCommute } from '@/hooks/use-commute';
 import { useScoreFeedback } from '@/hooks/use-score-feedback';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { ApartmentDetailCard } from '@/components/ApartmentDetailCard';
 import { ApartmentListView } from '@/components/ApartmentListView';
@@ -12,23 +13,13 @@ import { CompareView } from '@/components/CompareView';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Map, List, SlidersHorizontal, X, Heart, GitCompareArrows } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Drawer } from 'vaul';
 
 // Lazy-load the map component (Leaflet is a heavy bundle)
 const MapView = lazy(() => import('@/components/MapView').then(m => ({ default: m.MapView })));
 
 type ViewMode = 'map' | 'list' | 'compare';
-
-// Uptown Charlotte center for distance calculation
-const UPTOWN_LAT = 35.2271;
-const UPTOWN_LNG = -80.8431;
-
-function getDistanceMiles(lat1: number, lng1: number, lat2: number, lng2: number): number {
-  const R = 3959; // Earth radius in miles
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 
 export default function MapPage() {
   const filters = useApartmentFilters();
@@ -36,6 +27,7 @@ export default function MapPage() {
   const scoreWeights = useScoreWeights();
   const commute = useCommute();
   const scoreFeedback = useScoreFeedback();
+  const isMobile = useIsMobile();
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('map');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -85,11 +77,20 @@ export default function MapPage() {
       {/* Mobile Filter Drawer */}
       {mobileFiltersOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
-          <div
+          <motion.div
             className="absolute inset-0 bg-black/50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => setMobileFiltersOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-[85vw] max-w-sm bg-card shadow-2xl flex flex-col pb-[env(safe-area-inset-bottom)]">
+          <motion.div
+            className="absolute inset-y-0 left-0 w-[85vw] max-w-sm bg-card shadow-2xl flex flex-col pb-[env(safe-area-inset-bottom)]"
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          >
             <div className="flex items-center justify-between p-4 border-b border-border">
               <span className="font-semibold">Filters</span>
               <Button variant="ghost" size="icon" onClick={() => setMobileFiltersOpen(false)}>
@@ -104,7 +105,7 @@ export default function MapPage() {
                 commute={commute}
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 
@@ -179,43 +180,79 @@ export default function MapPage() {
           </div>
         </div>
 
-        {/* View Content */}
+        {/* View Content with animated transitions */}
         <div className="flex-1 relative min-h-0 overflow-hidden">
-          {viewMode === 'compare' ? (
-            <CompareView
-              apartments={compareApartments}
-              onRemove={handleRemoveFromCompare}
-              onClose={() => setViewMode('map')}
-            />
-          ) : viewMode === 'map' ? (
-            <Suspense fallback={
-              <div className="flex items-center justify-center h-full bg-muted/20">
-                <div className="text-center space-y-2">
-                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-                  <p className="text-sm text-muted-foreground">Loading map...</p>
-                </div>
-              </div>
-            }>
-              <MapView
-                apartments={displayedApartments}
-                favorites={favorites}
-                onSelectApartment={setSelectedApartment}
-              />
-            </Suspense>
-          ) : (
-            <ApartmentListView
-              apartments={displayedApartments}
-              favorites={favorites}
-              onSelectApartment={setSelectedApartment}
-              onToggleFavorite={toggleFavorite}
-              getCommuteInfo={commute.getCommuteInfo}
-              commuteDestination={commute.destination}
-            />
-          )}
+          <AnimatePresence mode="wait">
+            {viewMode === 'compare' ? (
+              <motion.div
+                key="compare"
+                className="absolute inset-0"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <CompareView
+                  apartments={compareApartments}
+                  onRemove={handleRemoveFromCompare}
+                  onClose={() => setViewMode('map')}
+                />
+              </motion.div>
+            ) : viewMode === 'map' ? (
+              <motion.div
+                key="map"
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Suspense fallback={
+                  <div className="flex items-center justify-center h-full bg-muted/20">
+                    <div className="text-center space-y-2">
+                      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                      <p className="text-sm text-muted-foreground">Loading map...</p>
+                    </div>
+                  </div>
+                }>
+                  <MapView
+                    apartments={displayedApartments}
+                    favorites={favorites}
+                    onSelectApartment={setSelectedApartment}
+                  />
+                </Suspense>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="list"
+                className="absolute inset-0"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ApartmentListView
+                  apartments={displayedApartments}
+                  favorites={favorites}
+                  onSelectApartment={setSelectedApartment}
+                  onToggleFavorite={toggleFavorite}
+                  getCommuteInfo={commute.getCommuteInfo}
+                  commuteDestination={commute.destination}
+                  sortBy={filters.sortBy}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Selected Apartment Overlay */}
-          {selectedApartment && viewMode !== 'compare' && (
-            <div className="absolute inset-4 z-[1000] sm:inset-auto sm:top-4 sm:right-4 sm:w-80 sm:bottom-auto sm:left-auto">
+          {/* Desktop: Overlay detail card */}
+          {selectedApartment && viewMode !== 'compare' && !isMobile && (
+            <motion.div
+              className="absolute top-4 right-4 z-[1000] w-80"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
               <ApartmentDetailCard
                 apartment={selectedApartment}
                 isFavorite={isFavorite(selectedApartment.name)}
@@ -226,10 +263,40 @@ export default function MapPage() {
                 commuteDestination={commute.destination}
                 scoreFeedback={scoreFeedback}
               />
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
+
+      {/* Mobile: Bottom sheet detail card */}
+      {isMobile && (
+        <Drawer.Root
+          open={!!selectedApartment && viewMode !== 'compare'}
+          onOpenChange={(open) => { if (!open) setSelectedApartment(null); }}
+        >
+          <Drawer.Portal>
+            <Drawer.Overlay className="fixed inset-0 bg-black/40 z-[999]" />
+            <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[1000] flex flex-col rounded-t-xl bg-card border-t border-border max-h-[85dvh]">
+              <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/30 my-3" />
+              {selectedApartment && (
+                <div className="flex-1 overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]">
+                  <ApartmentDetailCard
+                    apartment={selectedApartment}
+                    isFavorite={isFavorite(selectedApartment.name)}
+                    onClose={() => setSelectedApartment(null)}
+                    onToggleFavorite={toggleFavorite}
+                    customScore={scoreWeights.isCustom ? scoreWeights.calculateScore(selectedApartment) : undefined}
+                    commuteInfo={commute.getCommuteInfo(selectedApartment)}
+                    commuteDestination={commute.destination}
+                    scoreFeedback={scoreFeedback}
+                    isBottomSheet
+                  />
+                </div>
+              )}
+            </Drawer.Content>
+          </Drawer.Portal>
+        </Drawer.Root>
+      )}
     </div>
   );
 }
