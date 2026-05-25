@@ -63,7 +63,7 @@ export default function MapPage() {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex">
+    <div className="relative w-full h-[calc(100dvh-4rem)] overflow-hidden bg-background text-foreground flex">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex w-96 shrink-0 h-full border-r border-border bg-card flex-col z-10 shadow-2xl">
         <FilterSidebar

@@ -1,4 +1,4 @@
-# Charlotte Apartment Finder — Business & Technical Roadmap
+# Basecamp Atlas — Business & Technical Roadmap
 
 ## Where You Are Today (v1.0)
 

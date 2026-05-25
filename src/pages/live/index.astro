@@ -1,0 +1,12 @@
+---
+import VerticalLayout from '@/layouts/VerticalLayout.astro';
+import ApartmentFinder from '@/components/ApartmentFinder.tsx';
+---
+
+<VerticalLayout
+  vertical="live"
+  title="Apartment Finder | Basecamp Atlas"
+  description="Find your perfect Charlotte apartment with interactive map, scoring, and comparison tools."
+>
+  <ApartmentFinder client:load />
+</VerticalLayout>

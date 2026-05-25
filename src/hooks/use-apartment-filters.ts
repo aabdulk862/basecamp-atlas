@@ -26,6 +26,7 @@ const DEFAULTS: FilterState = {
 };
 
 function parseFiltersFromURL(): Partial<FilterState> {
+  if (typeof window === 'undefined') return {};
   const params = new URLSearchParams(window.location.search);
   const parsed: Partial<FilterState> = {};
 
@@ -62,6 +63,7 @@ function parseFiltersFromURL(): Partial<FilterState> {
 }
 
 function writeFiltersToURL(state: FilterState) {
+  if (typeof window === 'undefined') return;
   const params = new URLSearchParams();
 
   if (state.rentRange[0] !== DEFAULTS.rentRange[0] || state.rentRange[1] !== DEFAULTS.rentRange[1]) {

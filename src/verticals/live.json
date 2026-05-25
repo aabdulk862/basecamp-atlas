@@ -1,0 +1,8 @@
+{
+  "id": "live",
+  "name": "Live",
+  "description": "Interactive apartment finder with map and scoring",
+  "routePrefix": "/live",
+  "palette": "live.css",
+  "order": 1
+}

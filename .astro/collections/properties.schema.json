@@ -1,0 +1,152 @@
+{
+  "$ref": "#/definitions/properties",
+  "definitions": {
+    "properties": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "region": {
+          "type": "string"
+        },
+        "stayType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "priceRange": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9999
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9999
+            }
+          },
+          "required": [
+            "min",
+            "max"
+          ],
+          "additionalProperties": false
+        },
+        "driveTimes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "privacyLevel": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 5
+        },
+        "amenities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "wowFactor": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 300
+        },
+        "bookingUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "coordinates": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number"
+            },
+            "lng": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "lat",
+            "lng"
+          ],
+          "additionalProperties": false
+        },
+        "nearbyHikes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "distance": {
+                "type": "string",
+                "maxLength": 30
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 20
+        },
+        "seasonalTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10
+        },
+        "lastVerified": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "roadAccess": {
+          "type": "string",
+          "enum": [
+            "sedan-friendly"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "region",
+        "stayType",
+        "priceRange",
+        "driveTimes",
+        "privacyLevel",
+        "amenities",
+        "wowFactor",
+        "bookingUrl",
+        "coordinates",
+        "nearbyHikes",
+        "roadAccess"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

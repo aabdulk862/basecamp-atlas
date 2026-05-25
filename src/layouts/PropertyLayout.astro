@@ -1,0 +1,115 @@
+---
+import VerticalLayout from './VerticalLayout.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  breadcrumbs: BreadcrumbItem[];
+}
+
+const { title, description, breadcrumbs } = Astro.props;
+---
+
+<VerticalLayout vertical="escape" title={title} description={description}>
+  <div class="custom-cursor">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb" class="px-6 pt-6 pb-2 max-w-7xl mx-auto">
+      <ol class="flex items-center gap-2 text-sm" style="color: var(--text-muted);">
+        {breadcrumbs.map((crumb, index) => (
+          <li class="flex items-center gap-2">
+            {index > 0 && <span aria-hidden="true">/</span>}
+            {index < breadcrumbs.length - 1 ? (
+              <a
+                href={crumb.href}
+                class="transition-colors hover:underline"
+                style="color: var(--text-secondary);"
+              >
+                {crumb.label}
+              </a>
+            ) : (
+              <span aria-current="page" style="color: var(--accent-primary);">
+                {crumb.label}
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <!-- Two-Column Layout -->
+    <div class="property-layout px-6 py-8 max-w-7xl mx-auto">
+      <div class="property-content scroll-reveal">
+        <slot name="content" />
+        <slot />
+      </div>
+      <aside class="property-sidebar scroll-reveal">
+        <slot name="sidebar" />
+      </aside>
+    </div>
+  </div>
+</VerticalLayout>
+
+<style>
+  .property-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .property-sidebar {
+    position: sticky;
+    top: 5rem;
+  }
+
+  @media (max-width: 899px) {
+    .property-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .property-sidebar {
+      position: static;
+    }
+  }
+</style>
+
+<script>
+  // IntersectionObserver for scroll-reveal activation
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll('.scroll-reveal').forEach((el) => {
+    observer.observe(el);
+  });
+
+  // Custom cursor tracking
+  const dot = document.querySelector('.cursor-dot') as HTMLElement;
+  const ring = document.querySelector('.cursor-ring') as HTMLElement;
+
+  if (dot && ring) {
+    document.addEventListener('mousemove', (e) => {
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top = `${e.clientY}px`;
+      ring.style.left = `${e.clientX}px`;
+      ring.style.top = `${e.clientY}px`;
+    });
+  }
+</script>

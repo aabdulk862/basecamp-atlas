@@ -1,0 +1,9 @@
+{
+  "id": "escape",
+  "name": "Escape",
+  "description": "Curated nature retreats within driving distance",
+  "routePrefix": "/escape",
+  "palette": "escape.css",
+  "contentCollection": "properties",
+  "order": 2
+}

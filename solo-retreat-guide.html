@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Into the Range — Solo Retreats from Charlotte</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0d0c0a;
+  --charcoal: #1a1814;
+  --warm-dark: #231f1a;
+  --stone: #3a3530;
+  --ash: #6b6358;
+  --sand: #b8a98e;
+  --cream: #e8e0d0;
+  --white: #f5f1ea;
+  --amber: #c8943a;
+  --moss: #6b7c5a;
+  --rust: #a0543a;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--amber);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  mix-blend-mode: normal;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(200,148,58,0.4);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease-out, width 0.3s, height 0.3s;
+}
+body:has(a:hover) .cursor { width: 12px; height: 12px; background: var(--rust); }
+body:has(a:hover) .cursor-ring { width: 52px; height: 52px; border-color: rgba(160,84,58,0.5); }
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 80px 0;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 100%, rgba(35,31,26,0.95) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 50% at 20% 30%, rgba(107,124,90,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 60%, rgba(160,84,58,0.08) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(13,12,10,0.3) 0%, rgba(13,12,10,0.0) 30%, rgba(13,12,10,0.7) 70%, var(--black) 100%);
+}
+
+/* SVG terrain lines in hero */
+.terrain-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  opacity: 0.07;
+}
+
+.hero-eyebrow {
+  position: absolute;
+  top: 48px;
+  left: 64px;
+  right: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.eyebrow-text {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--sand);
+  font-weight: 400;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 64px;
+}
+
+.hero-label {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 400;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-label::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--amber);
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(64px, 9vw, 140px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
+}
+
+h1 .line1 { display: block; color: var(--white); }
+h1 .line2 { display: block; color: transparent; -webkit-text-stroke: 1px rgba(232,224,208,0.35); font-style: italic; }
+h1 .line3 { display: block; color: var(--amber); }
+
+.hero-meta {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.meta-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1;
+}
+
+.meta-desc {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  font-weight: 400;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  right: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--amber));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+.scroll-label {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ash);
+  writing-mode: vertical-lr;
+}
+
+/* ============ PROPERTIES SECTION ============ */
+.properties {
+  padding: 0 64px 120px;
+}
+
+/* Section header */
+.section-intro {
+  padding: 100px 0 80px;
+  max-width: 600px;
+}
+
+.section-intro p {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--ash);
+  font-weight: 300;
+}
+
+.section-intro strong {
+  color: var(--cream);
+  font-weight: 300;
+}
+
+/* Property cards — large editorial layout */
+.property-entry {
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.property-entry.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prop-divider {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 0 40px;
+  border-top: 1px solid rgba(184,169,142,0.1);
+}
+
+.prop-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,148,58,0.2);
+  flex-shrink: 0;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.prop-number.top { -webkit-text-stroke-color: rgba(200,148,58,0.5); }
+
+.prop-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200,148,58,0.15), transparent);
+}
+
+.prop-rank-label {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ash);
+  flex-shrink: 0;
+}
+
+.prop-rank-label.best { color: var(--amber); }
+
+/* Main card grid */
+.prop-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 0;
+  background: var(--charcoal);
+  position: relative;
+  overflow: hidden;
+}
+
+.prop-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 0% 100%, rgba(107,124,90,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.prop-main {
+  padding: 52px 56px 52px 52px;
+  position: relative;
+  z-index: 1;
+}
+
+.prop-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--moss);
+  font-weight: 400;
+  margin-bottom: 20px;
+  background: rgba(107,124,90,0.1);
+  border: 1px solid rgba(107,124,90,0.2);
+  padding: 6px 14px;
+}
+
+.prop-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.prop-location {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  font-weight: 400;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prop-location::before {
+  content: '◎';
+  color: var(--amber);
+  font-size: 10px;
+}
+
+.prop-wow {
+  border-left: 2px solid var(--amber);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+  background: rgba(200,148,58,0.04);
+}
+
+.prop-wow p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(232,224,208,0.8);
+}
+
+.prop-body-text {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ash);
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+
+/* Feature pills */
+.feat-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 36px;
+}
+
+.pill {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 400;
+  padding: 5px 12px;
+}
+
+.pill-green { background: rgba(107,124,90,0.12); color: var(--moss); border: 1px solid rgba(107,124,90,0.25); }
+.pill-amber { background: rgba(200,148,58,0.12); color: var(--amber); border: 1px solid rgba(200,148,58,0.25); }
+.pill-rust  { background: rgba(160,84,58,0.12); color: var(--rust); border: 1px solid rgba(160,84,58,0.25); }
+
+/* Hikes */
+.hikes-title {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--stone);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.hike-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hike-list li {
+  font-size: 13px;
+  color: rgba(184,169,142,0.7);
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(58,53,48,0.8);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.2s;
+}
+
+.hike-list li:hover { color: var(--cream); }
+
+.hike-list li::before {
+  content: '↗';
+  color: var(--moss);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* Sidebar */
+.prop-sidebar {
+  background: var(--warm-dark);
+  padding: 52px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid rgba(58,53,48,0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-price-block {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(58,53,48,0.8);
+}
+
+.price-label-sm {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--stone);
+  font-weight: 400;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.price-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.price-sub {
+  font-size: 11px;
+  color: var(--ash);
+  letter-spacing: 0.1em;
+}
+
+.drive-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--amber);
+  margin-top: 12px;
+  letter-spacing: 0.1em;
+}
+
+/* Meta stats in sidebar */
+.sidebar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 36px;
+  flex: 1;
+}
+
+.sidebar-meta-item {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(58,53,48,0.6);
+}
+
+.sm-key {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stone);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.sm-val {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.5;
+}
+
+.privacy-dots {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--stone);
+}
+.dot.filled { background: var(--moss); }
+.dot.filled.max { background: var(--amber); }
+
+/* CTA button */
+.book-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--amber);
+  color: var(--black);
+  text-decoration: none;
+  padding: 18px 22px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: background 0.2s, color 0.2s;
+  margin-top: auto;
+}
+
+.book-btn:hover { background: var(--white); }
+
+.book-btn span { font-size: 16px; }
+
+/* ============ AVOID SECTION ============ */
+.avoid-section {
+  padding: 80px 64px;
+  border-top: 1px solid rgba(58,53,48,0.5);
+  margin-top: 80px;
+}
+
+.avoid-title {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avoid-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(160,84,58,0.2);
+}
+
+.avoid-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.avoid-item {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(107,99,88,0.7);
+  padding: 6px 14px;
+  border: 1px solid rgba(58,53,48,0.8);
+  text-decoration: line-through;
+  text-decoration-color: rgba(160,84,58,0.4);
+}
+
+/* ============ CURATOR'S NOTE ============ */
+.curators-note {
+  margin: 0 64px 120px;
+  background: var(--warm-dark);
+  padding: 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.curators-note::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 320px;
+  color: rgba(200,148,58,0.04);
+  position: absolute;
+  top: -60px;
+  left: 40px;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cn-label {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.cn-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.65;
+  color: rgba(232,224,208,0.75);
+  max-width: 780px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ FOOTER ============ */
+footer {
+  padding: 40px 64px;
+  border-top: 1px solid rgba(58,53,48,0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--stone);
+}
+
+.footer-note {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(107,99,88,0.5);
+  text-transform: uppercase;
+}
+
+/* ============ SCROLL ANIMATIONS ============ */
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-label   { animation: heroFadeIn 1s ease 0.2s both; }
+h1            { animation: heroFadeIn 1s ease 0.4s both; }
+.hero-meta    { animation: heroFadeIn 1s ease 0.7s both; }
+.section-intro{ animation: heroFadeIn 1s ease 0.1s both; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  .prop-grid { grid-template-columns: 1fr; }
+  .prop-sidebar { border-left: none; border-top: 1px solid rgba(58,53,48,0.6); }
+  .properties, .hero-content, .hero-eyebrow, .avoid-section, .curators-note, footer {
+    padding-left: 28px; padding-right: 28px;
+  }
+  .curators-note { margin: 0 0 80px; }
+  h1 { font-size: 58px; }
+  .prop-number { font-size: 64px; }
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Topographic terrain SVG background -->
+  <svg class="terrain-svg" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <style>.t{fill:none;stroke:#b8a98e;stroke-width:0.5}</style>
+    </defs>
+    <!-- Topo lines — layered contours suggesting mountain ridgelines -->
+    <path class="t" d="M0,600 Q200,520 400,560 Q600,600 800,530 Q1000,460 1200,500 Q1300,520 1400,490"/>
+    <path class="t" d="M0,560 Q180,480 380,510 Q580,540 780,470 Q980,400 1180,445 Q1300,468 1400,440"/>
+    <path class="t" d="M0,520 Q160,440 360,465 Q560,490 760,420 Q960,350 1160,395 Q1290,418 1400,390"/>
+    <path class="t" d="M0,480 Q150,400 340,428 Q540,456 740,380 Q940,304 1140,356 Q1280,382 1400,348"/>
+    <path class="t" d="M0,440 Q130,360 320,392 Q520,424 720,344 Q920,264 1120,320 Q1270,348 1400,312"/>
+    <path class="t" d="M0,400 Q120,318 300,352 Q500,386 700,300 Q900,214 1100,276 Q1260,308 1400,270"/>
+    <path class="t" d="M200,700 Q350,660 500,680 Q650,700 800,650 Q950,600 1100,640 Q1250,670 1400,630"/>
+    <path class="t" d="M0,360 Q140,278 320,318 Q520,358 700,268 Q900,178 1080,244 Q1250,274 1400,236"/>
+    <path class="t" d="M0,300 Q160,240 340,268 Q540,296 740,214 Q940,132 1080,188 Q1240,218 1400,182"/>
+    <path class="t" d="M100,200 Q300,160 500,190 Q700,220 900,150 Q1100,80 1250,130 Q1350,155 1400,128"/>
+    <!-- Ridge peak hints -->
+    <path class="t" d="M600,100 Q640,60 680,40 Q720,20 760,50 Q800,80 840,110"/>
+    <path class="t" d="M580,130 Q640,80 700,55 Q760,30 820,65 Q880,100 860,140"/>
+    <path class="t" d="M200,250 Q240,210 280,190 Q320,170 360,200 Q400,230 380,270"/>
+    <path class="t" d="M1050,180 Q1090,140 1130,120 Q1170,100 1210,130 Q1250,160 1230,200"/>
+  </svg>
+
+  <div class="hero-bg"></div>
+
+  <div class="hero-eyebrow">
+    <span class="eyebrow-text">Solo Escape Guide</span>
+    <span class="eyebrow-text">Charlotte, NC → Southeast Range</span>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-label">Luxury nature retreats</div>
+    <h1>
+      <span class="line1">Into</span>
+      <span class="line2">the</span>
+      <span class="line3">Range.</span>
+    </h1>
+    <div class="hero-meta">
+      <div class="meta-stat">
+        <span class="meta-num">5</span>
+        <span class="meta-desc">Curated properties</span>
+      </div>
+      <div class="meta-stat">
+        <span class="meta-num">&lt;3h</span>
+        <span class="meta-desc">From Charlotte</span>
+      </div>
+      <div class="meta-stat">
+        <span class="meta-num">$650</span>
+        <span class="meta-desc">Budget · 2 nights</span>
+      </div>
+      <div class="meta-stat">
+        <span class="meta-num">∅</span>
+        <span class="meta-desc">Shared spaces</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section class="properties">
+
+  <div class="section-intro">
+    <p>Three properties. Each with a private hot tub, mountain or forest setting, and genuine design intent. <strong>Ranked by total experience</strong> — not just amenities. All accessible by sedan. All under $700 for two nights.</p>
+  </div>
+
+  <!-- ——— PROPERTY 1 ——— -->
+  <div class="property-entry" data-observe>
+    <div class="prop-divider">
+      <span class="prop-number top">01</span>
+      <div class="prop-divider-line"></div>
+      <span class="prop-rank-label best">Best Overall</span>
+    </div>
+
+    <div class="prop-grid">
+      <div class="prop-main">
+        <span class="prop-type-badge">Geodesic Dome · Blue Ridge</span>
+        <h2 class="prop-name">The Glamping Collective<br>Ultra Luxe Dome</h2>
+        <div class="prop-location">Clyde, NC — near Asheville · ~2h 30m</div>
+
+        <div class="prop-wow">
+          <p>A 23-foot geodesic dome perched at 4,334 feet. The hot tub and fire table are on your private deck. Forty miles of Blue Ridge in every direction. No lobby, no resort, no crowds — just geometry and sky.</p>
+        </div>
+
+        <p class="prop-body-text">The Ultra Luxe is the highest-privacy tier on a 160-acre mountaintop property — the only unit type with its own privacy fencing and the mountain's best sightlines. Inside: heated bathroom floors, slate tile shower, Breville oven, king bed angled for stargazing through the dome panels, robes and slippers included. Five miles of private on-property trails lead to a summit with sunrise and sunset access. Over 2,000 five-star reviews.</p>
+
+        <div class="feat-pills">
+          <span class="pill pill-amber">🛁 Private Hot Tub</span>
+          <span class="pill pill-green">Fire Table</span>
+          <span class="pill pill-green">King Bed</span>
+          <span class="pill pill-green">Heated Floors</span>
+          <span class="pill pill-green">Slate Tile Shower</span>
+          <span class="pill pill-green">Kitchenette</span>
+          <span class="pill pill-green">Robes + Slippers</span>
+          <span class="pill pill-green">Summit Trail (guests-only)</span>
+          <span class="pill pill-rust">No Shared Spaces</span>
+        </div>
+
+        <p class="hikes-title">Nearby Hikes + Activities</p>
+        <ul class="hike-list">
+          <li>Sunset Summit — private, on-property, guests-only access</li>
+          <li>DuPont State Forest — Triple Falls + High Falls (~45 min)</li>
+          <li>Black Balsam Knob — exposed bald ridge, all-sky views (~1h)</li>
+          <li>Max Patch — 360° panoramic bald summit (~1h)</li>
+          <li>Asheville — world-class restaurants + breweries (~30 min)</li>
+        </ul>
+      </div>
+
+      <div class="prop-sidebar">
+        <div class="sidebar-price-block">
+          <span class="price-label-sm">Est. 2 Nights w/ Fees</span>
+          <div class="price-big">~$610</div>
+          <div class="price-sub">Weekdays trend lower · ~$275–330/night</div>
+          <div class="drive-info">⏱ 2h 30m from Charlotte</div>
+        </div>
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Privacy Level</span>
+            <span class="sm-val">Very High — fenced deck, own parking</span>
+            <div class="privacy-dots">
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Road Access</span>
+            <span class="sm-val">Gravel mountain road. Fine dry. Avoid in ice / heavy rain.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Solo Fit</span>
+            <span class="sm-val">Explicitly built for 1–2 guests. No group energy.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Wow Factor</span>
+            <span class="sm-val">4,334 ft elevation dome. Hot tub under dome panels at night.</span>
+          </div>
+        </div>
+
+        <a class="book-btn" href="https://www.theglampingcollective.com/locations/asheville/ultra-luxe-dome/" target="_blank">
+          Book Direct <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ——— PROPERTY 2 ——— -->
+  <div class="property-entry" data-observe>
+    <div class="prop-divider">
+      <span class="prop-number">02</span>
+      <div class="prop-divider-line"></div>
+      <span class="prop-rank-label">Most Striking Design</span>
+    </div>
+
+    <div class="prop-grid">
+      <div class="prop-main">
+        <span class="prop-type-badge">Mirror Cabin · Smoky Mountain Forest</span>
+        <h2 class="prop-name">Villa Luna<br>Mirror Cabin</h2>
+        <div class="prop-location">Sevierville, TN · Near Smokies NP · ~3h</div>
+
+        <div class="prop-wow">
+          <p>Mirror walls disappear into the forest. The cabin reflects the trees from every angle — architecturally bold from outside, warm and quiet within. Private hot tub under open sky. Genuine forest silence.</p>
+        </div>
+
+        <p class="prop-body-text">Mirror cabins are among the most visually distinctive accommodation forms in the Southeast. This custom-wrapped studio sits tucked in mature Smokies forest, minutes from the national park entrance. The interior is warm and intentionally designed: king bed with forest views, granite counters, custom tile shower, electric fireplace, and a gazebo on site. Built for two max — which means the entire space is yours and entirely private as a solo traveler.</p>
+
+        <div class="feat-pills">
+          <span class="pill pill-amber">🛁 Private Hot Tub</span>
+          <span class="pill pill-green">Fire Pit</span>
+          <span class="pill pill-green">King Bed</span>
+          <span class="pill pill-green">Indoor Fireplace</span>
+          <span class="pill pill-green">Full Kitchen</span>
+          <span class="pill pill-green">Granite Counters</span>
+          <span class="pill pill-green">Custom Tile Shower</span>
+          <span class="pill pill-rust">Full Forest Wrap</span>
+        </div>
+
+        <p class="hikes-title">Nearby Hikes + Activities</p>
+        <ul class="hike-list">
+          <li>Alum Cave Trail → Mt. LeConte — dramatic arch + summit views (~20 min)</li>
+          <li>Laurel Falls — most visited waterfall in the Smokies</li>
+          <li>Chimney Tops Trail — rocky exposed summit hike</li>
+          <li>Abrams Falls — powerful cascade in Cades Cove</li>
+          <li>Gatlinburg art district + local dining (~25 min)</li>
+        </ul>
+      </div>
+
+      <div class="prop-sidebar">
+        <div class="sidebar-price-block">
+          <span class="price-label-sm">Est. 2 Nights w/ Fees</span>
+          <div class="price-big">~$530</div>
+          <div class="price-sub">Weeknights avg. ~$220–270/night</div>
+          <div class="drive-info">⏱ ~3h from Charlotte</div>
+        </div>
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Privacy Level</span>
+            <span class="sm-val">Very High — standalone cabin, no shared areas</span>
+            <div class="privacy-dots">
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Road Access</span>
+            <span class="sm-val">Sedan-friendly paved roads. Easy access.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Caveat</span>
+            <span class="sm-val">Sevierville area has tourist activity — cabin itself is secluded.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Wow Factor</span>
+            <span class="sm-val">Mirror exterior vanishes into the forest. Visually unforgettable.</span>
+          </div>
+        </div>
+
+        <a class="book-btn" href="https://www.airbnb.com/rooms/1426964082088758028" target="_blank">
+          Book on Airbnb <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ——— PROPERTY 3 ——— -->
+  <div class="property-entry" data-observe>
+    <div class="prop-divider">
+      <span class="prop-number">03</span>
+      <div class="prop-divider-line"></div>
+      <span class="prop-rank-label">Maximum Immersion</span>
+    </div>
+
+    <div class="prop-grid">
+      <div class="prop-main">
+        <span class="prop-type-badge">Treehouse Tiny House · Cherokee NF</span>
+        <h2 class="prop-name">Luxury Treehouse<br>on 34 Acres</h2>
+        <div class="prop-location">Tellico Plains, TN · Cherokee National Forest · ~2h 45m</div>
+
+        <div class="prop-wow">
+          <p>Thirty-four private acres bordering Cherokee National Forest. The loft bedroom sits in the canopy. A 14-foot outdoor fireplace anchors your covered porch. Champagne and firewood waiting when you arrive.</p>
+        </div>
+
+        <p class="prop-body-text">The most off-grid experience of the three — and the most private. The property borders the national forest directly, so the wild landscape is protected in every direction. The 14×16 covered outdoor living space with an oversize fireplace is extraordinary, letting you exist outdoors in all weather. Robes, complimentary champagne, snacks, and a bundle of firewood are included. Hot tub on property. This is the pick if deep solitude matters more than architectural polish.</p>
+
+        <div class="feat-pills">
+          <span class="pill pill-amber">🛁 Hot Tub</span>
+          <span class="pill pill-green">14ft Outdoor Fireplace</span>
+          <span class="pill pill-green">Private Trails On-Site</span>
+          <span class="pill pill-green">Robes Included</span>
+          <span class="pill pill-green">Champagne + Snacks</span>
+          <span class="pill pill-green">Grill</span>
+          <span class="pill pill-green">34-Acre Property</span>
+          <span class="pill pill-rust">NF Border Access</span>
+        </div>
+
+        <p class="hikes-title">Nearby Hikes + Activities</p>
+        <ul class="hike-list">
+          <li>On-property private trail system — included with stay</li>
+          <li>Bald River Falls — one of Tennessee's most iconic cascades (~30 min)</li>
+          <li>Unicoi Mountains backcountry — Cherokee NF system</li>
+          <li>Ocoee River gorge — whitewater scenery (~45 min)</li>
+          <li>Hiwassee River — fly fishing and calm floats</li>
+        </ul>
+      </div>
+
+      <div class="prop-sidebar">
+        <div class="sidebar-price-block">
+          <span class="price-label-sm">Est. 2 Nights w/ Fees</span>
+          <div class="price-big">~$460</div>
+          <div class="price-sub">Most budget-friendly of the three</div>
+          <div class="drive-info">⏱ ~2h 45m from Charlotte</div>
+        </div>
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Privacy Level</span>
+            <span class="sm-val">Maximum — 34 acres, national forest border</span>
+            <div class="privacy-dots">
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+              <div class="dot filled max"></div>
+            </div>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Road Access</span>
+            <span class="sm-val">Rural TN roads — sedan fine in dry weather. Check conditions.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Solo Fit</span>
+            <span class="sm-val">2-person max. Solo = total ownership of 34 acres.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Trade-off</span>
+            <span class="sm-val">Less design polish than the dome. Greater raw immersion.</span>
+          </div>
+        </div>
+
+        <a class="book-btn" href="https://www.airbnb.com/s/Tellico-Plains--TN/homes?query=treehouse%20cherokee%20national%20forest&adults=1" target="_blank">
+          Search on Airbnb <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ——— PROPERTY 4 ——— -->
+  <div class="property-entry" data-observe>
+    <div class="prop-divider">
+      <span class="prop-number">04</span>
+      <div class="prop-divider-line"></div>
+      <span class="prop-rank-label">Best Value · Monteagle Plateau</span>
+    </div>
+
+    <div class="prop-grid">
+      <div class="prop-main">
+        <span class="prop-type-badge">Scandinavian Treehouse · Cumberland Plateau</span>
+        <h2 class="prop-name">Terralodge<br>Scandinavian Treehouse</h2>
+        <div class="prop-location">Monteagle, TN · South Cumberland · ~3h 15m</div>
+
+        <div class="prop-wow">
+          <p>A West Elm-furnished treehouse perched in 30 wooded acres on Monteagle Mountain. King loft bed, smokeless firepit, private hot tub on deck. Ten minutes from some of the Southeast's most underrated trail systems.</p>
+        </div>
+
+        <p class="prop-body-text">Terralodge is one of the Southeast's most thoughtfully assembled nature retreat properties — 30 acres on the Cumberland Plateau with four accommodation types, every single unit equipped with a private hot tub and firepit. The Scandinavian treehouse has a loft king bed, West Elm furnishings, full kitchen, fiber WiFi, 4K TV, and a private deck with smokeless Solo Stove firepit and hot tub. The surrounding area is dramatically underrated: South Cumberland State Park and the Fiery Gizzard Trail are 10 minutes away, with Foster Falls — a stunning 60-foot cascade you can swim under — nearby. Monteagle itself has real restaurants and coffee shops, unlike many mountain retreat zones. Starting from ~$160/night, this is the sharpest value on this entire list.</p>
+
+        <div class="feat-pills">
+          <span class="pill pill-amber">🛁 Private Hot Tub</span>
+          <span class="pill pill-green">Smokeless Firepit</span>
+          <span class="pill pill-green">King Loft Bed</span>
+          <span class="pill pill-green">West Elm Furnishings</span>
+          <span class="pill pill-green">Full Kitchen</span>
+          <span class="pill pill-green">Fiber WiFi</span>
+          <span class="pill pill-green">Private Deck</span>
+          <span class="pill pill-green">Hammock</span>
+          <span class="pill pill-rust">30 Wooded Acres</span>
+        </div>
+
+        <p class="hikes-title">Nearby Hikes + Activities</p>
+        <ul class="hike-list">
+          <li>Fiery Gizzard Trail — South Cumberland's crown jewel (~10 min)</li>
+          <li>Foster Falls — 60ft cascade with swimming hole (~10 min)</li>
+          <li>Grundy Forest Day Loop — old-growth hemlock gorge</li>
+          <li>The Caverns — bluegrass concerts inside a literal cave (~25 min)</li>
+          <li>Sewanee: The University of the South — stunning campus + trails (~15 min)</li>
+        </ul>
+      </div>
+
+      <div class="prop-sidebar">
+        <div class="sidebar-price-block">
+          <span class="price-label-sm">Est. 2 Nights w/ Fees</span>
+          <div class="price-big">~$400</div>
+          <div class="price-sub">From $160/night · sharpest value on the list</div>
+          <div class="drive-info">⏱ ~3h 15m from Charlotte</div>
+        </div>
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Privacy Level</span>
+            <span class="sm-val">High — own deck, hot tub, firepit. Other units on property.</span>
+            <div class="privacy-dots">
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Road Access</span>
+            <span class="sm-val">Paved roads. Easy sedan access. No mountain gravel.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Solo Fit</span>
+            <span class="sm-val">Intimate 1–2 person unit. Great for solo solo work-or-rest trip.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Why #4 not higher</span>
+            <span class="sm-val">Other units share the 30-acre property. Less total isolation than top 3.</span>
+          </div>
+        </div>
+
+        <a class="book-btn" href="https://www.airbnb.com/rooms/701394401566165774" target="_blank">
+          Book on Airbnb <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ——— PROPERTY 5 ——— -->
+  <div class="property-entry" data-observe>
+    <div class="prop-divider">
+      <span class="prop-number">05</span>
+      <div class="prop-divider-line"></div>
+      <span class="prop-rank-label">Hidden Gem · Peaceful Side of the Smokies</span>
+    </div>
+
+    <div class="prop-grid">
+      <div class="prop-main">
+        <span class="prop-type-badge">Geodesic Dome · Smoky Mountain Ridgeline</span>
+        <h2 class="prop-name">Thunderhead Ridge<br>Luxury Dome</h2>
+        <div class="prop-location">Townsend, TN · "Peaceful Side of the Smokies" · ~3h 15m</div>
+
+        <div class="prop-wow">
+          <p>A geodesic dome overlooking Thunderhead Mountain and the Great Smoky Mountains — on the quiet, uncrowded Townsend side. Private hot tub, heated bathroom floors, king bed, sweeping Smokies views. None of the Pigeon Forge chaos.</p>
+        </div>
+
+        <p class="prop-body-text">Townsend is deliberately positioned as the "Peaceful Side of the Smokies" — no strip malls, no Dollywood adjacency, just direct access into the national park via the Townsend entrance. Thunderhead Ridge sits on the mountain itself, with the Boujee Bear and Wild As A Mink domes both offering private hot tubs, fire pits, gas grills, king beds, heated bathroom floors, and direct sightlines to Thunderhead peak. The property is smaller and less polished than the Glamping Collective but earns strong reviews and offers genuine Smokies immersion without the Sevierville circus. A solid alternative if the other dome options are booked.</p>
+
+        <div class="feat-pills">
+          <span class="pill pill-amber">🛁 Private Hot Tub</span>
+          <span class="pill pill-green">Fire Pit</span>
+          <span class="pill pill-green">King Bed</span>
+          <span class="pill pill-green">Heated Bathroom Floors</span>
+          <span class="pill pill-green">Gas Grill + Air Fryer</span>
+          <span class="pill pill-green">43" Smart TV</span>
+          <span class="pill pill-green">AC + Heat</span>
+          <span class="pill pill-rust">Smokies Ridgeline Views</span>
+        </div>
+
+        <p class="hikes-title">Nearby Hikes + Activities</p>
+        <ul class="hike-list">
+          <li>Abrams Falls Trail — Cades Cove, powerful waterfall (~15 min)</li>
+          <li>Cades Cove Loop — wildlife, historic buildings, mountain views</li>
+          <li>Alum Cave Trail → Mt. LeConte (~45 min from Townsend entrance)</li>
+          <li>Laurel Creek Road — one of GSMNP's most scenic drives</li>
+          <li>Maryville — low-key college town with good food (~20 min)</li>
+        </ul>
+      </div>
+
+      <div class="prop-sidebar">
+        <div class="sidebar-price-block">
+          <span class="price-label-sm">Est. 2 Nights w/ Fees</span>
+          <div class="price-big">~$460</div>
+          <div class="price-sub">Mid-range; check direct site for rates</div>
+          <div class="drive-info">⏱ ~3h 15m from Charlotte</div>
+        </div>
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Privacy Level</span>
+            <span class="sm-val">High — own deck and hot tub per dome unit</span>
+            <div class="privacy-dots">
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot filled"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Road Access</span>
+            <span class="sm-val">Paved mountain road. Easy sedan access. Well-reviewed for access.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Key Advantage</span>
+            <span class="sm-val">Townsend entrance = no Pigeon Forge/Gatlinburg crowds to navigate.</span>
+          </div>
+          <div class="sidebar-meta-item">
+            <span class="sm-key">Why #5 not higher</span>
+            <span class="sm-val">Kitchenette lacks stovetop/oven. Smaller property than top picks.</span>
+          </div>
+        </div>
+
+        <a class="book-btn" href="https://www.thunderheadridgegetaways.com/lodging/luxury-glamping-domes/" target="_blank">
+          Book Direct <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- AVOID -->
+  <div class="avoid-section">
+    <p class="avoid-title">Deliberately excluded</p>
+    <div class="avoid-items">
+      <span class="avoid-item">Bolt Farm Treehouse ($650–1000+/night)</span>
+      <span class="avoid-item">Group resort properties</span>
+      <span class="avoid-item">Pigeon Forge strip adjacents</span>
+      <span class="avoid-item">Dated rustic log cabins</span>
+      <span class="avoid-item">Shared glamping campgrounds</span>
+      <span class="avoid-item">4WD-required driveways</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- CURATOR'S NOTE -->
+<div class="curators-note">
+  <span class="cn-label">Curator's note</span>
+  <p class="cn-text">Bolt Farm Treehouse is genuinely extraordinary — but at $650–1,000+ per night it runs double your budget and is designed as a couples experience. The Glamping Collective Ultra Luxe Dome reaches the same emotional altitude at a fraction of the cost, and is built for one or two. Book a weekday stretch to land closer to $550. If budget ever opens up, Bolt Farm is worth saving for. For this trip: the dome is the move.</p>
+</div>
+
+<footer>
+  <span class="footer-brand">Into the Range</span>
+  <span class="footer-note">Curated solo escape · Charlotte, NC · 2026</span>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+// Scroll reveal
+const entries = document.querySelectorAll('[data-observe]');
+const io = new IntersectionObserver((obs) => {
+  obs.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+entries.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

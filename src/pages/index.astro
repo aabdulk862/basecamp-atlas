@@ -1,0 +1,166 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { loadVerticals } from '@/lib/verticals';
+import { getCollection } from 'astro:content';
+import { apartments } from '@/data/apartments';
+
+const verticals = loadVerticals();
+const properties = await getCollection('properties');
+const regions = await getCollection('regions');
+
+// Accent colors per vertical for card styling
+const accentColors: Record<string, string> = {
+  live: 'hsl(199 89% 48%)',
+  escape: '#c8943a',
+};
+
+// Preview: first 3 properties from escape vertical
+const escapePreview = properties.slice(0, 3);
+
+// Preview: first 3 apartments from live vertical
+const livePreview = apartments.slice(0, 3);
+---
+
+<BaseLayout
+  title="Basecamp Atlas"
+  description="Basecamp Atlas is a lifestyle discovery platform for Charlotte-area living and curated mountain retreats within driving distance."
+>
+  <main class="min-h-screen px-4 py-16 md:px-8 lg:px-16 max-w-7xl mx-auto">
+    <!-- Hero / Brand Identity -->
+    <header class="text-center mb-20">
+      <h1 class="mb-4">Basecamp Atlas</h1>
+      <p class="text-2xl md:text-3xl font-light" style="color: var(--text-secondary); font-family: var(--font-heading);">
+        Discover where to live and where to escape
+      </p>
+      <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">
+        A lifestyle discovery platform pairing Charlotte apartment living with curated nature retreats in the Southern Appalachians — all within driving distance.
+      </p>
+    </header>
+
+    <!-- Vertical Entry Point Cards -->
+    <section class="mb-20" aria-labelledby="verticals-heading">
+      <h2 id="verticals-heading" class="text-center mb-10">Explore</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        {verticals.map((v) => (
+          <a
+            href={v.routePrefix}
+            class="block rounded-xl p-8 transition-transform hover:scale-[1.02]"
+            style={`background: var(--surface-elevated); border: 1px solid var(--border-subtle);`}
+          >
+            <div
+              class="w-3 h-3 rounded-full mb-4"
+              style={`background: ${accentColors[v.id] || 'var(--accent-primary)'};`}
+            ></div>
+            <h3 style={`color: ${accentColors[v.id] || 'var(--text-primary)'};`}>{v.name}</h3>
+            <p class="mt-2" style="color: var(--text-secondary);">{v.description}</p>
+            <span
+              class="inline-block mt-4 text-sm font-medium"
+              style={`color: ${accentColors[v.id] || 'var(--accent-primary)'};`}
+            >
+              Enter {v.name} →
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Live Vertical Preview Cards -->
+    <section class="mb-20" aria-labelledby="live-preview-heading">
+      <h2 id="live-preview-heading" class="mb-8">Charlotte Apartments</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {livePreview.map((apt) => (
+          <div
+            class="rounded-lg p-6"
+            style="background: var(--surface-elevated); border: 1px solid var(--border-subtle);"
+          >
+            <h4 class="mb-2">{apt.name}</h4>
+            <p class="text-sm mb-1" style="color: var(--text-secondary);">
+              {apt.neighborhood}
+            </p>
+            <p class="text-sm" style="color: var(--text-muted);">
+              ${apt.rentMin.toLocaleString()}–${apt.rentMax?.toLocaleString() ?? '?'}/mo
+            </p>
+            <p class="text-sm mt-2" style="color: var(--text-muted);">
+              Score: {apt.overallScore}/10
+            </p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-6 text-center">
+        <a
+          href="/live"
+          class="inline-block text-sm font-medium"
+          style="color: hsl(199 89% 48%);"
+        >
+          View all apartments →
+        </a>
+      </div>
+    </section>
+
+    <!-- Escape Vertical Preview Cards -->
+    <section class="mb-20" aria-labelledby="escape-preview-heading">
+      <h2 id="escape-preview-heading" class="mb-8">Nature Retreats</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {escapePreview.map((prop) => (
+          <div
+            class="rounded-lg p-6"
+            style="background: var(--surface-elevated); border: 1px solid var(--border-subtle);"
+          >
+            <h4 class="mb-2">{prop.data.name}</h4>
+            <p class="text-sm mb-1" style="color: var(--text-secondary);">
+              {prop.data.stayType} · {prop.data.region}
+            </p>
+            <p class="text-sm" style="color: var(--text-muted);">
+              ${prop.data.priceRange.min}–${prop.data.priceRange.max}/night
+            </p>
+            <p class="text-sm mt-2 line-clamp-2" style="color: var(--text-muted);">
+              {prop.data.wowFactor}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-6 text-center">
+        <a
+          href="/escape"
+          class="inline-block text-sm font-medium"
+          style="color: #c8943a;"
+        >
+          Browse all retreats →
+        </a>
+      </div>
+    </section>
+
+    <!-- Destination Regions (internal links for SEO) -->
+    <section aria-labelledby="regions-heading">
+      <h2 id="regions-heading" class="mb-8">Destination Regions</h2>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {regions.map((region) => (
+          <a
+            href={`/escape/${region.id}`}
+            class="block rounded-lg p-4 transition-colors"
+            style="background: var(--surface-elevated); border: 1px solid var(--border-subtle);"
+          >
+            <h5 class="mb-1">{region.data.name}</h5>
+            <p class="text-xs line-clamp-2" style="color: var(--text-muted);">
+              {region.data.description}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" slot="json-ld" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Basecamp Atlas",
+    "url": "https://basecamp-atlas.vercel.app",
+    "description": "A lifestyle discovery platform pairing Charlotte apartment living with curated nature retreats in the Southern Appalachians.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://basecamp-atlas.vercel.app/escape?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  })} />
+</BaseLayout>

@@ -1,63 +1,115 @@
-# Charlotte Apartment Finder
+# Basecamp Atlas
 
-An interactive map-based apartment search tool for Charlotte, NC. Browse 50 curated apartments with filtering by rent, neighborhood, amenities, and livability scores — all visualized on a Leaflet map with color-coded markers.
+A unified lifestyle discovery platform for the Southeast U.S. — curated apartments and vacation retreats, organized by destination, with an opinionated editorial voice.
+
+## Verticals
+
+### `/live` — Apartment Finder
+Interactive map-based apartment search for Charlotte, NC. Browse 37 curated apartments with filtering by rent, neighborhood, amenities, and livability scores — visualized on a Leaflet map with color-coded markers.
+
+### `/escape` — Retreat Guide
+Curated luxury nature retreats within driving distance of major Southeast cities. Geodesic domes, treehouses, mirror cabins, A-frames, and more — organized by destination region with editorial reviews, privacy ratings, and drive time context.
 
 ## Features
 
-- **Interactive Map** — Leaflet map centered on Charlotte with color-coded markers (green = high score, red = low). Favorited apartments get a red border ring.
-- **List View** — Toggle between map and a card/table view. Mobile shows a scrollable card layout; desktop shows a full table with color-coded scores.
-- **Compare Mode** — Select 2+ favorites and compare them side-by-side across all scoring dimensions.
-- **Filter Sidebar** — Rent range slider, neighborhood checkboxes, washer/dryer select, and minimum score sliders (safety, walkability, transit, entertainment).
-- **URL-Persisted Filters** — Filter state is synced to query params so you can share a filtered view (e.g., `?neighborhoods=NoDa,Elizabeth&minSafety=7`).
-- **Favorites** — Heart any apartment to save it. Favorites persist in localStorage. Toggle "favorites only" mode to compare your shortlist.
-- **Detail Card** — Click any marker or list row to view a detailed card with scores, notes, nearby attractions, score weighting tooltip, and a link to the listing.
-- **Score Transparency** — Hover the overall score badge to see the weighting formula: Safety 30%, Walkability 30%, Transit 20%, Entertainment 20%.
-- **CSV Export** — Download all displayed apartments as a CSV from the list view.
-- **Responsive Mobile** — Sidebar collapses into a slide-out drawer on mobile. Cards use native scroll for smooth touch interaction. Toolbar provides quick access to filters and view toggle.
-- **Lazy-Loaded Map** — Leaflet is code-split and lazy-loaded with a loading spinner for faster initial paint.
-- **Dark Theme** — Permanent deep blue slate palette with Inter font.
+### Apartment Finder (`/live`)
+- **Interactive Map** — Leaflet map with color-coded markers (green = high score, red = low)
+- **List View** — Toggle between map and card/table view
+- **Compare Mode** — Select 2+ favorites and compare side-by-side
+- **Filter Sidebar** — Rent range, neighborhood, washer/dryer, minimum score sliders
+- **URL-Persisted Filters** — Share filtered views via query params
+- **Favorites** — localStorage-persisted shortlist
+- **Score Transparency** — Weighted formula: Safety 30%, Walkability 30%, Transit 20%, Entertainment 20%
+- **CSV Export** — Download filtered apartments as CSV
+
+### Retreat Guide (`/escape`)
+- **Destination Regions** — Asheville/Blue Ridge, Smokies, South Cumberland, North Georgia, Shenandoah VA, New River Gorge WV, Upstate SC
+- **Browse & Filter** — Region, stay type, price range, drive time, privacy level, amenities
+- **Property Detail Pages** — Full editorial reviews with two-column cinematic layout
+- **Drive Time Context** — Times from 8 origin cities (Charlotte, Atlanta, Nashville, Richmond, Charleston WV, Greenville, Raleigh, Asheville)
+- **Seasonal Guides** — Fall foliage, winter hot tub, summer waterfall editorial collections
+- **Curation Standards** — Every property: private (≥3/5), hot tub required, sedan-accessible, wow factor
+
+### Shared
+- **Dark Cinematic Design** — Deep dark backgrounds, Playfair Display + Jost typography
+- **Vertical-Specific Palettes** — Blue-slate (apartments) and amber/moss (retreats)
+- **Shared Navigation** — Fixed nav connecting both sections with active state indicators
+- **Cinematic Effects** — Film grain overlay, custom cursor, scroll-reveal animations (opt-in)
+- **Static Deployment** — Pre-rendered HTML, optimized images, sitemap, SEO meta tags
+- **Extensible Vertical System** — Add new discovery sections via config files
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | React 19 |
+| Framework | Astro 5 (static output) |
+| UI Components | React 19 (as Astro islands) |
 | Language | TypeScript (strict mode) |
-| Build | Vite 6 |
 | Styling | Tailwind CSS v4 + CSS custom properties |
-| UI Components | shadcn/ui (Radix UI + CVA + tailwind-merge) |
+| UI Primitives | shadcn/ui (Radix UI + CVA + tailwind-merge) |
 | Map | Leaflet + react-leaflet (lazy-loaded) |
-| Routing | Wouter |
+| Content | Astro Content Collections (Markdown + Zod) |
 | Icons | Lucide React |
-| Animations | Framer Motion (available) |
-| Font | Inter (Google Fonts) |
+| Typography | Playfair Display + Jost (self-hosted) |
+| Testing | Vitest + fast-check (property-based) |
+| Deployment | Vercel / Cloudflare Pages (static) |
 
 ## Project Structure
 
 ```
 src/
-├── App.tsx                    # Root component, routing setup
-├── main.tsx                   # Entry point
-├── index.css                  # Tailwind imports, theme variables, utilities
+├── content/                     # Astro content collections
+│   ├── config.ts                # Zod schemas for all collections
+│   ├── properties/              # Retreat property .md files
+│   ├── regions/                 # Destination region .md files
+│   ├── origin-cities/           # Origin city data files
+│   └── seasonal-guides/         # Seasonal editorial .md files
+├── verticals/                   # Vertical registry configs
+│   ├── live.json                # Apartment finder config
+│   └── escape.json              # Retreat guide config
+├── layouts/
+│   ├── BaseLayout.astro         # HTML shell, meta, fonts
+│   ├── VerticalLayout.astro     # Palette injection, nav
+│   └── PropertyLayout.astro     # Two-column detail layout
+├── pages/
+│   ├── index.astro              # Landing page (/)
+│   ├── live/index.astro         # Apartment finder (/live)
+│   └── escape/
+│       ├── index.astro          # Retreat browse (/escape)
+│       ├── [region].astro       # Region pages
+│       ├── [region]/[property].astro  # Property detail
+│       └── seasonal/[guide].astro     # Seasonal guides
 ├── components/
-│   ├── ApartmentDetailCard.tsx  # Detail overlay with scores & favorites
-│   ├── ApartmentListView.tsx    # Card (mobile) / table (desktop) list view
-│   ├── CompareView.tsx          # Side-by-side comparison of favorited apartments
-│   ├── FilterSidebar.tsx        # Filter controls panel
-│   ├── MapView.tsx              # Leaflet map with markers
-│   └── ui/                      # 55 shadcn/ui components
+│   ├── ApartmentFinder.tsx      # Apartment island wrapper
+│   ├── FilterSidebar.tsx        # Apartment filter controls
+│   ├── MapView.tsx              # Leaflet map
+│   ├── ApartmentListView.tsx    # List/table view
+│   ├── CompareView.tsx          # Side-by-side comparison
+│   ├── retreat/                 # Retreat-specific components
+│   │   ├── RetreatBrowse.tsx    # Browse + filter island
+│   │   ├── RetreatFilterSidebar.tsx
+│   │   └── PropertyCard.tsx
+│   ├── shared/                  # Cross-vertical components
+│   │   ├── Navigation.tsx
+│   │   └── MobileMenu.tsx
+│   └── ui/                      # 55 shadcn/ui components (unchanged)
 ├── data/
-│   └── apartments.ts          # Static dataset (50 apartments) + score weighting constants
+│   └── apartments.ts            # Static apartment array (37 entries)
 ├── hooks/
-│   ├── use-apartment-filters.ts  # Filter state, URL sync, filtering logic
-│   ├── use-favorites.ts          # localStorage-backed favorites
-│   ├── use-mobile.tsx
-│   └── use-toast.ts
+│   ├── use-apartment-filters.ts # Apartment filter state + URL sync
+│   ├── use-retreat-filters.ts   # Retreat filter state + URL sync
+│   ├── use-favorites.ts         # localStorage favorites
+│   └── use-score-weights.ts     # Configurable score weights
 ├── lib/
-│   └── utils.ts               # cn() utility (clsx + tailwind-merge)
-└── pages/
-    ├── Map.tsx                # Main page (layout shell composing feature components)
-    └── not-found.tsx          # 404 page
+│   ├── utils.ts                 # cn() utility
+│   ├── verticals.ts             # Vertical registry loader
+│   └── drive-time.ts            # Drive time formatting
+└── styles/
+    ├── global.css               # Tailwind imports + shared tokens
+    ├── palettes/
+    │   ├── live.css             # Blue-slate palette
+    │   └── escape.css           # Amber/moss palette
+    └── effects.css              # Film grain, cursor, scroll-reveal
 ```
 
 ## Getting Started
@@ -70,17 +122,14 @@ src/
 ### Run Locally
 
 ```bash
-# Install dependencies
 npm install
-
-# Start dev server (defaults to port 5173)
 npm run dev
 ```
 
 ### Build
 
 ```bash
-# Production build (output: dist/)
+# Production build (static output to dist/)
 npm run build
 
 # Preview production build
@@ -93,37 +142,61 @@ npm run preview
 npm run typecheck
 ```
 
-## Score Weighting
+### Test
 
-The overall score for each apartment is calculated as:
+```bash
+npm run test
+```
+
+## Adding Content
+
+### New Retreat Property
+
+Create a Markdown file in `src/content/properties/` with frontmatter:
+
+```yaml
+---
+name: "Property Name"
+slug: "property-name"
+region: "asheville-blue-ridge"
+stayType: "geodesic dome"
+priceRange:
+  min: 275
+  max: 330
+driveTimes:
+  charlotte: 150
+  atlanta: 210
+privacyLevel: 4
+amenities: ["hot tub", "fire pit", "king bed"]
+wowFactor: "A compelling 20-300 character description of what makes this special."
+bookingUrl: "https://property-website.com/book"
+coordinates: { lat: 35.5, lng: -82.9 }
+nearbyHikes:
+  - { name: "Trail Name", distance: "15 min drive" }
+roadAccess: "sedan-friendly"
+---
+
+Editorial description in Markdown...
+```
+
+### New Destination Region
+
+Create a Markdown file in `src/content/regions/` with name, slug, description (≥ 50 chars), highlights list, and coordinates.
+
+### New Origin City
+
+Create a data file in `src/content/origin-cities/` with name, slug, and coordinates.
+
+## Score Weighting (Apartments)
 
 ```
 overallScore = (safety × 0.3) + (walkability × 0.3) + (transit × 0.2) + (entertainment × 0.2)
 ```
 
-Each individual score is rated 1–10 based on neighborhood data. The weighting reflects that safety and walkability are prioritized over transit and entertainment access.
-
-## Data
-
-All apartment data lives in `src/data/apartments.ts` as a static typed array of 50 entries. Each apartment includes:
-
-- Name, address, neighborhood, zip code
-- Lat/lng coordinates for map placement
-- Rent range (min/max)
-- Unit types and washer/dryer availability
-- Four category scores (1–10): safety, walkability, transit, entertainment
-- Overall score (weighted composite)
-- Google rating (where available)
-- Nearby attractions and notes
-- Direct URL to the property's own website
-
-## Scripts
-
-| Script | Description |
-|--------|-------------|
-| `generate-kml.js` | Generates `apartments.kml` for Google Earth/Maps import |
-| `scripts/fetch-google-ratings.py` | Fetches Google ratings for apartments |
-
 ## Roadmap
 
 See [ROADMAP.md](./ROADMAP.md) for the business and technical roadmap.
+
+## Spec
+
+See [.kiro/specs/astro-retreat-integration/](/.kiro/specs/astro-retreat-integration/) for the full requirements, design, and implementation plan.

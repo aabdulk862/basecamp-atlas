@@ -61,7 +61,7 @@ function downloadCSV(apartments: Apartment[], favorites: string[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'charlotte-apartments.csv';
+  a.download = 'basecamp-atlas-apartments.csv';
   a.click();
   URL.revokeObjectURL(url);
 }

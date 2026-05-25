@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import VerticalLayout from '@/layouts/VerticalLayout.astro';
+import { RetreatBrowse } from '@/components/retreat/RetreatBrowse.tsx';
+
+// Fetch all content collections
+const allProperties = await getCollection('properties');
+const allRegions = await getCollection('regions');
+const allOriginCities = await getCollection('originCities');
+
+// Serialize properties into the format expected by RetreatBrowse
+const properties = allProperties.map((entry) => ({
+  slug: entry.id,
+  name: entry.data.name,
+  region: entry.data.region,
+  stayType: entry.data.stayType,
+  priceRange: entry.data.priceRange,
+  driveTimes: entry.data.driveTimes,
+  privacyLevel: entry.data.privacyLevel,
+  amenities: entry.data.amenities,
+  wowFactor: entry.data.wowFactor,
+  coordinates: entry.data.coordinates,
+  nearbyHikes: entry.data.nearbyHikes,
+  bookingUrl: entry.data.bookingUrl,
+}));
+
+// Serialize regions as { slug, name }
+const regions = allRegions.map((entry) => ({
+  slug: entry.id,
+  name: entry.data.name,
+}));
+
+// Serialize origin cities as { slug, name }
+const originCities = allOriginCities.map((entry) => ({
+  slug: entry.data.slug || entry.id,
+  name: entry.data.name,
+}));
+
+// The ?stayType= query param for pre-applied filter presets is handled
+// client-side by useRetreatFilters which reads from window.location.search
+---
+
+<VerticalLayout
+  vertical="escape"
+  title="Curated Nature Retreats | Basecamp Atlas"
+  description="Discover curated vacation stays — domes, treehouses, cabins, and more — all within driving distance, with hot tubs, privacy, and sedan-friendly access."
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1
+        class="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading,Playfair_Display)]"
+        style="color: var(--text-primary);"
+      >
+        Escape
+      </h1>
+      <p class="mt-2 text-lg" style="color: var(--text-secondary);">
+        Curated nature retreats within driving distance
+      </p>
+    </header>
+
+    <RetreatBrowse
+      client:load
+      properties={properties}
+      regions={regions}
+      originCities={originCities}
+    />
+  </div>
+</VerticalLayout>

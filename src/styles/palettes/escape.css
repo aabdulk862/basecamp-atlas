@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Escape Vertical Palette — Amber/moss/rust
+   Applied via [data-vertical="escape"] on the layout wrapper
+   Background lightness ≤ 11% HSL for cinematic dark aesthetic
+   ========================================================================== */
+
+[data-vertical="escape"] {
+  --palette-surface-base: #0d0c0a;               /* Near-black warm */
+  --palette-surface-elevated: #1a1814;           /* Charcoal */
+  --palette-surface-overlay: #231f1a;            /* Warm dark */
+  --palette-text-primary: #f5f1ea;              /* Warm white */
+  --palette-text-secondary: #e8e0d0;            /* Cream */
+  --palette-text-muted: #6b6358;                /* Ash */
+  --palette-accent-primary: #c8943a;            /* Amber */
+  --palette-accent-secondary: #6b7c5a;          /* Moss */
+  --palette-accent-tertiary: #a0543a;           /* Rust */
+  --palette-border-subtle: rgba(58, 53, 48, 0.6);
+  --palette-border-default: rgba(184, 169, 142, 0.1);
+}

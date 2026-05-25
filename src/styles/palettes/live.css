@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Live Vertical Palette — Blue-slate
+   Applied via [data-vertical="live"] on the layout wrapper
+   Background lightness ≤ 11% HSL for cinematic dark aesthetic
+   ========================================================================== */
+
+[data-vertical="live"] {
+  --palette-surface-base: hsl(222 47% 11%);      /* #0f172a */
+  --palette-surface-elevated: hsl(217 32% 17%);  /* #1e293b */
+  --palette-surface-overlay: hsl(216 34% 17%);
+  --palette-text-primary: hsl(213 31% 91%);
+  --palette-text-secondary: hsl(215 20% 65%);
+  --palette-text-muted: hsl(215 16% 47%);
+  --palette-accent-primary: hsl(199 89% 48%);    /* Cyan/blue */
+  --palette-accent-secondary: hsl(286 65% 58%);
+  --palette-accent-tertiary: hsl(340 75% 55%);
+  --palette-border-subtle: hsl(216 34% 17%);
+  --palette-border-default: hsl(216 34% 22%);
+}

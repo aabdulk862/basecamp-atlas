@@ -1,0 +1,99 @@
+/* ==========================================================================
+   Cinematic Effects — Opt-in Utility Classes
+   All effects are inactive by default. Add the class to an element to activate.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Film Grain Overlay
+   Usage: Add class="grain-overlay" to a container element.
+   Creates a fixed full-screen grain texture using SVG fractalNoise.
+   -------------------------------------------------------------------------- */
+
+.grain-overlay {
+  position: relative;
+}
+
+.grain-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+}
+
+/* --------------------------------------------------------------------------
+   Custom Cursor
+   Usage: Add class="custom-cursor" to body or a container element.
+   Renders an amber dot with a lagging ring that follows the pointer.
+   Requires two child elements: .cursor-dot and .cursor-ring
+   -------------------------------------------------------------------------- */
+
+.custom-cursor {
+  cursor: none;
+}
+
+.custom-cursor .cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: #c8943a; /* Amber accent from escape palette */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease;
+}
+
+.custom-cursor .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(200, 148, 58, 0.5); /* Amber with transparency */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, width 0.2s ease, height 0.2s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll Reveal
+   Usage: Add class="scroll-reveal" to elements that should fade up on scroll.
+   Elements start hidden (opacity 0, translated down 40px) and transition to
+   visible (opacity 1, translateY 0) when the .visible class is added.
+
+   NOTE: Requires a small JavaScript snippet using IntersectionObserver to
+   observe .scroll-reveal elements and add the .visible class when they
+   enter the viewport. Example:
+
+     const observer = new IntersectionObserver((entries) => {
+       entries.forEach((entry) => {
+         if (entry.isIntersecting) {
+           entry.target.classList.add('visible');
+           observer.unobserve(entry.target);
+         }
+       });
+     }, { threshold: 0.1 });
+
+     document.querySelectorAll('.scroll-reveal').forEach((el) => {
+       observer.observe(el);
+     });
+   -------------------------------------------------------------------------- */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

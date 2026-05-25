@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Navigation from '@/components/shared/Navigation.tsx';
+import { loadVerticals } from '@/lib/verticals';
+
+interface Props {
+  vertical: string;
+  title: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogType?: string;
+  ogUrl?: string;
+  canonical?: string;
+}
+
+const {
+  vertical,
+  title,
+  description,
+  ogTitle,
+  ogDescription,
+  ogType,
+  ogUrl,
+  canonical,
+} = Astro.props;
+
+const verticals = loadVerticals();
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  ogType={ogType}
+  ogUrl={ogUrl}
+  canonical={canonical}
+>
+  <div data-vertical={vertical}>
+    <Navigation client:load verticals={verticals} activeVertical={vertical} />
+    <main class="pt-16">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

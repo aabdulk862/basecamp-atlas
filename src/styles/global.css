@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Font Face Declarations — Self-hosted in public/fonts/
+   ========================================================================== */
+
+/* Playfair Display — Variable font for headings (h1–h6) */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/playfair-display-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/playfair-display-italic.woff2") format("woff2");
+}
+
+/* Jost — Variable font for body text */
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 200 400;
+  font-display: swap;
+  src: url("/fonts/jost-variable.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   Palette Defaults — Dark cinematic base (overridden by [data-vertical])
+   Background lightness ≤ 11% HSL for cinematic dark aesthetic
+   ========================================================================== */
+
+:root {
+  /* Default palette values (dark cinematic base)
+     These get overridden by vertical-specific palette CSS via [data-vertical] */
+  --palette-surface-base: hsl(222 47% 11%);
+  --palette-surface-elevated: hsl(217 32% 17%);
+  --palette-surface-overlay: hsl(216 34% 17%);
+  --palette-text-primary: hsl(213 31% 91%);
+  --palette-text-secondary: hsl(215 20% 65%);
+  --palette-text-muted: hsl(215 16% 47%);
+  --palette-accent-primary: hsl(199 89% 48%);
+  --palette-accent-secondary: hsl(286 65% 58%);
+  --palette-accent-tertiary: hsl(340 75% 55%);
+  --palette-border-subtle: hsl(216 34% 17%);
+  --palette-border-default: hsl(216 34% 22%);
+}
+
+/* ==========================================================================
+   Semantic Token Layer — Maps to --palette-* values
+   Components use these tokens; palettes override the underlying values
+   ========================================================================== */
+
+:root {
+  --surface-base: var(--palette-surface-base);
+  --surface-elevated: var(--palette-surface-elevated);
+  --surface-overlay: var(--palette-surface-overlay);
+  --text-primary: var(--palette-text-primary);
+  --text-secondary: var(--palette-text-secondary);
+  --text-muted: var(--palette-text-muted);
+  --accent-primary: var(--palette-accent-primary);
+  --accent-secondary: var(--palette-accent-secondary);
+  --accent-tertiary: var(--palette-accent-tertiary);
+  --border-subtle: var(--palette-border-subtle);
+  --border-default: var(--palette-border-default);
+
+  /* Font family tokens */
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Jost", system-ui, sans-serif;
+}
+
+/* ==========================================================================
+   Base Styles — Typography and body defaults
+   ========================================================================== */
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    background-color: var(--surface-base);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 2.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: 1.75rem;
+  }
+
+  h4 {
+    font-weight: 700;
+    font-size: 1.375rem;
+  }
+
+  h5 {
+    font-weight: 400;
+    font-size: 1.125rem;
+  }
+
+  h6 {
+    font-weight: 400;
+    font-size: 1rem;
+  }
+}

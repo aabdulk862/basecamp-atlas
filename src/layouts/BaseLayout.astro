@@ -1,0 +1,66 @@
+---
+import '@/index.css';
+import '@/styles/global.css';
+import '@/styles/palettes/live.css';
+import '@/styles/palettes/escape.css';
+import '@/styles/effects.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogType?: string;
+  ogUrl?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = 'Basecamp Atlas — Discover apartments and curated nature retreats within driving distance.',
+  ogTitle,
+  ogDescription,
+  ogType = 'website',
+  ogUrl,
+  canonical,
+} = Astro.props;
+
+const resolvedOgTitle = ogTitle ?? title;
+const resolvedOgDescription = ogDescription ?? description;
+const siteUrl = 'https://basecamp-atlas.vercel.app';
+const resolvedCanonical = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const resolvedOgUrl = ogUrl ?? resolvedCanonical;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={resolvedOgTitle} />
+    <meta property="og:description" content={resolvedOgDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={resolvedOgUrl} />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={resolvedCanonical} />
+
+    <!-- JSON-LD slot for structured data -->
+    <slot name="json-ld" />
+  </head>
+  <body class="grain-overlay">
+    <slot />
+  </body>
+</html>
