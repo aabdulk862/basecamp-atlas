@@ -4,7 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://basecamp-atlas.vercel.app',
+  base: '/tools/basecamp',
+  site: 'https://adversesolutions.com',
   output: 'static',
   prefetch: {
     defaultStrategy: 'hover',
