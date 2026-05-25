@@ -44,7 +44,7 @@ const AMENITY_OPTIONS = [
 ];
 
 function formatDriveTime(minutes: number): string {
-  if (minutes >= 360) return '6h+';
+  if (minutes >= 720) return '12h+';
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   if (hours === 0) return `${mins}m`;
@@ -244,14 +244,14 @@ export function RetreatFilterSidebar({
               <Slider
                 value={[maxDriveTime]}
                 min={60}
-                max={360}
+                max={720}
                 step={30}
                 onValueChange={(val) => setMaxDriveTime(val[0])}
                 className="my-4"
               />
               <div className="flex justify-between">
                 <span className="text-xs" style={{ color: 'var(--text-muted)' }}>1h</span>
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>6h</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>12h</span>
               </div>
             </div>
 

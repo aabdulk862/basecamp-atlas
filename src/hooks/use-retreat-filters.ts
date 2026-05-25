@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 
 export interface RetreatFilterState {
   regions: string[];           // Multi-select region slugs
@@ -26,7 +26,7 @@ export const RETREAT_FILTER_DEFAULTS: RetreatFilterState = {
   regions: [],
   stayTypes: [],
   priceRange: [50, 1500],
-  maxDriveTime: 360,
+  maxDriveTime: 720,
   selectedOrigin: 'charlotte',
   minPrivacy: 1,
   amenities: [],
@@ -122,32 +122,33 @@ function writeFiltersToURL(state: RetreatFilterState) {
 }
 
 export function useRetreatFilters(properties: RetreatProperty[]) {
-  const urlState = parseFiltersFromURL();
+  const isInitialized = useRef(false);
 
-  const [regions, setRegions] = useState<string[]>(
-    urlState.regions ?? RETREAT_FILTER_DEFAULTS.regions
-  );
-  const [stayTypes, setStayTypes] = useState<string[]>(
-    urlState.stayTypes ?? RETREAT_FILTER_DEFAULTS.stayTypes
-  );
-  const [priceRange, setPriceRange] = useState<[number, number]>(
-    urlState.priceRange ?? RETREAT_FILTER_DEFAULTS.priceRange
-  );
-  const [maxDriveTime, setMaxDriveTime] = useState<number>(
-    urlState.maxDriveTime ?? RETREAT_FILTER_DEFAULTS.maxDriveTime
-  );
-  const [selectedOrigin, setSelectedOrigin] = useState<string>(
-    urlState.selectedOrigin ?? RETREAT_FILTER_DEFAULTS.selectedOrigin
-  );
-  const [minPrivacy, setMinPrivacy] = useState<number>(
-    urlState.minPrivacy ?? RETREAT_FILTER_DEFAULTS.minPrivacy
-  );
-  const [amenities, setAmenities] = useState<string[]>(
-    urlState.amenities ?? RETREAT_FILTER_DEFAULTS.amenities
-  );
+  const [regions, setRegions] = useState<string[]>(RETREAT_FILTER_DEFAULTS.regions);
+  const [stayTypes, setStayTypes] = useState<string[]>(RETREAT_FILTER_DEFAULTS.stayTypes);
+  const [priceRange, setPriceRange] = useState<[number, number]>(RETREAT_FILTER_DEFAULTS.priceRange);
+  const [maxDriveTime, setMaxDriveTime] = useState<number>(RETREAT_FILTER_DEFAULTS.maxDriveTime);
+  const [selectedOrigin, setSelectedOrigin] = useState<string>(RETREAT_FILTER_DEFAULTS.selectedOrigin);
+  const [minPrivacy, setMinPrivacy] = useState<number>(RETREAT_FILTER_DEFAULTS.minPrivacy);
+  const [amenities, setAmenities] = useState<string[]>(RETREAT_FILTER_DEFAULTS.amenities);
 
-  // Sync state to URL
+  // Hydrate from URL on mount (client-only) to avoid SSR mismatch
   useEffect(() => {
+    if (isInitialized.current) return;
+    isInitialized.current = true;
+    const urlState = parseFiltersFromURL();
+    if (urlState.regions) setRegions(urlState.regions);
+    if (urlState.stayTypes) setStayTypes(urlState.stayTypes);
+    if (urlState.priceRange) setPriceRange(urlState.priceRange);
+    if (urlState.maxDriveTime !== undefined) setMaxDriveTime(urlState.maxDriveTime);
+    if (urlState.selectedOrigin) setSelectedOrigin(urlState.selectedOrigin);
+    if (urlState.minPrivacy !== undefined) setMinPrivacy(urlState.minPrivacy);
+    if (urlState.amenities) setAmenities(urlState.amenities);
+  }, []);
+
+  // Sync state to URL (skip during initial hydration)
+  useEffect(() => {
+    if (!isInitialized.current) return;
     writeFiltersToURL({
       regions,
       stayTypes,
