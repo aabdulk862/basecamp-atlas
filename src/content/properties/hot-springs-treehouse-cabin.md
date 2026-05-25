@@ -25,7 +25,7 @@ amenities:
   - "swimming hole"
   - "communal fire pit"
 wowFactor: "A private mountain cabin on 13 acres bordering Pisgah National Forest, at the junction of the French Broad River and the Appalachian Trail — hot tub, fireplace, and a swimming hole steps away."
-bookingUrl: "https://hotspringstreehousecabins.com/"
+bookingUrl: "https://www.airbnb.com/rooms/34861442"
 coordinates:
   lat: 35.8970
   lng: -82.8270

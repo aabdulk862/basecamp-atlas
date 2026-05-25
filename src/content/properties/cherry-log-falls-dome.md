@@ -25,7 +25,7 @@ amenities:
   - "waterfall views"
   - "outdoor seating"
 wowFactor: "A 530 sq ft geodesic dome overlooking Fall Branch Falls, bordering the Chattahoochee National Forest and the 300-mile Benton MacKaye Trail — waterfall views from your private hot tub."
-bookingUrl: "https://glampinghub.com/unitedstatesofamerica/southeast/georgia/cherrylog/georgia-trendy-family-escape-dome-private-hot-tub-cherry-log/"
+bookingUrl: "https://www.glampblueridge.com/"
 coordinates:
   lat: 34.7580
   lng: -84.3720

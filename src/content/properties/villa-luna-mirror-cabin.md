@@ -26,7 +26,7 @@ amenities:
   - "heated bathroom floors"
   - "binoculars"
 wowFactor: "A mirrored-glass cabin that vanishes into the North Georgia forest canopy, with a freestanding copper soaking tub on the deck overlooking a private creek."
-bookingUrl: "https://www.villalunacabins.com/mirror-suite/"
+bookingUrl: "https://www.airbnb.com/rooms/1426964082088758028"
 coordinates:
   lat: 34.7721
   lng: -84.1893

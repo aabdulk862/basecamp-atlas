@@ -25,7 +25,7 @@ amenities:
   - "outdoor seating"
   - "mountain views"
 wowFactor: "A floating mirror-clad cabin that hovers above the forest floor on a private mountaintop, reflecting sky and trees until it vanishes — the most exclusive unit at a Condé Nast-nominated retreat."
-bookingUrl: "https://www.boltfarmtreehouse.com/accommodations/arhaus-treehaus"
+bookingUrl: "https://www.boltfarmtreehouse.com/listings/cliffside-mirror-cabin"
 coordinates:
   lat: 35.0110
   lng: -83.1190

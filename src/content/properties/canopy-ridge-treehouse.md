@@ -25,7 +25,7 @@ amenities:
   - "fire pit"
   - "french press coffee"
 wowFactor: "A two-story treehouse built into a 200-year-old oak canopy at 3,800 feet, with a suspended bridge walkway and a hot tub nestled among the branches."
-bookingUrl: "https://www.canopyridgetreehouses.com/the-oak-suite/"
+bookingUrl: "https://canopyridgecabins.com/lodging/tree-house"
 coordinates:
   lat: 35.6312
   lng: -83.4567

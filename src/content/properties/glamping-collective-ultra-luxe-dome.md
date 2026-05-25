@@ -25,7 +25,7 @@ amenities:
   - "mountain views"
   - "dedicated parking"
 wowFactor: "A mountaintop geodesic dome 20 minutes from Asheville with panoramic Blue Ridge views, a private hot tub, heated bathroom floors, and the most private positioning on the mountain."
-bookingUrl: "https://www.theglampingcollective.com/"
+bookingUrl: "https://www.airbnb.com/rooms/800632780411449372"
 coordinates:
   lat: 35.5200
   lng: -82.8450
