@@ -1,0 +1,8 @@
+{
+  "name": "New Zealand",
+  "slug": "new-zealand",
+  "description": "Fjords, glaciers, bungee jumping, and Lord of the Rings landscapes — New Zealand is the adventure capital of the world with luxury lodges in every dramatic setting.",
+  "scope": "international",
+  "center": { "lat": -44.0, "lng": 168.7 },
+  "zoom": 6
+}

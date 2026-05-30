@@ -1,0 +1,8 @@
+{
+  "name": "Iceland",
+  "slug": "iceland",
+  "description": "Glaciers, volcanoes, natural hot springs, and Northern Lights — Iceland delivers raw elemental adventure with geothermal luxury in the land of fire and ice.",
+  "scope": "international",
+  "center": { "lat": 64.15, "lng": -21.95 },
+  "zoom": 6
+}

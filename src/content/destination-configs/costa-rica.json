@@ -1,0 +1,8 @@
+{
+  "name": "Costa Rica",
+  "slug": "costa-rica",
+  "description": "Rainforest canopy tours, volcano hot springs, surfing, and wildlife encounters — Costa Rica packs more adventure per square mile than anywhere in the Americas.",
+  "scope": "international",
+  "center": { "lat": 10.0, "lng": -84.0 },
+  "zoom": 7
+}
