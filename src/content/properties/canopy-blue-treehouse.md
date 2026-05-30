@@ -2,7 +2,7 @@
 name: "Canopy Blue Treehouse"
 slug: "canopy-blue-treehouse"
 region: "north-georgia"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 365
   max: 500

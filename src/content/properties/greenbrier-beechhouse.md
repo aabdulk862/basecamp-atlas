@@ -2,7 +2,7 @@
 name: "Greenbrier Beechhouse"
 slug: "greenbrier-beechhouse"
 region: "south-cumberland"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 300
   max: 450

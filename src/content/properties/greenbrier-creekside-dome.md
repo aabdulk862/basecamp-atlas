@@ -2,7 +2,7 @@
 name: "Greenbrier Creekside Dome"
 slug: "greenbrier-creekside-dome"
 region: "smokies"
-stayType: "geodesic dome"
+stayType: "glamping"
 priceRange:
   min: 175
   max: 250

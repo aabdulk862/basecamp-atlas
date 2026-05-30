@@ -1,0 +1,8 @@
+{
+  "name": "Smoky Mountains",
+  "slug": "smoky-mountains",
+  "description": "The Great Smoky Mountains offer stunning mountain vistas, secluded cabins, and world-class hiking trails across Tennessee and North Carolina.",
+  "scope": "us",
+  "center": { "lat": 35.6, "lng": -83.5 },
+  "zoom": 9
+}

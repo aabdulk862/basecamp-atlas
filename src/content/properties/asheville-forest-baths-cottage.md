@@ -2,7 +2,7 @@
 name: "Asheville Forest Baths — The Cottage"
 slug: "asheville-forest-baths-cottage"
 region: "asheville-blue-ridge"
-stayType: "forest-spa cottage"
+stayType: "wellness"
 priceRange:
   min: 250
   max: 400

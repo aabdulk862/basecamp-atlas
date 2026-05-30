@@ -2,7 +2,7 @@
 name: "Villa Luna Mirror Cabin"
 slug: "villa-luna-mirror-cabin"
 region: "north-georgia"
-stayType: "mirror cabin"
+stayType: "villa"
 priceRange:
   min: 320
   max: 425

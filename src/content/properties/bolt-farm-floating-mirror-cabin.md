@@ -2,7 +2,7 @@
 name: "Bolt Farm Floating Mirror Cabin"
 slug: "bolt-farm-floating-mirror-cabin"
 region: "upstate-sc"
-stayType: "mirror cabin"
+stayType: "villa"
 priceRange:
   min: 500
   max: 750

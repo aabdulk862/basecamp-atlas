@@ -2,7 +2,7 @@
 name: "Modcabins Cardinal Treehouse"
 slug: "modcabins-cardinal-treehouse"
 region: "asheville-blue-ridge"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 275
   max: 400

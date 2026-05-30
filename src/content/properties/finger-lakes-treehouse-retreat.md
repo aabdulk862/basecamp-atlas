@@ -2,7 +2,7 @@
 name: "Finger Lakes Treehouse Retreat"
 slug: "finger-lakes-treehouse-retreat"
 region: "finger-lakes-ny"
-stayType: "A-frame"
+stayType: "retreat"
 priceRange:
   min: 280
   max: 440

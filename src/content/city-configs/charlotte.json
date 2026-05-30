@@ -1,0 +1,7 @@
+{
+  "name": "Charlotte",
+  "slug": "charlotte",
+  "center": { "lat": 35.205, "lng": -80.845 },
+  "zoom": 12,
+  "dataSource": "charlotte"
+}

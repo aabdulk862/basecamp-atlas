@@ -2,7 +2,7 @@
 name: "Inn The Ravine Treehouse"
 slug: "inn-the-ravine-treehouse"
 region: "north-georgia"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 395
   max: 550

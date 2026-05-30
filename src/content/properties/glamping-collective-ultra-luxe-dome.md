@@ -2,7 +2,7 @@
 name: "The Glamping Collective Ultra Luxe Dome"
 slug: "glamping-collective-ultra-luxe-dome"
 region: "asheville-blue-ridge"
-stayType: "geodesic dome"
+stayType: "glamping"
 priceRange:
   min: 275
   max: 425

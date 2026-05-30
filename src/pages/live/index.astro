@@ -1,6 +1,15 @@
 ---
+import { getCollection } from 'astro:content';
 import VerticalLayout from '@/layouts/VerticalLayout.astro';
 import ApartmentFinder from '@/components/ApartmentFinder.tsx';
+import type { CityConfig } from '@/components/map/LiveMapAdapter';
+
+// Load all city configs from the content collection
+const cityConfigEntries = await getCollection('cityConfigs');
+const cities: CityConfig[] = cityConfigEntries.map((entry: { data: CityConfig }) => entry.data);
+
+// Default to Charlotte city config
+const charlotteConfig = cities.find((c: CityConfig) => c.slug === 'charlotte') ?? cities[0];
 ---
 
 <VerticalLayout
@@ -8,5 +17,5 @@ import ApartmentFinder from '@/components/ApartmentFinder.tsx';
   title="Apartment Finder | Basecamp Atlas"
   description="Find your perfect Charlotte apartment with interactive map, scoring, and comparison tools."
 >
-  <ApartmentFinder client:load />
+  <ApartmentFinder client:only="react" cityConfig={charlotteConfig} cities={cities} />
 </VerticalLayout>

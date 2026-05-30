@@ -13,8 +13,15 @@
         },
         "stayType": {
           "type": "string",
-          "minLength": 1,
-          "maxLength": 50
+          "enum": [
+            "retreat",
+            "cruise",
+            "resort",
+            "villa",
+            "glamping",
+            "adventure",
+            "wellness"
+          ]
         },
         "priceRange": {
           "type": "object",

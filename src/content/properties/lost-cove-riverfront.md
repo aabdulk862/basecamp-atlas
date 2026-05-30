@@ -2,7 +2,7 @@
 name: "Lost Cove Riverfront Retreat"
 slug: "lost-cove-riverfront"
 region: "asheville-blue-ridge"
-stayType: "luxury cabin"
+stayType: "retreat"
 priceRange:
   min: 450
   max: 650

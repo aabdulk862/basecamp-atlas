@@ -1,0 +1,8 @@
+{
+  "name": "Greece",
+  "slug": "greece",
+  "description": "Greece delivers caldera-edge cave suites with private plunge pools in Santorini, whitewashed villas in Mykonos, and boutique island stays with Aegean Sea views at every turn.",
+  "scope": "international",
+  "center": { "lat": 36.4, "lng": 25.43 },
+  "zoom": 8
+}

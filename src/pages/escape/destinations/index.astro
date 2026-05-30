@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import VerticalLayout from '@/layouts/VerticalLayout.astro';
+import { DestinationBrowser } from '@/components/escape/DestinationBrowser.tsx';
+
+// Load all destination configs from the content collection
+const allDestinations = await getCollection('destinationConfigs');
+
+// Serialize destination configs into the format expected by DestinationBrowser
+const destinations = allDestinations.map((entry) => ({
+  name: entry.data.name,
+  slug: entry.data.slug,
+  description: entry.data.description,
+  scope: entry.data.scope,
+  center: entry.data.center,
+  zoom: entry.data.zoom,
+}));
+---
+
+<VerticalLayout
+  vertical="escape"
+  title="Destinations | Basecamp Atlas"
+  description="Browse curated vacation destinations across the US and internationally. Discover retreats, resorts, villas, and more in stunning locations."
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1
+        class="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading,Playfair_Display)]"
+        style="color: var(--text-primary);"
+      >
+        Destinations
+      </h1>
+      <p class="mt-2 text-lg" style="color: var(--text-secondary);">
+        Explore vacation destinations across the US and around the world
+      </p>
+    </header>
+
+    <DestinationBrowser
+      client:load
+      destinations={destinations}
+    />
+  </div>
+</VerticalLayout>

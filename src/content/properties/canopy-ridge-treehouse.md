@@ -2,7 +2,7 @@
 name: "Canopy Ridge Treehouse"
 slug: "canopy-ridge-treehouse"
 region: "smokies"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 195
   max: 260

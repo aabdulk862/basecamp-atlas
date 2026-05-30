@@ -1,0 +1,8 @@
+{
+  "name": "Japan",
+  "slug": "japan",
+  "description": "Japan offers private onsen ryokans, forest retreats, and minimalist architecture nestled in volcanic mountains, bamboo groves, and ancient cedar forests.",
+  "scope": "international",
+  "center": { "lat": 35.68, "lng": 139.0 },
+  "zoom": 6
+}

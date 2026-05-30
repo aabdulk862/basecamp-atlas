@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Navigation from '@/components/shared/Navigation.tsx';
 import { loadVerticals } from '@/lib/verticals';
+import { getCollection } from 'astro:content';
 
 interface Props {
   vertical: string;
@@ -26,6 +27,12 @@ const {
 } = Astro.props;
 
 const verticals = loadVerticals();
+
+const cityConfigs = await getCollection('cityConfigs');
+const cities = cityConfigs.map((c: { data: { name: string; slug: string } }) => ({ name: c.data.name, slug: c.data.slug }));
+
+const destinationConfigs = await getCollection('destinationConfigs');
+const destinations = destinationConfigs.map((d: { data: { name: string; slug: string } }) => ({ name: d.data.name, slug: d.data.slug }));
 ---
 
 <BaseLayout
@@ -38,7 +45,7 @@ const verticals = loadVerticals();
   canonical={canonical}
 >
   <div data-vertical={vertical}>
-    <Navigation client:load verticals={verticals} activeVertical={vertical} />
+    <Navigation client:load verticals={verticals} activeVertical={vertical} cities={cities} destinations={destinations} />
     <main class="pt-16">
       <slot />
     </main>

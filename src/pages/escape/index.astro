@@ -9,7 +9,7 @@ const allRegions = await getCollection('regions');
 const allOriginCities = await getCollection('originCities');
 
 // Serialize properties into the format expected by RetreatBrowse
-const properties = allProperties.map((entry) => ({
+const properties = allProperties.map((entry: any) => ({
   slug: entry.id,
   name: entry.data.name,
   region: entry.data.region,
@@ -25,13 +25,13 @@ const properties = allProperties.map((entry) => ({
 }));
 
 // Serialize regions as { slug, name }
-const regions = allRegions.map((entry) => ({
+const regions = allRegions.map((entry: any) => ({
   slug: entry.id,
   name: entry.data.name,
 }));
 
 // Serialize origin cities as { slug, name }
-const originCities = allOriginCities.map((entry) => ({
+const originCities = allOriginCities.map((entry: any) => ({
   slug: entry.data.slug || entry.id,
   name: entry.data.name,
 }));
@@ -47,15 +47,27 @@ const originCities = allOriginCities.map((entry) => ({
 >
   <div class="max-w-7xl mx-auto px-4 py-8">
     <header class="mb-8">
-      <h1
-        class="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading,Playfair_Display)]"
-        style="color: var(--text-primary);"
-      >
-        Escape
-      </h1>
-      <p class="mt-2 text-lg" style="color: var(--text-secondary);">
-        Curated nature retreats within driving distance
-      </p>
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h1
+            class="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading,Playfair_Display)]"
+            style="color: var(--text-primary);"
+          >
+            Escape
+          </h1>
+          <p class="mt-2 text-lg" style="color: var(--text-secondary);">
+            Curated nature retreats within driving distance
+          </p>
+        </div>
+        <a
+          href="/escape/map"
+          class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:opacity-80"
+          style="background-color: var(--accent-primary); color: white;"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          Map View
+        </a>
+      </div>
     </header>
 
     <RetreatBrowse

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatDriveTime } from '@/lib/drive-time';
 import type { RetreatProperty } from '@/hooks/use-retreat-filters';
+import { CATEGORY_ICONS, type VacationCategory } from '@/components/map/types';
 import { MapPin, Clock, ArrowUpRight } from 'lucide-react';
 
 export interface PropertyCardProperty extends RetreatProperty {
@@ -15,6 +16,15 @@ interface PropertyCardProps {
   property: PropertyCardProperty;
   selectedOrigin: string;
   regionName: string;
+}
+
+function getCategoryColor(stayType: string): string {
+  const category = stayType.toLowerCase() as VacationCategory;
+  return CATEGORY_ICONS[category]?.color ?? '#6b7c5a';
+}
+
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 function PrivacyDots({ level }: { level: number }) {
@@ -42,6 +52,8 @@ export function PropertyCard({ property, selectedOrigin, regionName }: PropertyC
       ? property.wowFactor.slice(0, 120).trimEnd() + '…'
       : property.wowFactor;
 
+  const categoryColor = getCategoryColor(property.stayType);
+
   return (
     <Card className="bg-[var(--surface-elevated)] border-[var(--border-subtle)] hover:border-[var(--accent-primary)] transition-colors">
       <CardHeader className="pb-3">
@@ -49,8 +61,16 @@ export function PropertyCard({ property, selectedOrigin, regionName }: PropertyC
           <CardTitle className="text-base font-bold text-[var(--text-primary)] font-[family-name:var(--font-heading,Playfair_Display)]">
             {property.name}
           </CardTitle>
-          <Badge className="shrink-0 bg-[var(--accent-secondary)] text-[var(--text-primary)] border-transparent text-[10px] uppercase tracking-wider">
-            {property.stayType}
+          <Badge
+            className="shrink-0 border-transparent text-[10px] uppercase tracking-wider text-white"
+            style={{ backgroundColor: `${categoryColor}20`, color: categoryColor, borderColor: `${categoryColor}40` }}
+          >
+            <span
+              className="inline-block w-2 h-2 rounded-full mr-1"
+              style={{ backgroundColor: categoryColor }}
+              aria-hidden="true"
+            />
+            {capitalize(property.stayType)}
           </Badge>
         </div>
         <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] mt-1">

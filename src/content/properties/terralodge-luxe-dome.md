@@ -2,7 +2,7 @@
 name: "Terralodge Luxe Dome"
 slug: "terralodge-luxe-dome"
 region: "south-cumberland"
-stayType: "geodesic dome"
+stayType: "glamping"
 priceRange:
   min: 400
   max: 650

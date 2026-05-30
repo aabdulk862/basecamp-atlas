@@ -2,7 +2,7 @@
 name: "Bird Nest Treehouse"
 slug: "bird-nest-treehouse-highlands"
 region: "asheville-blue-ridge"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 325
   max: 475

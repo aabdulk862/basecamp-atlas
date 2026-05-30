@@ -1,8 +1,10 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import type { VacationCategory } from '@/components/map/types';
 
 export interface RetreatFilterState {
   regions: string[];           // Multi-select region slugs
   stayTypes: string[];         // Multi-select stay types
+  categories: VacationCategory[]; // Multi-select vacation categories
   priceRange: [number, number]; // $50–$1500, $25 increments
   maxDriveTime: number;        // Minutes, from selected origin
   selectedOrigin: string;      // Origin city slug
@@ -25,7 +27,8 @@ export interface RetreatProperty {
 export const RETREAT_FILTER_DEFAULTS: RetreatFilterState = {
   regions: [],
   stayTypes: [],
-  priceRange: [50, 1500],
+  categories: [],
+  priceRange: [50, 2000],
   maxDriveTime: 720,
   selectedOrigin: 'charlotte',
   minPrivacy: 1,
@@ -77,6 +80,11 @@ function parseFiltersFromURL(): Partial<RetreatFilterState> {
     parsed.amenities = amenities.split(',').filter(Boolean);
   }
 
+  const categories = params.get('categories');
+  if (categories) {
+    parsed.categories = categories.split(',').filter(Boolean) as VacationCategory[];
+  }
+
   return parsed;
 }
 
@@ -116,6 +124,10 @@ function writeFiltersToURL(state: RetreatFilterState) {
     params.set('amenities', state.amenities.join(','));
   }
 
+  if (state.categories.length > 0) {
+    params.set('categories', state.categories.join(','));
+  }
+
   const search = params.toString();
   const newUrl = search ? `${window.location.pathname}?${search}` : window.location.pathname;
   window.history.replaceState(null, '', newUrl);
@@ -126,6 +138,7 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
 
   const [regions, setRegions] = useState<string[]>(RETREAT_FILTER_DEFAULTS.regions);
   const [stayTypes, setStayTypes] = useState<string[]>(RETREAT_FILTER_DEFAULTS.stayTypes);
+  const [categories, setCategories] = useState<VacationCategory[]>(RETREAT_FILTER_DEFAULTS.categories);
   const [priceRange, setPriceRange] = useState<[number, number]>(RETREAT_FILTER_DEFAULTS.priceRange);
   const [maxDriveTime, setMaxDriveTime] = useState<number>(RETREAT_FILTER_DEFAULTS.maxDriveTime);
   const [selectedOrigin, setSelectedOrigin] = useState<string>(RETREAT_FILTER_DEFAULTS.selectedOrigin);
@@ -139,6 +152,7 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
     const urlState = parseFiltersFromURL();
     if (urlState.regions) setRegions(urlState.regions);
     if (urlState.stayTypes) setStayTypes(urlState.stayTypes);
+    if (urlState.categories) setCategories(urlState.categories);
     if (urlState.priceRange) setPriceRange(urlState.priceRange);
     if (urlState.maxDriveTime !== undefined) setMaxDriveTime(urlState.maxDriveTime);
     if (urlState.selectedOrigin) setSelectedOrigin(urlState.selectedOrigin);
@@ -152,17 +166,19 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
     writeFiltersToURL({
       regions,
       stayTypes,
+      categories,
       priceRange,
       maxDriveTime,
       selectedOrigin,
       minPrivacy,
       amenities,
     });
-  }, [regions, stayTypes, priceRange, maxDriveTime, selectedOrigin, minPrivacy, amenities]);
+  }, [regions, stayTypes, categories, priceRange, maxDriveTime, selectedOrigin, minPrivacy, amenities]);
 
   const resetFilters = useCallback(() => {
     setRegions(RETREAT_FILTER_DEFAULTS.regions);
     setStayTypes(RETREAT_FILTER_DEFAULTS.stayTypes);
+    setCategories(RETREAT_FILTER_DEFAULTS.categories);
     setPriceRange(RETREAT_FILTER_DEFAULTS.priceRange);
     setMaxDriveTime(RETREAT_FILTER_DEFAULTS.maxDriveTime);
     setSelectedOrigin(RETREAT_FILTER_DEFAULTS.selectedOrigin);
@@ -184,6 +200,15 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
           (type) => type.toLowerCase() === propertyType
         );
         if (!matches) return false;
+      }
+
+      // Category filter: property.stayType must be in selected categories (if any selected)
+      if (categories.length > 0) {
+        const propertyCategory = property.stayType.toLowerCase();
+        const matchesCategory = categories.some(
+          (cat) => cat.toLowerCase() === propertyCategory
+        );
+        if (!matchesCategory) return false;
       }
 
       // Price range filter: overlap check
@@ -217,11 +242,12 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
 
       return true;
     });
-  }, [properties, regions, stayTypes, priceRange, maxDriveTime, selectedOrigin, minPrivacy, amenities]);
+  }, [properties, regions, stayTypes, categories, priceRange, maxDriveTime, selectedOrigin, minPrivacy, amenities]);
 
   const activeFilterCount =
     (regions.length > 0 ? 1 : 0) +
     (stayTypes.length > 0 ? 1 : 0) +
+    (categories.length > 0 ? 1 : 0) +
     (priceRange[0] !== RETREAT_FILTER_DEFAULTS.priceRange[0] ||
     priceRange[1] !== RETREAT_FILTER_DEFAULTS.priceRange[1]
       ? 1
@@ -235,6 +261,7 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
     // State
     regions,
     stayTypes,
+    categories,
     priceRange,
     maxDriveTime,
     selectedOrigin,
@@ -243,6 +270,7 @@ export function useRetreatFilters(properties: RetreatProperty[]) {
     // Setters
     setRegions,
     setStayTypes,
+    setCategories,
     setPriceRange,
     setMaxDriveTime,
     setSelectedOrigin,

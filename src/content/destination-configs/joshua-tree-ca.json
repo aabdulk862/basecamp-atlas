@@ -1,0 +1,8 @@
+{
+  "name": "Joshua Tree, CA",
+  "slug": "joshua-tree-ca",
+  "description": "Desert architecture, stargazing hot tubs, and mid-century modern retreats in California's high desert — a Dark Sky region with otherworldly landscapes.",
+  "scope": "us",
+  "center": { "lat": 34.13, "lng": -116.31 },
+  "zoom": 10
+}

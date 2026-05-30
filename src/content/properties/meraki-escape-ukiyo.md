@@ -2,7 +2,7 @@
 name: "Meraki Escape — Ukiyo Cabin"
 slug: "meraki-escape-ukiyo"
 region: "asheville-blue-ridge"
-stayType: "luxury cabin"
+stayType: "retreat"
 priceRange:
   min: 300
   max: 500

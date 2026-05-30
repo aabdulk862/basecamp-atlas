@@ -9,6 +9,8 @@ interface MobileMenuProps {
   verticals: VerticalConfig[];
   activeVertical: string | null;
   toggleButtonRef: React.RefObject<HTMLButtonElement | null>;
+  cities?: { name: string; slug: string }[];
+  destinations?: { name: string; slug: string }[];
 }
 
 export function MobileMenu({
@@ -17,6 +19,8 @@ export function MobileMenu({
   verticals,
   activeVertical,
   toggleButtonRef,
+  cities,
+  destinations,
 }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -125,7 +129,7 @@ export function MobileMenu({
       </div>
 
       {/* Navigation links */}
-      <nav className="flex flex-1 flex-col items-center justify-center gap-8">
+      <nav className="flex flex-1 flex-col items-center justify-center gap-8 overflow-y-auto px-6">
         {sortedVerticals.map((vertical) => {
           const isActive = activeVertical === vertical.id;
           return (
@@ -148,6 +152,50 @@ export function MobileMenu({
             </a>
           );
         })}
+
+        {/* City links */}
+        {cities && cities.length > 0 && (
+          <div className="flex flex-col items-center gap-3">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "var(--text-muted, #64748b)" }}
+            >
+              Cities
+            </span>
+            {cities.map((city) => (
+              <a
+                key={city.slug}
+                href={`/live/${city.slug}`}
+                className="text-lg font-medium transition-colors hover:opacity-80"
+                style={{ color: "var(--text-secondary, #94a3b8)" }}
+              >
+                {city.name}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Destination links */}
+        {destinations && destinations.length > 0 && (
+          <div className="flex flex-col items-center gap-3">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "var(--text-muted, #64748b)" }}
+            >
+              Destinations
+            </span>
+            {destinations.map((destination) => (
+              <a
+                key={destination.slug}
+                href={`/escape/destinations/${destination.slug}`}
+                className="text-lg font-medium transition-colors hover:opacity-80"
+                style={{ color: "var(--text-secondary, #94a3b8)" }}
+              >
+                {destination.name}
+              </a>
+            ))}
+          </div>
+        )}
       </nav>
     </div>
   );

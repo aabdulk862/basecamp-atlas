@@ -1,0 +1,8 @@
+{
+  "name": "East Africa",
+  "slug": "east-africa",
+  "description": "East Africa offers luxury safari lodges with private plunge pools, tented camps under star-filled skies, and treehouse retreats overlooking vast savannah and volcanic landscapes.",
+  "scope": "international",
+  "center": { "lat": -2.5, "lng": 36.8 },
+  "zoom": 5
+}

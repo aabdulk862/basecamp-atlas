@@ -1,0 +1,8 @@
+{
+  "name": "Vietnam",
+  "slug": "vietnam",
+  "description": "Vietnam offers a stunning blend of ancient culture, pristine beaches, lush mountains, and vibrant cities from Hanoi to Ho Chi Minh City.",
+  "scope": "international",
+  "center": { "lat": 16.05, "lng": 108.22 },
+  "zoom": 6
+}

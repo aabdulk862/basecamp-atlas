@@ -7,9 +7,11 @@ import { MobileMenu } from "./MobileMenu";
 interface NavigationProps {
   verticals: VerticalConfig[];
   activeVertical: string | null;
+  cities?: { name: string; slug: string }[];
+  destinations?: { name: string; slug: string }[];
 }
 
-export default function Navigation({ verticals, activeVertical }: NavigationProps) {
+export default function Navigation({ verticals, activeVertical, cities, destinations }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -90,6 +92,8 @@ export default function Navigation({ verticals, activeVertical }: NavigationProp
         verticals={verticals}
         activeVertical={activeVertical}
         toggleButtonRef={toggleButtonRef}
+        cities={cities}
+        destinations={destinations}
       />
     </>
   );

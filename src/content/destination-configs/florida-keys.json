@@ -1,0 +1,8 @@
+{
+  "name": "Florida Keys",
+  "slug": "florida-keys",
+  "description": "Island-hopping along the Overseas Highway with oceanfront resorts, sunset sailing, and laid-back tropical vibes without needing a passport.",
+  "scope": "us",
+  "center": { "lat": 24.56, "lng": -81.78 },
+  "zoom": 9
+}

@@ -2,7 +2,7 @@
 name: "Skyline Yurt"
 slug: "skyline-yurt"
 region: "shenandoah-va"
-stayType: "luxury yurt"
+stayType: "glamping"
 priceRange:
   min: 399
   max: 550

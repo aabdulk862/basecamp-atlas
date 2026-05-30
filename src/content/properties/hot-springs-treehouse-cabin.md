@@ -2,7 +2,7 @@
 name: "Hot Springs Treehouse Cabins — Cabin 4"
 slug: "hot-springs-treehouse-cabin"
 region: "asheville-blue-ridge"
-stayType: "treehouse cabin"
+stayType: "retreat"
 priceRange:
   min: 175
   max: 275

@@ -1,0 +1,8 @@
+{
+  "name": "Dominican Republic",
+  "slug": "dominican-republic",
+  "description": "The Dominican Republic offers oceanfront cliff villas, jungle-canopy retreats, and private estates along dramatic Caribbean coastlines and lush mountain valleys.",
+  "scope": "international",
+  "center": { "lat": 19.0, "lng": -70.0 },
+  "zoom": 8
+}

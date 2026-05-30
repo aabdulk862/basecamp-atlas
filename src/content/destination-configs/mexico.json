@@ -1,0 +1,8 @@
+{
+  "name": "Mexico",
+  "slug": "mexico",
+  "description": "Mexico blends jungle treehouses, cenote-side villas, and off-grid sanctuaries across the Riviera Maya, Oaxacan coast, and Sierra Madre mountains.",
+  "scope": "international",
+  "center": { "lat": 20.21, "lng": -87.46 },
+  "zoom": 6
+}

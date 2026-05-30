@@ -2,7 +2,7 @@
 name: "Green Creek Shipyard 2.0"
 slug: "green-creek-shipyard"
 region: "asheville-blue-ridge"
-stayType: "container cabin"
+stayType: "retreat"
 priceRange:
   min: 200
   max: 325

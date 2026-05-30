@@ -2,7 +2,7 @@
 name: "Cherry Log Falls Dome"
 slug: "cherry-log-falls-dome"
 region: "north-georgia"
-stayType: "geodesic dome"
+stayType: "glamping"
 priceRange:
   min: 250
   max: 400

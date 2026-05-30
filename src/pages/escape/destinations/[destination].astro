@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import VerticalLayout from '@/layouts/VerticalLayout.astro';
+import { DestinationMapView } from '@/components/escape/DestinationMapView.tsx';
+import type { DestinationConfig } from '@/components/map/EscapeMapAdapter';
+import type { SerializedProperty } from '@/components/retreat/RetreatBrowse';
+
+export async function getStaticPaths() {
+  const destinationEntries = await getCollection('destinationConfigs');
+  const allProperties = await getCollection('properties');
+
+  // Serialize properties into the format expected by EscapeMapAdapter
+  const serializedProperties: SerializedProperty[] = allProperties.map((entry: any) => ({
+    slug: entry.data.slug ?? entry.id,
+    name: entry.data.name,
+    region: entry.data.region,
+    stayType: entry.data.stayType,
+    priceRange: entry.data.priceRange,
+    driveTimes: entry.data.driveTimes,
+    privacyLevel: entry.data.privacyLevel,
+    amenities: entry.data.amenities,
+    wowFactor: entry.data.wowFactor,
+    coordinates: entry.data.coordinates,
+    nearbyHikes: entry.data.nearbyHikes,
+    bookingUrl: entry.data.bookingUrl,
+  }));
+
+  return destinationEntries.map((entry: any) => ({
+    params: { destination: entry.data.slug },
+    props: {
+      destinationConfig: entry.data as DestinationConfig,
+      properties: serializedProperties,
+    },
+  }));
+}
+
+interface Props {
+  destinationConfig: DestinationConfig;
+  properties: SerializedProperty[];
+}
+
+const { destinationConfig, properties } = Astro.props as Props;
+
+// If no matching destination config found (defensive — getStaticPaths handles this)
+if (!destinationConfig) {
+  return Astro.redirect('/escape/destinations');
+}
+---
+
+<VerticalLayout
+  vertical="escape"
+  title={`${destinationConfig.name} | Destinations | Basecamp Atlas`}
+  description={destinationConfig.description}
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <header class="mb-6">
+      <nav class="mb-4">
+        <a
+          href="/escape/destinations"
+          class="text-sm hover:underline"
+          style="color: var(--accent-primary);"
+        >
+          ← All Destinations
+        </a>
+      </nav>
+      <h1
+        class="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading,Playfair_Display)]"
+        style="color: var(--text-primary);"
+      >
+        {destinationConfig.name}
+      </h1>
+      <p class="mt-2 text-base" style="color: var(--text-secondary);">
+        {destinationConfig.description}
+      </p>
+    </header>
+
+    <DestinationMapView
+      client:only="react"
+      properties={properties}
+      destinationConfig={destinationConfig}
+    />
+  </div>
+</VerticalLayout>

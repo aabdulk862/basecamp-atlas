@@ -2,7 +2,7 @@
 name: "Terralodge Scandinavian Treehouse"
 slug: "terralodge-scandinavian-treehouse"
 region: "south-cumberland"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 325
   max: 475

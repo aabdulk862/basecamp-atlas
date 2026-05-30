@@ -2,7 +2,7 @@
 name: "Idyllic Yurt"
 slug: "idyllic-yurt-gatlinburg"
 region: "smokies"
-stayType: "yurt"
+stayType: "glamping"
 priceRange:
   min: 175
   max: 275

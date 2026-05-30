@@ -2,7 +2,7 @@
 name: "Modcabins A-Frame"
 slug: "modcabins-a-frame"
 region: "asheville-blue-ridge"
-stayType: "A-frame"
+stayType: "retreat"
 priceRange:
   min: 250
   max: 375

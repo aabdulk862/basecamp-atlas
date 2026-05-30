@@ -2,7 +2,7 @@
 name: "Hillside Retreats — Hummingbird Yurt"
 slug: "hillside-retreats-hummingbird-yurt"
 region: "hocking-hills-oh"
-stayType: "yurt"
+stayType: "glamping"
 priceRange:
   min: 159
   max: 253

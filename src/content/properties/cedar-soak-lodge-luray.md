@@ -2,7 +2,7 @@
 name: "Cedar Soak Lodge"
 slug: "cedar-soak-lodge-luray"
 region: "shenandoah-va"
-stayType: "cabin"
+stayType: "retreat"
 priceRange:
   min: 200
   max: 350

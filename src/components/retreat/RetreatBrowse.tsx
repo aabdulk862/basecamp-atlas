@@ -42,6 +42,7 @@ export function RetreatBrowse({ properties, regions, originCities }: RetreatBrow
   const {
     regions: selectedRegions,
     stayTypes,
+    categories,
     priceRange,
     maxDriveTime,
     selectedOrigin,
@@ -49,6 +50,7 @@ export function RetreatBrowse({ properties, regions, originCities }: RetreatBrow
     amenities,
     setRegions,
     setStayTypes,
+    setCategories,
     setPriceRange,
     setMaxDriveTime,
     setSelectedOrigin,
@@ -83,6 +85,7 @@ export function RetreatBrowse({ properties, regions, originCities }: RetreatBrow
         <RetreatFilterSidebar
           regions={selectedRegions}
           stayTypes={stayTypes}
+          categories={categories}
           priceRange={priceRange}
           maxDriveTime={maxDriveTime}
           selectedOrigin={selectedOrigin}
@@ -90,6 +93,7 @@ export function RetreatBrowse({ properties, regions, originCities }: RetreatBrow
           amenities={amenities}
           setRegions={setRegions}
           setStayTypes={setStayTypes}
+          setCategories={setCategories}
           setPriceRange={setPriceRange}
           setMaxDriveTime={setMaxDriveTime}
           setSelectedOrigin={setSelectedOrigin}

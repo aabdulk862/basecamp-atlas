@@ -2,7 +2,7 @@
 name: "Tuscany Treehouse"
 slug: "tuscany-treehouse-nrg"
 region: "new-river-gorge-wv"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 225
   max: 350

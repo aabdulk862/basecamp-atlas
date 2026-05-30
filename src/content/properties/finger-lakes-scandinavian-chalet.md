@@ -2,7 +2,7 @@
 name: "Finger Lakes Scandinavian Chalet"
 slug: "finger-lakes-scandinavian-chalet"
 region: "finger-lakes-ny"
-stayType: "chalet"
+stayType: "retreat"
 priceRange:
   min: 175
   max: 249

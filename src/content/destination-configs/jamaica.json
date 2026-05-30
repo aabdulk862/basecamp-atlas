@@ -1,0 +1,8 @@
+{
+  "name": "Jamaica",
+  "slug": "jamaica",
+  "description": "Jamaica delivers cliffside villas, secluded lagoon cottages, and lush tropical hideaways along the north coast from Ocho Rios to Negril's dramatic western cliffs.",
+  "scope": "international",
+  "center": { "lat": 18.11, "lng": -77.3 },
+  "zoom": 9
+}

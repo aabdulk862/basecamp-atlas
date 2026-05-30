@@ -165,6 +165,19 @@
   }
 }
 
+/* UnifiedMap tooltip: max-width 250px, repositioned via direction="auto" on mobile (Req 10.8) */
+.leaflet-tooltip.unified-map-tooltip {
+  max-width: 250px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+@media (max-width: 767px) {
+  .leaflet-tooltip.unified-map-tooltip {
+    max-width: 250px;
+  }
+}
+
 /**
  * Using the elevate system.
  * Automatic contrast adjustment.

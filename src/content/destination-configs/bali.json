@@ -1,0 +1,8 @@
+{
+  "name": "Bali",
+  "slug": "bali",
+  "description": "Bali delivers private pool villas in jungle valleys, cliffside infinity pools over the Indian Ocean, and world-class wellness retreats at a fraction of Western luxury prices.",
+  "scope": "international",
+  "center": { "lat": -8.41, "lng": 115.19 },
+  "zoom": 9
+}

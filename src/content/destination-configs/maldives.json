@@ -1,0 +1,8 @@
+{
+  "name": "Maldives",
+  "slug": "maldives",
+  "description": "The Maldives offers overwater villas with glass floors, private reef access, and all-inclusive island resorts — with surprisingly affordable options starting under $400 per night.",
+  "scope": "international",
+  "center": { "lat": 4.17, "lng": 73.51 },
+  "zoom": 7
+}

@@ -2,7 +2,7 @@
 name: "Chalets Hemlock — Log Cabin with Sauna"
 slug: "chalets-hemlock-cabin"
 region: "hocking-hills-oh"
-stayType: "cabin"
+stayType: "retreat"
 priceRange:
   min: 259
   max: 349

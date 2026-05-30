@@ -1,0 +1,8 @@
+{
+  "name": "Thailand",
+  "slug": "thailand",
+  "description": "Thailand offers beachfront pool villas on tropical islands, jungle wellness retreats, and five-star hospitality at prices that make luxury accessible to everyone.",
+  "scope": "international",
+  "center": { "lat": 9.5, "lng": 100.0 },
+  "zoom": 7
+}

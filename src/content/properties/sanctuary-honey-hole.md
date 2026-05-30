@@ -2,7 +2,7 @@
 name: "Sanctuary Treehouse Resort — Honey Hole"
 slug: "sanctuary-honey-hole"
 region: "smokies"
-stayType: "treehouse"
+stayType: "retreat"
 priceRange:
   min: 350
   max: 500

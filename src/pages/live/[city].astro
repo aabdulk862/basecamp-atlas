@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import VerticalLayout from '@/layouts/VerticalLayout.astro';
+import ApartmentFinder from '@/components/ApartmentFinder.tsx';
+import type { CityConfig } from '@/components/map/LiveMapAdapter';
+
+export async function getStaticPaths() {
+  const cityConfigEntries = await getCollection('cityConfigs');
+  const cities: CityConfig[] = cityConfigEntries.map((entry: { data: CityConfig }) => entry.data);
+  return cityConfigEntries.map((entry: { data: CityConfig }) => ({
+    params: { city: entry.data.slug },
+    props: { cityConfig: entry.data, cities },
+  }));
+}
+
+interface Props {
+  cityConfig: CityConfig;
+  cities: CityConfig[];
+}
+
+const { cityConfig, cities } = Astro.props as Props;
+
+// If no matching city config found (shouldn't happen with getStaticPaths, but defensive)
+if (!cityConfig) {
+  return Astro.redirect('/live');
+}
+---
+
+<VerticalLayout
+  vertical="live"
+  title={`Apartment Finder — ${cityConfig.name} | Basecamp Atlas`}
+  description={`Find your perfect ${cityConfig.name} apartment with interactive map, scoring, and comparison tools.`}
+>
+  <ApartmentFinder client:only="react" cityConfig={cityConfig} cities={cities} />
+</VerticalLayout>

@@ -15,13 +15,21 @@ import { Badge } from '@/components/ui/badge';
 import { Map, List, SlidersHorizontal, X, Heart, GitCompareArrows } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Drawer } from 'vaul';
+import type { CityConfig } from '@/components/map/LiveMapAdapter';
+import { CitySelector } from '@/components/map/CitySelector';
 
-// Lazy-load the map component (Leaflet is a heavy bundle)
+// Lazy-load the map components (Leaflet is a heavy bundle)
 const MapView = lazy(() => import('@/components/MapView').then(m => ({ default: m.MapView })));
+const LiveMapAdapter = lazy(() => import('@/components/map/LiveMapAdapter').then(m => ({ default: m.LiveMapAdapter })));
 
 type ViewMode = 'map' | 'list' | 'compare';
 
-export default function MapPage() {
+interface MapPageProps {
+  cityConfig?: CityConfig;
+  cities?: CityConfig[];
+}
+
+export default function MapPage({ cityConfig, cities }: MapPageProps) {
   const filters = useApartmentFilters();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const scoreWeights = useScoreWeights();
@@ -63,7 +71,7 @@ export default function MapPage() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100dvh-4rem)] overflow-hidden bg-background text-foreground flex">
+    <div className="relative w-full h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] overflow-hidden bg-background text-foreground flex pb-12 md:pb-0">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex w-96 shrink-0 h-full border-r border-border bg-card flex-col z-10 shadow-2xl">
         <FilterSidebar
@@ -129,6 +137,11 @@ export default function MapPage() {
                 </Badge>
               )}
             </Button>
+
+            {/* City Selector */}
+            {cities && cities.length > 0 && cityConfig && (
+              <CitySelector cities={cities} currentCity={cityConfig.slug} />
+            )}
 
             {/* Favorites toggle */}
             <Button
@@ -215,11 +228,20 @@ export default function MapPage() {
                     </div>
                   </div>
                 }>
-                  <MapView
-                    apartments={displayedApartments}
-                    favorites={favorites}
-                    onSelectApartment={setSelectedApartment}
-                  />
+                  {cityConfig ? (
+                    <LiveMapAdapter
+                      apartments={displayedApartments}
+                      favorites={favorites}
+                      onSelectApartment={setSelectedApartment}
+                      cityConfig={cityConfig}
+                    />
+                  ) : (
+                    <MapView
+                      apartments={displayedApartments}
+                      favorites={favorites}
+                      onSelectApartment={setSelectedApartment}
+                    />
+                  )}
                 </Suspense>
               </motion.div>
             ) : (
@@ -264,6 +286,44 @@ export default function MapPage() {
                 scoreFeedback={scoreFeedback}
               />
             </motion.div>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile: Fixed bottom view toggle toolbar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden border-t border-border bg-card/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-center gap-2 p-2">
+          <Button
+            variant={viewMode === 'map' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('map')}
+            aria-label="Map view"
+            className="flex-1 max-w-[7rem]"
+          >
+            <Map className="w-4 h-4 mr-1.5" />
+            Map
+          </Button>
+          <Button
+            variant={viewMode === 'list' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('list')}
+            aria-label="List view"
+            className="flex-1 max-w-[7rem]"
+          >
+            <List className="w-4 h-4 mr-1.5" />
+            List
+          </Button>
+          {favorites.length >= 2 && (
+            <Button
+              variant={viewMode === 'compare' ? 'default' : 'outline'}
+              size="sm"
+              onClick={handleStartCompare}
+              aria-label="Compare view"
+              className="flex-1 max-w-[7rem]"
+            >
+              <GitCompareArrows className="w-4 h-4 mr-1.5" />
+              Compare
+            </Button>
           )}
         </div>
       </div>

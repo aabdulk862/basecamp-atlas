@@ -2,7 +2,7 @@
 name: "Bolt Farm Luxe Dome"
 slug: "bolt-farm-luxe-dome"
 region: "upstate-sc"
-stayType: "geodesic dome"
+stayType: "glamping"
 priceRange:
   min: 450
   max: 700

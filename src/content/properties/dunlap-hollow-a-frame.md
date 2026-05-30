@@ -2,7 +2,7 @@
 name: "Dunlap Hollow A-Frame"
 slug: "dunlap-hollow-a-frame"
 region: "hocking-hills-oh"
-stayType: "A-frame"
+stayType: "retreat"
 priceRange:
   min: 675
   max: 900

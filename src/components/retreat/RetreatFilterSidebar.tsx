@@ -7,11 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Filter, ChevronDown, ChevronUp, X } from 'lucide-react';
+import { VACATION_CATEGORIES, CATEGORY_ICONS } from '@/components/map/types';
+import type { VacationCategory } from '@/components/map/types';
 
 interface RetreatFilterSidebarProps {
   // Filter state
   regions: string[];
   stayTypes: string[];
+  categories: VacationCategory[];
   priceRange: [number, number];
   maxDriveTime: number;
   selectedOrigin: string;
@@ -20,6 +23,7 @@ interface RetreatFilterSidebarProps {
   // Setters
   setRegions: (regions: string[]) => void;
   setStayTypes: (types: string[]) => void;
+  setCategories: (categories: VacationCategory[]) => void;
   setPriceRange: (range: [number, number]) => void;
   setMaxDriveTime: (time: number) => void;
   setSelectedOrigin: (origin: string) => void;
@@ -36,11 +40,42 @@ interface RetreatFilterSidebarProps {
   availableStayTypes: string[];
 }
 
+/** Known US region slugs for grouping */
+const US_REGION_SLUGS = new Set([
+  'asheville-blue-ridge',
+  'big-sur-ca',
+  'broken-bow-ok',
+  'colorado-ski',
+  'finger-lakes-ny',
+  'florida-keys',
+  'hawaii',
+  'hocking-hills-oh',
+  'joshua-tree-ca',
+  'new-river-gorge-wv',
+  'north-georgia',
+  'pacific-northwest',
+  'sedona-az',
+  'shenandoah-va',
+  'smokies',
+  'south-cumberland',
+  'southern-utah',
+  'texas-hill-country',
+  'upstate-sc',
+]);
+
 const AMENITY_OPTIONS = [
-  { id: 'hot tub', label: 'Hot Tub' },
+  { id: 'hot tub', label: 'Hot Tub / Onsen' },
+  { id: 'pool', label: 'Private Pool' },
   { id: 'fire pit', label: 'Fire Pit' },
   { id: 'sauna', label: 'Sauna' },
   { id: 'kitchen', label: 'Kitchen' },
+  { id: 'ocean', label: 'Ocean Views' },
+  { id: 'spa', label: 'Spa Access' },
+  { id: 'all-inclusive', label: 'All-Inclusive' },
+  { id: 'butler', label: 'Butler Service' },
+  { id: 'beach', label: 'Beach Access' },
+  { id: 'king bed', label: 'King Bed' },
+  { id: 'yoga', label: 'Yoga / Wellness' },
 ];
 
 function formatDriveTime(minutes: number): string {
@@ -55,6 +90,7 @@ function formatDriveTime(minutes: number): string {
 export function RetreatFilterSidebar({
   regions,
   stayTypes,
+  categories,
   priceRange,
   maxDriveTime,
   selectedOrigin,
@@ -62,6 +98,7 @@ export function RetreatFilterSidebar({
   amenities,
   setRegions,
   setStayTypes,
+  setCategories,
   setPriceRange,
   setMaxDriveTime,
   setSelectedOrigin,
@@ -97,6 +134,14 @@ export function RetreatFilterSidebar({
       setAmenities(amenities.filter((a) => a !== amenityId));
     } else {
       setAmenities([...amenities, amenityId]);
+    }
+  };
+
+  const handleCategoryToggle = (category: VacationCategory) => {
+    if (categories.includes(category)) {
+      setCategories(categories.filter((c) => c !== category));
+    } else {
+      setCategories([...categories, category]);
     }
   };
 
@@ -153,26 +198,71 @@ export function RetreatFilterSidebar({
       {!isCollapsed && (
         <ScrollArea className="flex-1">
           <div className="p-4 space-y-6">
-            {/* Region multi-select */}
+            {/* Region multi-select (grouped) */}
             <div className="space-y-3">
               <Label style={{ color: 'var(--text-primary)' }}>Region</Label>
-              <div className="space-y-2">
-                {availableRegions.map((region) => (
-                  <div key={region.slug} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`region-${region.slug}`}
-                      checked={regions.includes(region.slug)}
-                      onCheckedChange={() => handleRegionToggle(region.slug)}
-                    />
-                    <label
-                      htmlFor={`region-${region.slug}`}
-                      className="text-sm font-medium leading-none cursor-pointer"
-                      style={{ color: 'var(--text-secondary)' }}
-                    >
-                      {region.name}
-                    </label>
-                  </div>
-                ))}
+              <div className="space-y-4">
+                {/* US regions */}
+                {(() => {
+                  const usRegions = availableRegions.filter((r) => US_REGION_SLUGS.has(r.slug));
+                  const intlRegions = availableRegions.filter((r) => !US_REGION_SLUGS.has(r.slug));
+                  return (
+                    <>
+                      {usRegions.length > 0 && (
+                        <div className="space-y-2">
+                          <span
+                            className="text-xs font-semibold uppercase tracking-wide"
+                            style={{ color: 'var(--text-muted)' }}
+                          >
+                            US
+                          </span>
+                          {usRegions.map((region) => (
+                            <div key={region.slug} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`region-${region.slug}`}
+                                checked={regions.includes(region.slug)}
+                                onCheckedChange={() => handleRegionToggle(region.slug)}
+                              />
+                              <label
+                                htmlFor={`region-${region.slug}`}
+                                className="text-sm font-medium leading-none cursor-pointer"
+                                style={{ color: 'var(--text-secondary)' }}
+                              >
+                                {region.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {intlRegions.length > 0 && (
+                        <div className="space-y-2">
+                          <span
+                            className="text-xs font-semibold uppercase tracking-wide"
+                            style={{ color: 'var(--text-muted)' }}
+                          >
+                            International
+                          </span>
+                          {intlRegions.map((region) => (
+                            <div key={region.slug} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`region-${region.slug}`}
+                                checked={regions.includes(region.slug)}
+                                onCheckedChange={() => handleRegionToggle(region.slug)}
+                              />
+                              <label
+                                htmlFor={`region-${region.slug}`}
+                                className="text-sm font-medium leading-none cursor-pointer"
+                                style={{ color: 'var(--text-secondary)' }}
+                              >
+                                {region.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </div>
 
@@ -199,6 +289,37 @@ export function RetreatFilterSidebar({
               </div>
             </div>
 
+            {/* Category multi-select */}
+            <div className="space-y-3">
+              <Label style={{ color: 'var(--text-primary)' }}>Category</Label>
+              <div className="space-y-1">
+                {VACATION_CATEGORIES.map((category) => (
+                  <div
+                    key={category}
+                    className="flex items-center space-x-2 min-h-[44px] min-w-[44px] max-lg:min-h-[44px] max-lg:min-w-[44px] lg:min-h-0 lg:min-w-0"
+                  >
+                    <Checkbox
+                      id={`category-${category}`}
+                      checked={categories.includes(category)}
+                      onCheckedChange={() => handleCategoryToggle(category)}
+                    />
+                    <label
+                      htmlFor={`category-${category}`}
+                      className="flex items-center gap-2 text-sm font-medium leading-none cursor-pointer"
+                      style={{ color: 'var(--text-secondary)' }}
+                    >
+                      <span
+                        className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
+                        style={{ backgroundColor: CATEGORY_ICONS[category].color }}
+                        aria-hidden="true"
+                      />
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Price range slider */}
             <div className="space-y-3">
               <div className="flex justify-between items-center">
@@ -210,14 +331,14 @@ export function RetreatFilterSidebar({
               <Slider
                 value={priceRange}
                 min={50}
-                max={1500}
+                max={2000}
                 step={25}
                 onValueChange={(val) => setPriceRange(val as [number, number])}
                 className="my-4"
               />
               <div className="flex justify-between">
                 <span className="text-xs" style={{ color: 'var(--text-muted)' }}>$50</span>
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>$1,500</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>$2,000</span>
               </div>
             </div>
 

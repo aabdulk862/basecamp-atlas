@@ -1,0 +1,66 @@
+{
+  "$ref": "#/definitions/destinationConfigs",
+  "definitions": {
+    "destinationConfigs": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 50
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "us",
+            "international"
+          ]
+        },
+        "center": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "lng": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          "required": [
+            "lat",
+            "lng"
+          ],
+          "additionalProperties": false
+        },
+        "zoom": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "slug",
+        "description",
+        "scope",
+        "center",
+        "zoom"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

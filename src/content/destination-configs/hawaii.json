@@ -1,0 +1,8 @@
+{
+  "name": "Hawaii",
+  "slug": "hawaii",
+  "description": "Volcanic beaches, lush valleys, and resort luxury on Maui and the Big Island — the ultimate US tropical vacation with world-class snorkeling and hiking.",
+  "scope": "us",
+  "center": { "lat": 20.80, "lng": -156.32 },
+  "zoom": 8
+}

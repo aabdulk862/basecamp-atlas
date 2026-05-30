@@ -1,0 +1,8 @@
+{
+  "name": "Sedona, AZ",
+  "slug": "sedona-az",
+  "description": "Red rock vistas, vortex energy, and unique stays from geodesic domes to wellness resorts surrounded by Arizona's most dramatic desert landscape.",
+  "scope": "us",
+  "center": { "lat": 34.87, "lng": -111.76 },
+  "zoom": 10
+}
